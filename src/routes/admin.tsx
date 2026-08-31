@@ -114,7 +114,7 @@ function AdminLayout() {
           className={`${open ? "animate-in fade-in slide-in-from-top-2 block" : "hidden"} px-2 pb-4 duration-200 lg:block`}
         >
           <ul className="space-y-0.5">
-            {NAV.map((item) => {
+            {visibleNav.map((item) => {
               const Icon = item.icon;
               return (
               <li key={item.to}>
