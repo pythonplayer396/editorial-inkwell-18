@@ -20,6 +20,7 @@ import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminAuthorsRouteImport } from './routes/admin.authors'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminCommentsRouteImport } from './routes/admin.comments'
@@ -95,6 +96,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAuthorsRoute = AdminAuthorsRouteImport.update({
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/newsroom': typeof NewsroomRouteWithChildren
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/latest': typeof LatestRoute
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   '/newsroom': typeof NewsroomRouteWithChildren
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/newsroom'
     | '/search'
     | '/admin/analytics'
+    | '/admin/audit'
     | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
@@ -347,6 +357,7 @@ export interface FileRouteTypes {
     | '/latest'
     | '/search'
     | '/admin/analytics'
+    | '/admin/audit'
     | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
@@ -381,6 +392,7 @@ export interface FileRouteTypes {
     | '/newsroom'
     | '/search'
     | '/admin/analytics'
+    | '/admin/audit'
     | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
@@ -498,6 +510,13 @@ declare module '@tanstack/react-router' {
       path: '/analytics'
       fullPath: '/admin/analytics'
       preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/authors': {
@@ -652,6 +671,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminAuditRoute: typeof AdminAuditRoute
   AdminAuthorsRoute: typeof AdminAuthorsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCommentsRoute: typeof AdminCommentsRoute
@@ -668,6 +688,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminAuditRoute: AdminAuditRoute,
   AdminAuthorsRoute: AdminAuthorsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCommentsRoute: AdminCommentsRoute,
