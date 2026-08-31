@@ -43,10 +43,11 @@ function HomePage() {
   const lead = all.find((p) => p.is_featured) ?? all[0];
   const secondary = all.filter((p) => p.id !== lead?.id).slice(0, 3);
   const latest = all.filter((p) => p.id !== lead?.id).slice(3, 11);
+  const feature = latest[3] ?? secondary[0];
 
   return (
     <PublicLayout>
-      <Container className="py-8 md:py-12">
+      <Container className="py-8 md:py-12 lg:py-14">
         {posts.isLoading ? (
           <StoryListSkeleton count={3} />
         ) : !lead ? (
@@ -64,19 +65,30 @@ function HomePage() {
           />
         ) : (
           <>
-            <LeadStory post={lead} />
-            {secondary.length > 0 ? (
-              <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-3 md:gap-10">
-                {secondary.map((p) => (
-                  <StoryCard key={p.id} post={p} showExcerpt />
-                ))}
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_310px] lg:gap-12">
+              <div className="min-w-0">
+                <LeadStory post={lead} />
               </div>
-            ) : null}
+              <aside className="border-t border-border-strong pt-5 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+                <div className="flex items-center justify-between border-b border-foreground pb-3">
+                  <p className="kicker text-foreground">The latest</p>
+                  <Link to="/latest" className="editorial-link text-xs text-muted-foreground">View all</Link>
+                </div>
+                <div className="divide-y divide-border">
+                  {secondary.map((p, i) => (
+                    <div key={p.id} className="grid grid-cols-[28px_minmax(0,1fr)] gap-3 py-5">
+                      <span className="font-mono text-[0.7rem] text-secondary-accent">{String(i + 1).padStart(2, "0")}</span>
+                      <StoryCard post={p} size="sm" showImage={false} />
+                    </div>
+                  ))}
+                </div>
+              </aside>
+            </div>
           </>
         )}
       </Container>
 
-      <Container className="grid gap-12 pb-16 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
+      <Container className="grid gap-12 border-t border-border-strong py-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
         <section aria-labelledby="latest-heading">
           <SectionHeading
             title="Latest"
@@ -95,14 +107,14 @@ function HomePage() {
             />
           ) : (
             <div className="divide-y divide-border">
-              {latest.map((p) => (
-                <StoryRow key={p.id} post={p} />
+              {latest.slice(0, 6).map((p, i) => (
+                <StoryRow key={p.id} post={p} index={i} />
               ))}
             </div>
           )}
         </section>
 
-        <aside className="space-y-12">
+        <aside className="space-y-12 lg:border-l lg:border-border lg:pl-8">
           <section aria-labelledby="most-read-heading">
             <SectionHeading title="Most read" />
             {mostRead.isLoading ? (
@@ -113,14 +125,14 @@ function HomePage() {
                   <li key={p.id}>
                     <div className="py-4">
                       <div className="flex gap-3">
-                        <span className="font-mono text-xs text-accent">
+                        <span className="font-mono text-xs text-secondary-accent">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <h3 className="headline text-[0.98rem] leading-snug">
                           <Link
                             to="/article/$slug"
                             params={{ slug: p.slug }}
-                            className="hover:text-accent"
+                            className="transition-colors hover:text-secondary-accent"
                           >
                             {p.title}
                           </Link>
@@ -152,9 +164,26 @@ function HomePage() {
         </aside>
       </Container>
 
+      {feature ? (
+        <section className="border-y border-border-strong bg-background py-14 sm:py-18">
+          <Container>
+            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14">
+              <div className="lg:col-span-5 lg:pl-8">
+                <p className="kicker text-accent">Editor’s focus</p>
+                <h2 className="headline mt-4 text-3xl sm:text-5xl">One story worth slowing down for.</h2>
+                <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">Deep reporting, considered analysis, and the context behind the day’s most consequential developments.</p>
+              </div>
+              <div className="lg:col-span-7">
+                <StoryCard post={feature} size="lg" showExcerpt />
+              </div>
+            </div>
+          </Container>
+        </section>
+      ) : null}
+
       <Newsletter />
 
-      <Container className="py-16">
+      <Container className="py-16 sm:py-20">
         <div className="space-y-14">
           {(categories.data ?? []).map((cat) => (
             <CategoryStrip key={cat.id} slug={cat.slug} name={cat.name} />
@@ -182,7 +211,7 @@ function CategoryStrip({ slug, name }: { slug: string; name: string }) {
           </Link>
         }
       />
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {data.map((p) => (
           <StoryCard key={p.id} post={p} size="sm" />
         ))}
