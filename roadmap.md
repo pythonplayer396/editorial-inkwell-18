@@ -23,11 +23,11 @@
 - [x] File-based image uploader (drag & drop / select) with alt, caption, credit
 - [x] In-app notification bell
 
-## Phase 2 — in progress
+## Phase 2 — complete
 - [x] Autosave + "we found a newer draft" restore in the editor
 - [x] Revision history with restore
 - [x] Journalist featured work + coverage areas on public profile
 - [x] Related coverage and corrections on articles
 - [x] Multi-image galleries with reordering
-- [ ] Reader accounts: bookmarks, follows, notification preferences
+- [x] Reader accounts: bookmarks, follows, notification preferences
 - [ ] Translate remaining interface strings across public pages
