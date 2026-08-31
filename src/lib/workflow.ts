@@ -130,7 +130,7 @@ async function setStatus(postId: string, patch: Record<string, unknown>) {
 export async function submitStory(post: Post, actor: Actor) {
   const resubmit = post.status === "changes_requested" || post.status === "rejected";
   await setStatus(post.id, { status: "submitted", submitted_at: new Date().toISOString() });
-  await logEvent(post.id, actor, resubmit ? "resubmitted" : "submitted", null ?? undefined);
+  await logEvent(post.id, actor, resubmit ? "resubmitted" : "submitted");
   await notify(post.created_by ?? actor.userId, {
     title: resubmit ? "Story resubmitted" : "Story submitted for review",
     body: post.title,
