@@ -1,4 +1,5 @@
 import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { BarChart3, FileText, FolderTree, Image, LayoutDashboard, Menu, MessageSquare, Settings, Tags, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useCurrentUser } from "@/hooks/useAuth";
@@ -17,15 +18,15 @@ export const Route = createFileRoute("/admin")({
 });
 
 const NAV = [
-  { to: "/admin", label: "Dashboard", exact: true },
-  { to: "/admin/posts", label: "Articles" },
-  { to: "/admin/media", label: "Media" },
-  { to: "/admin/categories", label: "Categories" },
-  { to: "/admin/tags", label: "Tags" },
-  { to: "/admin/comments", label: "Comments" },
-  { to: "/admin/authors", label: "Authors" },
-  { to: "/admin/analytics", label: "Analytics" },
-  { to: "/admin/settings", label: "Settings" },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/posts", label: "Articles", icon: FileText },
+  { to: "/admin/media", label: "Media", icon: Image },
+  { to: "/admin/categories", label: "Categories", icon: FolderTree },
+  { to: "/admin/tags", label: "Tags", icon: Tags },
+  { to: "/admin/comments", label: "Comments", icon: MessageSquare },
+  { to: "/admin/authors", label: "Authors", icon: Users },
+  { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 
 function AdminLayout() {
@@ -40,7 +41,7 @@ function AdminLayout() {
   if (loading || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <p className="text-sm text-muted-foreground">Loading the newsroom…</p>
+        <div className="flex items-center gap-3 text-sm text-muted-foreground"><span className="h-2 w-2 animate-pulse rounded-full bg-secondary-accent" />Loading the newsroom…</div>
       </div>
     );
   }
@@ -75,8 +76,8 @@ function AdminLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-background lg:grid lg:grid-cols-[228px_minmax(0,1fr)]">
-      <aside className="border-b border-border bg-sidebar lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
+    <div className="min-h-screen bg-muted/20 lg:grid lg:grid-cols-[236px_minmax(0,1fr)]">
+      <aside className="border-b border-sidebar-border bg-sidebar lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-4">
           <Link to="/" className="min-w-0">
             <p className="truncate font-serif text-base font-semibold tracking-tight">
@@ -87,34 +88,37 @@ function AdminLayout() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="h-8 rounded-sm border border-border px-2 text-xs lg:hidden"
+            className="pressable inline-flex h-8 w-8 items-center justify-center rounded-sm border border-border lg:hidden"
             aria-expanded={open}
           >
-            Menu
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
 
         <nav
           aria-label="Newsroom"
-          className={`${open ? "block" : "hidden"} px-2 pb-4 lg:block`}
+          className={`${open ? "animate-in fade-in slide-in-from-top-2 block" : "hidden"} px-2 pb-4 duration-200 lg:block`}
         >
           <ul className="space-y-0.5">
-            {NAV.map((item) => (
+            {NAV.map((item) => {
+              const Icon = item.icon;
+              return (
               <li key={item.to}>
                 <Link
                   to={item.to}
                   activeOptions={{ exact: (item as { exact?: boolean }).exact ?? false }}
                   onClick={() => setOpen(false)}
-                  className="block rounded-sm px-2.5 py-1.5 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
+                  className="flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-sm text-sidebar-foreground transition-all hover:translate-x-0.5 hover:bg-sidebar-accent"
                   activeProps={{
                     className:
-                      "block rounded-sm px-2.5 py-1.5 text-sm font-medium bg-sidebar-accent text-sidebar-accent-foreground",
+                      "flex items-center gap-2.5 rounded-sm border-l-2 border-secondary-accent bg-sidebar-accent px-2.5 py-2 text-sm font-medium text-sidebar-accent-foreground",
                   }}
                 >
+                  <Icon className="h-4 w-4" />
                   {item.label}
                 </Link>
               </li>
-            ))}
+            )})}
           </ul>
 
           <div className="mt-6 border-t border-sidebar-border px-2.5 pt-4">
@@ -146,7 +150,7 @@ function AdminLayout() {
         </nav>
       </aside>
 
-      <div className="min-w-0">
+      <div className="min-w-0 bg-background">
         <Outlet />
       </div>
     </div>

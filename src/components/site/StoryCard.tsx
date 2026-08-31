@@ -10,7 +10,7 @@ function Kicker({ post }: { post: Post }) {
     <Link
       to="/category/$slug"
       params={{ slug: post.category.slug }}
-      className="kicker text-accent hover:underline"
+      className="kicker editorial-link text-secondary-accent"
     >
       {post.category.name}
     </Link>
@@ -24,7 +24,7 @@ function Meta({ post }: { post: Post }) {
         <Link
           to="/author/$slug"
           params={{ slug: post.author.slug }}
-          className="font-medium text-foreground hover:text-accent"
+          className="font-medium text-foreground transition-colors hover:text-secondary-accent"
         >
           {post.author.display_name}
         </Link>
@@ -37,29 +37,29 @@ function Meta({ post }: { post: Post }) {
 
 export function LeadStory({ post }: { post: Post }) {
   return (
-    <article className="grid gap-6 md:grid-cols-[1.15fr_1fr] md:gap-10">
+    <article className="grid items-start gap-7 lg:grid-cols-12 lg:gap-12">
       {post.cover_url ? (
-        <Link to="/article/$slug" params={{ slug: post.slug }} className="block overflow-hidden">
+        <Link to="/article/$slug" params={{ slug: post.slug }} className="group/image image-reveal block overflow-hidden lg:col-span-7">
           <img
             src={post.cover_url}
             alt={post.cover_caption ?? post.title}
-            className="aspect-[16/10] w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+            className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover/image:scale-[1.025]"
             loading="eager"
           />
         </Link>
       ) : null}
-      <div className="flex flex-col justify-center">
+      <div className="editorial-enter [animation-delay:120ms] flex flex-col justify-center lg:col-span-5 lg:pt-7">
         <div className="flex items-center gap-3">
           {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
           <Kicker post={post} />
         </div>
-        <h2 className="headline mt-3 text-[2rem] leading-[1.05] md:text-[2.75rem]">
-          <Link to="/article/$slug" params={{ slug: post.slug }} className="hover:text-accent">
+         <h2 className="headline mt-4 text-[2.35rem] leading-[1.02] sm:text-[3rem] lg:text-[4rem]">
+          <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors duration-300 hover:text-secondary-accent">
             {post.title}
           </Link>
         </h2>
         {post.subtitle ? (
-          <p className="mt-4 max-w-prose font-serif text-lg leading-relaxed text-muted-foreground">
+           <p className="mt-5 max-w-prose text-base leading-relaxed text-muted-foreground sm:text-lg">
             {post.subtitle}
           </p>
         ) : null}
@@ -99,13 +99,13 @@ export function StoryCard({
             alt=""
             loading="lazy"
             decoding="async"
-            className="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
           />
         </Link>
       ) : null}
       <Kicker post={post} />
       <h3 className={cn("headline mt-1.5", titleSize)}>
-        <Link to="/article/$slug" params={{ slug: post.slug }} className="hover:text-accent">
+        <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors duration-300 hover:text-secondary-accent">
           {post.title}
         </Link>
       </h3>
@@ -121,7 +121,7 @@ export function StoryCard({
 
 export function StoryRow({ post, index }: { post: Post; index?: number }) {
   return (
-    <article className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 py-5">
+    <article className="group grid grid-cols-[minmax(0,1fr)_auto] items-start gap-5 py-5 transition-colors duration-300 hover:bg-muted/40 sm:px-3 sm:-mx-3">
       <div className="min-w-0">
         <div className="flex items-baseline gap-2">
           {typeof index === "number" ? (
@@ -132,7 +132,7 @@ export function StoryRow({ post, index }: { post: Post; index?: number }) {
           <Kicker post={post} />
         </div>
         <h3 className="headline mt-1.5 text-[1.05rem] leading-snug">
-          <Link to="/article/$slug" params={{ slug: post.slug }} className="hover:text-accent">
+           <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors group-hover:text-secondary-accent">
             {post.title}
           </Link>
         </h3>
@@ -145,7 +145,7 @@ export function StoryRow({ post, index }: { post: Post; index?: number }) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-16 w-24 shrink-0 object-cover sm:h-20 sm:w-32"
+            className="h-16 w-24 shrink-0 object-cover transition-transform duration-500 group-hover:scale-[1.025] sm:h-20 sm:w-32"
           />
         </Link>
       ) : null}

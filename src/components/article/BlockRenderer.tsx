@@ -14,7 +14,8 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <h2
                 key={key}
-                className="headline mt-12 mb-4 text-[1.6rem] leading-snug text-foreground"
+                id={`section-${i}`}
+                className="headline mt-14 mb-5 scroll-mt-16 text-[1.8rem] leading-snug text-foreground sm:text-[2.1rem]"
               >
                 {block.text}
               </h2>
@@ -27,8 +28,8 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             );
           case "quote":
             return (
-              <figure key={key} className="my-10 border-l-2 border-accent pl-6">
-                <blockquote className="headline text-2xl leading-snug text-foreground">
+              <figure key={key} className="my-12 border-l-2 border-accent bg-breaking-surface/60 px-6 py-7">
+                <blockquote className="headline text-2xl leading-snug text-foreground sm:text-3xl">
                   {block.text}
                 </blockquote>
                 {block.attribution ? (
@@ -50,13 +51,13 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             );
           case "image":
             return block.url ? (
-              <figure key={key} className="my-10">
+              <figure key={key} className="image-reveal my-12">
                 <img
                   src={block.url}
                   alt={block.alt || block.caption || ""}
                   loading="lazy"
                   decoding="async"
-                  className="w-full"
+                   className="w-full object-cover"
                 />
                 {(block.caption || block.credit) && (
                   <figcaption className="mt-2 flex flex-wrap gap-x-3 font-sans text-xs leading-relaxed text-muted-foreground">
@@ -70,13 +71,13 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <aside
                 key={key}
-                className="my-8 border-y border-border bg-muted/60 px-5 py-4 font-sans text-[0.95rem] leading-relaxed text-foreground"
+                 className="my-10 border-y border-secondary-accent/25 bg-secondary-accent-soft/45 px-5 py-5 font-sans text-[0.95rem] leading-relaxed text-foreground"
               >
                 {block.text}
               </aside>
             );
           case "divider":
-            return <hr key={key} className="my-10 border-border" />;
+             return <hr key={key} className="my-12 border-border-strong" />;
           case "code":
             return (
               <pre

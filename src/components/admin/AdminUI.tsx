@@ -14,9 +14,9 @@ export function PageHeader({
   actions?: ReactNode | undefined;
 }) {
   return (
-    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border pb-5">
+    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border-strong pb-5">
       <div className="min-w-0">
-        <h1 className="truncate text-lg font-semibold tracking-tight">{title}</h1>
+        <h1 className="truncate text-xl font-semibold">{title}</h1>
         {description ? (
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         ) : null}
@@ -65,7 +65,7 @@ export function Btn({
     <button
       {...props}
       className={cn(
-        "inline-flex h-9 items-center justify-center gap-1.5 rounded-sm px-3.5 text-sm font-medium transition-colors disabled:opacity-60",
+        "pressable inline-flex h-9 items-center justify-center gap-1.5 rounded-sm px-3.5 text-sm font-medium disabled:opacity-60",
         styles[variant],
         className,
       )}
@@ -98,9 +98,9 @@ export function Field({
 }
 
 export const inputClass =
-  "h-9 w-full rounded-sm border border-input bg-background px-2.5 text-sm outline-none transition-colors focus-visible:border-ring";
+  "h-9 w-full rounded-sm border border-input bg-background px-2.5 text-sm outline-none transition-all focus-visible:border-secondary-accent focus-visible:ring-2 focus-visible:ring-secondary-accent-soft";
 export const textareaClass =
-  "w-full rounded-sm border border-input bg-background px-2.5 py-2 text-sm outline-none transition-colors focus-visible:border-ring";
+  "w-full rounded-sm border border-input bg-background px-2.5 py-2 text-sm outline-none transition-all focus-visible:border-secondary-accent focus-visible:ring-2 focus-visible:ring-secondary-accent-soft";
 
 export function StatCard({
   label,
@@ -112,9 +112,9 @@ export function StatCard({
   sub?: string | undefined;
 }) {
   return (
-    <div className="border border-border bg-background p-4">
+    <div className="premium-surface group p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-border-strong">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="mt-1.5 text-2xl font-semibold tracking-tight tabular-nums">{value}</p>
+      <p className="mt-1.5 text-2xl font-semibold tabular-nums transition-colors group-hover:text-secondary-accent">{value}</p>
       {sub ? <p className="mt-1 text-xs text-muted-foreground">{sub}</p> : null}
     </div>
   );

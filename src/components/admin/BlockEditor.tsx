@@ -47,8 +47,8 @@ export function BlockEditor({
   return (
     <div className="space-y-3">
       {blocks.map((block, i) => (
-        <div key={block.id ?? i} className="group border border-border bg-background">
-          <div className="flex items-center justify-between border-b border-border bg-muted/40 px-2 py-1">
+        <div key={block.id ?? i} className="group border border-border bg-background transition-all duration-200 focus-within:border-secondary-accent focus-within:shadow-[0_10px_30px_-26px_color-mix(in_oklab,var(--secondary-accent)_45%,transparent)] hover:border-border-strong">
+          <div className="flex items-center justify-between border-b border-border bg-muted/40 px-2 py-1 transition-colors group-focus-within:bg-secondary-accent-soft/50">
             <span className="text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
               {BLOCK_LABELS[block.type]}
             </span>
@@ -193,14 +193,14 @@ export function BlockEditor({
         </div>
       ))}
 
-      <div className="flex flex-wrap gap-1.5 border border-dashed border-border p-3">
+      <div className="flex flex-wrap gap-1.5 border border-dashed border-border-strong bg-muted/25 p-3 transition-colors hover:bg-muted/40">
         <span className="mr-1 self-center text-xs text-muted-foreground">Add block:</span>
         {ADDABLE.map((type) => (
           <button
             key={type}
             type="button"
             onClick={() => insert(type)}
-            className="rounded-sm border border-border px-2 py-1 text-xs transition-colors hover:bg-muted"
+            className="pressable rounded-sm border border-border bg-background px-2 py-1 text-xs hover:border-secondary-accent hover:text-secondary-accent"
           >
             {BLOCK_LABELS[type]}
           </button>
@@ -243,7 +243,7 @@ function IconBtn({
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="h-7 w-7 rounded-sm text-xs text-muted-foreground transition-colors hover:bg-background hover:text-foreground disabled:opacity-30"
+      className="pressable h-7 w-7 rounded-sm text-xs text-muted-foreground hover:bg-background hover:text-foreground disabled:opacity-30"
     >
       {children}
     </button>

@@ -8,17 +8,17 @@ export function SiteFooter() {
   const { data: categories } = useQuery(categoriesQuery);
 
   return (
-    <footer className="mt-20 border-t border-border bg-background">
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="border-t border-border-strong bg-background">
+      <div className="mx-auto grid max-w-[1280px] gap-10 px-5 py-14 sm:px-7 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10">
         <div>
-          <p className="headline text-xl">{settings?.site_name ?? "The Dispatch"}</p>
+          <p className="headline text-2xl">{settings?.site_name ?? "The Dispatch"}</p>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
             {settings?.tagline}
           </p>
           {settings?.contact_email ? (
             <a
               href={`mailto:${settings.contact_email}`}
-              className="mt-4 inline-block text-sm underline decoration-border underline-offset-4 hover:decoration-accent"
+                className="editorial-link mt-4 inline-block text-sm"
             >
               {settings.contact_email}
             </a>
@@ -33,7 +33,7 @@ export function SiteFooter() {
                 <Link
                   to="/category/$slug"
                   params={{ slug: c.slug }}
-                  className="text-sm text-foreground hover:text-accent"
+                   className="editorial-link text-sm text-foreground"
                 >
                   {c.name}
                 </Link>
@@ -46,22 +46,22 @@ export function SiteFooter() {
           <p className="kicker text-muted-foreground">Publication</p>
           <ul className="mt-3 space-y-2">
             <li>
-              <Link to="/about" className="text-sm hover:text-accent">
+               <Link to="/about" className="editorial-link text-sm">
                 About
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="text-sm hover:text-accent">
+               <Link to="/contact" className="editorial-link text-sm">
                 Contact
               </Link>
             </li>
             <li>
-              <Link to="/latest" className="text-sm hover:text-accent">
+               <Link to="/latest" className="editorial-link text-sm">
                 Latest stories
               </Link>
             </li>
             <li>
-              <Link to="/search" className="text-sm hover:text-accent">
+               <Link to="/search" className="editorial-link text-sm">
                 Search
               </Link>
             </li>
@@ -75,7 +75,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`https://x.com/${settings.twitter}`}
-                  className="text-sm hover:text-accent"
+                   className="editorial-link text-sm"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -87,7 +87,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={settings.linkedin}
-                  className="text-sm hover:text-accent"
+                   className="editorial-link text-sm"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -96,7 +96,7 @@ export function SiteFooter() {
               </li>
             ) : null}
             <li>
-              <Link to="/auth" className="text-sm hover:text-accent">
+               <Link to="/auth" className="editorial-link text-sm">
                 Staff sign in
               </Link>
             </li>
@@ -105,7 +105,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-[1200px] flex-col gap-2 px-5 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-2 px-5 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-10">
           <p>
             © {new Date().getUTCFullYear()} {settings?.site_name ?? "The Dispatch"}. All rights
             reserved.
