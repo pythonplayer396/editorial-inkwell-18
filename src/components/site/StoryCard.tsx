@@ -48,7 +48,7 @@ export function LeadStory({ post }: { post: Post }) {
           />
         </Link>
       ) : null}
-      <div className="editorial-enter flex flex-col justify-center lg:col-span-5 lg:pt-7" style={{ animationDelay: "120ms" }}>
+      <div className="editorial-enter [animation-delay:120ms] flex flex-col justify-center lg:col-span-5 lg:pt-7">
         <div className="flex items-center gap-3">
           {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
           <Kicker post={post} />

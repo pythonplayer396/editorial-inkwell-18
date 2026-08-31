@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 
 import { Container, PublicLayout } from "@/components/site/PublicLayout";
@@ -51,20 +52,23 @@ function SearchPage() {
 
   return (
     <PublicLayout>
-      <Container className="py-10">
-        <h1 className="headline text-3xl md:text-4xl">Search</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+      <Container className="py-12 sm:py-16">
+        <div className="max-w-2xl editorial-enter">
+        <p className="kicker text-secondary-accent">The archive</p>
+        <h1 className="headline mt-3 text-4xl sm:text-6xl">What are you looking for?</h1>
+        <p className="mt-4 text-base text-muted-foreground">
           Find stories by headline, summary, section or date.
         </p>
+        </div>
 
         <form
-          className="mt-6 grid gap-3 border-y border-border py-5 md:grid-cols-[minmax(0,1fr)_180px_160px_auto]"
+          className="premium-surface mt-9 grid gap-3 p-4 md:grid-cols-[minmax(0,1fr)_180px_160px_auto] md:p-5"
           onSubmit={(e) => {
             e.preventDefault();
             setSubmitted(term);
           }}
         >
-          <div>
+          <div className="relative">
             <label htmlFor="q" className="sr-only">
               Search stories
             </label>
@@ -73,8 +77,9 @@ function SearchPage() {
               value={term}
               onChange={(e) => setTerm(e.target.value)}
               placeholder="Search stories…"
-              className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
+              className="h-12 w-full rounded-sm border border-input bg-background pl-11 pr-3 text-sm outline-none transition-all focus-visible:border-secondary-accent focus-visible:ring-4 focus-visible:ring-secondary-accent-soft"
             />
+            <Search className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
           </div>
           <div>
             <label htmlFor="cat" className="sr-only">
@@ -84,7 +89,7 @@ function SearchPage() {
               id="cat"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="h-10 w-full rounded-sm border border-input bg-background px-2 text-sm"
+              className="h-12 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-secondary-accent"
             >
               <option value="">All sections</option>
               {(categories.data ?? []).map((c) => (
@@ -102,7 +107,7 @@ function SearchPage() {
               id="range"
               value={range}
               onChange={(e) => setRange(e.target.value)}
-              className="h-10 w-full rounded-sm border border-input bg-background px-2 text-sm"
+              className="h-12 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-secondary-accent"
             >
               {RANGES.map((r) => (
                 <option key={r.value} value={r.value}>
@@ -113,9 +118,9 @@ function SearchPage() {
           </div>
           <button
             type="submit"
-            className="h-10 rounded-sm bg-primary px-5 text-sm font-medium text-primary-foreground"
+            className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-secondary-accent"
           >
-            Search
+            <SlidersHorizontal className="h-4 w-4" /> Search
           </button>
         </form>
 
@@ -128,7 +133,7 @@ function SearchPage() {
                   key={c.id}
                   to="/category/$slug"
                   params={{ slug: c.slug }}
-                  className="rounded-sm border border-border px-3 py-1.5 text-sm hover:border-accent hover:text-accent"
+                 className="pressable rounded-sm border border-border px-3 py-1.5 text-sm hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   {c.name}
                 </Link>
@@ -151,7 +156,7 @@ function SearchPage() {
                     key={c.id}
                     to="/category/$slug"
                     params={{ slug: c.slug }}
-                    className="rounded-sm border border-border px-3 py-1.5 text-sm hover:border-accent hover:text-accent"
+                    className="pressable rounded-sm border border-border px-3 py-1.5 text-sm hover:border-secondary-accent hover:text-secondary-accent"
                   >
                     {c.name}
                   </Link>
@@ -164,9 +169,9 @@ function SearchPage() {
             <p className="mt-8 text-sm text-muted-foreground">
               {list.length} {list.length === 1 ? "story" : "stories"}
             </p>
-            <div className="divide-y divide-border">
-              {list.map((p) => (
-                <StoryRow key={p.id} post={p} />
+            <div className="mt-3 divide-y divide-border border-t border-border-strong">
+              {list.map((p, i) => (
+                <StoryRow key={p.id} post={p} index={i} />
               ))}
             </div>
           </>

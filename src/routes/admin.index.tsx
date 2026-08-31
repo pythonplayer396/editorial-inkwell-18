@@ -27,7 +27,7 @@ function DashboardPage() {
   const firstName = profile?.display_name?.split(" ")[0];
 
   return (
-    <div className="px-5 py-6 lg:px-8">
+    <div className="editorial-enter px-5 py-6 lg:px-8 lg:py-8">
       <PageHeader
         title={firstName ? `Good day, ${firstName}` : "Dashboard"}
         description="What's live, what's waiting, and what needs your attention."
@@ -56,7 +56,7 @@ function DashboardPage() {
       </div>
 
       {inReview.length > 0 || pending.length > 0 ? (
-        <section className="mt-8 border border-border bg-muted/40 p-4">
+        <section className="mt-8 border border-warning/30 bg-warning/5 p-4">
           <p className="text-sm font-semibold">Needs your attention</p>
           <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
             {inReview.length > 0 ? (
@@ -100,7 +100,7 @@ function DashboardPage() {
             }
           />
         ) : (
-          <div className="border border-border">
+          <div className="overflow-hidden border border-border bg-background">
             <table className="w-full text-sm">
               <thead className="border-b border-border bg-muted/50 text-left text-xs text-muted-foreground">
                 <tr>
@@ -113,12 +113,12 @@ function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {all.slice(0, 8).map((p) => (
-                  <tr key={p.id} className="hover:bg-muted/40">
+                  <tr key={p.id} className="transition-colors hover:bg-secondary-accent-soft/35">
                     <td className="max-w-0 px-3 py-2.5">
                       <Link
                         to="/admin/posts/$id"
                         params={{ id: p.id }}
-                        className="block truncate font-medium hover:text-accent"
+                        className="block truncate font-medium transition-colors hover:text-secondary-accent"
                       >
                         {p.title}
                       </Link>
@@ -144,7 +144,7 @@ function DashboardPage() {
       </section>
 
       <section className="mt-8 grid gap-4 lg:grid-cols-2">
-        <div className="border border-border p-4">
+         <div className="premium-surface p-4">
           <p className="text-sm font-semibold">Top performing</p>
           <ol className="mt-3 space-y-2.5">
             {[...published]
@@ -171,7 +171,7 @@ function DashboardPage() {
           </ol>
         </div>
 
-        <div className="border border-border p-4">
+         <div className="premium-surface p-4">
           <p className="text-sm font-semibold">Scheduled next</p>
           <ul className="mt-3 space-y-2.5">
             {scheduled.length === 0 ? (
