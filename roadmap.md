@@ -30,4 +30,4 @@
 - [x] Related coverage and corrections on articles
 - [x] Multi-image galleries with reordering
 - [x] Reader accounts: bookmarks, follows, notification preferences
-- [ ] Translate remaining interface strings across public pages
+- [x] Public interface chrome translated (8 languages) + footer language switcher
