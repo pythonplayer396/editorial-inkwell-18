@@ -45,7 +45,7 @@ export async function saveRevision(
   postId: string,
   snapshot: RevisionSnapshot,
   kind: "autosave" | "manual",
-  actor: { userId?: string; name?: string },
+  actor: { userId?: string | null | undefined; name?: string | null | undefined },
 ) {
   const { error } = await db.from("post_revisions").insert({
     post_id: postId,
