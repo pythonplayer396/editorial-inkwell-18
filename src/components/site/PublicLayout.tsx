@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { BreakingBar } from "./BreakingBar";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
@@ -13,7 +12,6 @@ export function PublicLayout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <BreakingBar />
       <SiteHeader />
       <main id="main" className="flex-1">
         {children}
