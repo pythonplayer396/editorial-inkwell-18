@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Container, PublicLayout, SectionHeading } from "@/components/site/PublicLayout";
 import { LeadStory, StoryRow } from "@/components/site/StoryCard";
+import { FollowButton } from "@/components/site/FollowButton";
 import { EmptyState, StoryListSkeleton } from "@/components/ui-kit/States";
 import { categoryBySlugQuery, publishedPostsQuery } from "@/lib/queries";
 
@@ -47,6 +48,11 @@ function CategoryPage() {
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {category.data.description}
             </p>
+          ) : null}
+          {category.data ? (
+            <div className="mt-3">
+              <FollowButton type="category" id={category.data.id} label="section" />
+            </div>
           ) : null}
         </header>
 

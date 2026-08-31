@@ -53,7 +53,7 @@ export function SiteHeader() {
           </Link>
           {session ? (
             <Link
-              to={isStaff ? "/admin" : "/"}
+              to={isStaff ? "/admin" : "/account"}
               className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
                {isStaff ? "Newsroom" : "Account"}<ArrowUpRight className="h-3 w-3" />
@@ -123,11 +123,11 @@ export function SiteHeader() {
             ))}
             <li>
               <Link
-                to={session && isStaff ? "/admin" : "/auth"}
+                to={session ? (isStaff ? "/admin" : "/account") : "/auth"}
                 onClick={() => setOpen(false)}
                 className="block py-2.5 text-sm font-medium"
               >
-                {session && isStaff ? "Newsroom" : "Sign in"}
+                {session ? (isStaff ? "Newsroom" : "Account") : "Sign in"}
               </Link>
             </li>
           </ul>

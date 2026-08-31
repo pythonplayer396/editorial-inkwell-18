@@ -20,6 +20,7 @@ import {
   publishedPostsQuery,
   registerView,
 } from "@/lib/queries";
+import { useBookmarks } from "@/lib/reader";
 import type { Post } from "@/lib/types";
 
 export const Route = createFileRoute("/article/$slug")({
@@ -79,27 +80,25 @@ export const Route = createFileRoute("/article/$slug")({
   component: ArticlePage,
 });
 
-function useBookmark(slug: string) {
-  const [saved, setSaved] = useState(false);
-  useEffect(() => {
-    const raw = window.localStorage.getItem("dispatch:bookmarks");
-    setSaved(raw ? (JSON.parse(raw) as string[]).includes(slug) : false);
-  }, [slug]);
-  const toggle = () => {
-    const raw = window.localStorage.getItem("dispatch:bookmarks");
-    const list = raw ? (JSON.parse(raw) as string[]) : [];
-    const next = list.includes(slug) ? list.filter((s) => s !== slug) : [...list, slug];
-    window.localStorage.setItem("dispatch:bookmarks", JSON.stringify(next));
-    setSaved(next.includes(slug));
-    toast.success(next.includes(slug) ? "Saved to your reading list" : "Removed from your list");
+function useBookmark(postId: string) {
+  const { isSaved, toggle, signedIn, busy } = useBookmarks();
+  return {
+    saved: signedIn && isSaved(postId),
+    busy,
+    toggle: () => {
+      if (!signedIn) {
+        toast.info("Sign in to save stories to your reading list");
+        return;
+      }
+      toggle(postId);
+    },
   };
-  return { saved, toggle };
 }
 
 function ArticlePage() {
   const { post } = Route.useLoaderData() as { post: Post };
   const blocks = (Array.isArray(post.body) ? post.body : []) as Block[];
-  const { saved, toggle } = useBookmark(post.slug);
+  const { saved, toggle, busy: savingBookmark } = useBookmark(post.id);
   const [progress, setProgress] = useState(0);
   const [activeHeading, setActiveHeading] = useState("");
 
@@ -295,6 +294,7 @@ function ArticlePage() {
                 <button
                   type="button"
                   onClick={toggle}
+                  disabled={savingBookmark}
                   aria-pressed={saved}
                   aria-label={saved ? "Remove bookmark" : "Bookmark this story"}
                    className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"

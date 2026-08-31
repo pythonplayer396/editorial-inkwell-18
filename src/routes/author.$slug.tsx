@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Container, PublicLayout, SectionHeading } from "@/components/site/PublicLayout";
 import { StoryCard, StoryRow } from "@/components/site/StoryCard";
+import { FollowButton } from "@/components/site/FollowButton";
 import { EmptyState, StoryListSkeleton } from "@/components/ui-kit/States";
 import { profileBySlugQuery, publishedPostsQuery } from "@/lib/queries";
 
@@ -58,6 +59,11 @@ function AuthorPage() {
             <h1 className="headline mt-1 text-3xl md:text-4xl">
               {profile.data?.display_name ?? slug.replace(/-/g, " ")}
             </h1>
+            {profile.data ? (
+              <div className="mt-3">
+                <FollowButton type="author" id={profile.data.id} label="reporter" />
+              </div>
+            ) : null}
             {profile.data?.bio ? (
               <p className="mt-3 max-w-2xl font-serif text-[1.05rem] leading-relaxed text-muted-foreground">
                 {profile.data.bio}
