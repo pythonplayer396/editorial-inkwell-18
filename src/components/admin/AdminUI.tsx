@@ -10,8 +10,8 @@ export function PageHeader({
   actions,
 }: {
   title: string;
-  description?: string;
-  actions?: ReactNode;
+  description?: string | undefined;
+  actions?: ReactNode | undefined;
 }) {
   return (
     <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border pb-5">
@@ -82,9 +82,9 @@ export function Field({
   htmlFor,
 }: {
   label: string;
-  hint?: string;
+  hint?: string | undefined;
   children: ReactNode;
-  htmlFor?: string;
+  htmlFor?: string | undefined;
 }) {
   return (
     <div>
@@ -109,7 +109,7 @@ export function StatCard({
 }: {
   label: string;
   value: string | number;
-  sub?: string;
+  sub?: string | undefined;
 }) {
   return (
     <div className="border border-border bg-background p-4">
