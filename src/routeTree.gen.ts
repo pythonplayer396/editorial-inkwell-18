@@ -24,6 +24,7 @@ import { Route as AdminAuthorsRouteImport } from './routes/admin.authors'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminCommentsRouteImport } from './routes/admin.comments'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminOversightRouteImport } from './routes/admin.oversight'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
@@ -114,6 +115,11 @@ const AdminCommentsRoute = AdminCommentsRouteImport.update({
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOversightRoute = AdminOversightRouteImport.update({
+  id: '/oversight',
+  path: '/oversight',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
@@ -242,6 +249,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
@@ -311,6 +320,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/oversight'
     | '/admin/settings'
     | '/admin/submissions'
     | '/admin/tags'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/oversight'
     | '/admin/settings'
     | '/admin/submissions'
     | '/admin/tags'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/oversight'
     | '/admin/settings'
     | '/admin/submissions'
     | '/admin/tags'
@@ -516,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMediaRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/oversight': {
+      id: '/admin/oversight'
+      path: '/oversight'
+      fullPath: '/admin/oversight'
+      preLoaderRoute: typeof AdminOversightRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
@@ -637,6 +656,7 @@ interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCommentsRoute: typeof AdminCommentsRoute
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminOversightRoute: typeof AdminOversightRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTagsRoute: typeof AdminTagsRoute
@@ -652,6 +672,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCommentsRoute: AdminCommentsRoute,
   AdminMediaRoute: AdminMediaRoute,
+  AdminOversightRoute: AdminOversightRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTagsRoute: AdminTagsRoute,
