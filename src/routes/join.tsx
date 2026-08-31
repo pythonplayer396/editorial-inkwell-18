@@ -188,6 +188,16 @@ function JoinPage() {
                 <input required className={`${input} mt-1.5`} value={form.full_name} onChange={set("full_name")} />
               </label>
               <label className="block text-xs font-medium">
+                Email
+                <input
+                  required
+                  type="email"
+                  className={`${input} mt-1.5`}
+                  value={form.email}
+                  onChange={set("email")}
+                />
+              </label>
+              <label className="block text-xs font-medium">
                 Short bio
                 <textarea required className={`${area} mt-1.5`} value={form.bio} onChange={set("bio")} />
               </label>
