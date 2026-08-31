@@ -100,6 +100,8 @@ function ArticlePage() {
   const { post } = Route.useLoaderData() as { post: Post };
   const blocks = (Array.isArray(post.body) ? post.body : []) as Block[];
   const { saved, toggle } = useBookmark(post.slug);
+  const [progress, setProgress] = useState(0);
+  const [activeHeading, setActiveHeading] = useState("");
 
   const tags = useQuery(postTagsQuery(post.id));
   const comments = useQuery(approvedCommentsQuery(post.id));
@@ -115,6 +117,19 @@ function ArticlePage() {
     void registerView(post.slug);
   }, [post.slug]);
 
+  useEffect(() => {
+    const updateProgress = () => {
+      const article = document.querySelector("[data-article-body]");
+      if (!(article instanceof HTMLElement)) return;
+      const start = article.offsetTop;
+      const distance = Math.max(article.offsetHeight - window.innerHeight, 1);
+      setProgress(Math.min(100, Math.max(0, ((window.scrollY - start) / distance) * 100)));
+    };
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
   const headings = useMemo(
     () =>
       blocks
@@ -128,6 +143,22 @@ function ArticlePage() {
     post.updated_at && post.published_at && new Date(post.updated_at) > new Date(post.published_at)
       ? post.updated_at
       : null;
+
+  useEffect(() => {
+    if (headings.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible?.target.id) setActiveHeading(visible.target.id);
+      },
+      { rootMargin: "-20% 0px -65% 0px" },
+    );
+    headings.forEach(({ id }) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+    return () => observer.disconnect();
+  }, [headings]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -167,13 +198,16 @@ function ArticlePage() {
 
   return (
     <PublicLayout>
+      <div className="fixed inset-x-0 top-0 z-50 h-0.5 bg-border/40" aria-hidden>
+        <div className="h-full bg-accent transition-[width] duration-150" style={{ width: `${progress}%` }} />
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <Container className="py-8">
+      <Container className="py-8 sm:py-12">
         <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link to="/" className="hover:text-accent">
+               <Link to="/" className="hover:text-secondary-accent">
                 Home
               </Link>
             </li>
@@ -184,7 +218,7 @@ function ArticlePage() {
                   <Link
                     to="/category/$slug"
                     params={{ slug: post.category.slug }}
-                    className="hover:text-accent"
+                     className="hover:text-secondary-accent"
                   >
                     {post.category.name}
                   </Link>
@@ -194,30 +228,30 @@ function ArticlePage() {
           </ol>
         </nav>
 
-        <article className="mx-auto mt-6 max-w-[720px]">
-          <header>
+        <article className="mx-auto mt-8 max-w-[1120px]">
+          <header className="editorial-enter max-w-[900px]">
             <div className="flex items-center gap-3">
               {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
               {post.category ? (
                 <Link
                   to="/category/$slug"
                   params={{ slug: post.category.slug }}
-                  className="kicker text-accent hover:underline"
+                   className="kicker editorial-link text-secondary-accent"
                 >
                   {post.category.name}
                 </Link>
               ) : null}
             </div>
-            <h1 className="headline mt-3 text-[2.1rem] leading-[1.06] md:text-[3rem]">
+             <h1 className="headline mt-4 text-[2.65rem] leading-[1.01] sm:text-[4rem] lg:text-[5.2rem]">
               {post.title}
             </h1>
             {post.subtitle ? (
-              <p className="mt-4 font-serif text-xl leading-relaxed text-muted-foreground">
+               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
                 {post.subtitle}
               </p>
             ) : null}
 
-            <div className="mt-6 grid gap-3 border-y border-border py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+             <div className="mt-8 grid gap-3 border-y border-border-strong py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
               <div className="min-w-0 text-sm">
                 {post.author ? (
                   <p>
@@ -225,7 +259,7 @@ function ArticlePage() {
                     <Link
                       to="/author/$slug"
                       params={{ slug: post.author.slug }}
-                      className="font-semibold hover:text-accent"
+                       className="font-semibold hover:text-secondary-accent"
                     >
                       {post.author.display_name}
                     </Link>
@@ -246,7 +280,7 @@ function ArticlePage() {
                   type="button"
                   onClick={copyLink}
                   aria-label="Copy link to this story"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                   className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   <Link2 className="h-4 w-4" />
                 </button>
@@ -254,7 +288,7 @@ function ArticlePage() {
                   type="button"
                   onClick={share}
                   aria-label="Share this story"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                   className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   <Share2 className="h-4 w-4" />
                 </button>
@@ -263,7 +297,7 @@ function ArticlePage() {
                   onClick={toggle}
                   aria-pressed={saved}
                   aria-label={saved ? "Remove bookmark" : "Bookmark this story"}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                   className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   {saved ? (
                     <BookmarkCheck className="h-4 w-4 text-accent" />
@@ -276,11 +310,11 @@ function ArticlePage() {
           </header>
 
           {post.cover_url ? (
-            <figure className="mt-8">
+             <figure className="image-reveal mt-10">
               <img
                 src={post.cover_url}
                 alt={post.cover_caption ?? post.title}
-                className="w-full"
+                 className="aspect-[16/9] w-full object-cover"
                 loading="eager"
               />
               {(post.cover_caption || post.cover_credit) && (
@@ -294,28 +328,30 @@ function ArticlePage() {
             </figure>
           ) : null}
 
+          <div className="mt-10 grid gap-10 lg:grid-cols-[190px_minmax(0,720px)] lg:justify-center lg:gap-14" data-article-body>
           {headings.length >= 3 ? (
-            <nav aria-label="In this story" className="mt-8 border border-border bg-background p-4">
+            <nav aria-label="In this story" className="hidden self-start border-t border-border-strong pt-4 lg:sticky lg:top-8 lg:block">
               <p className="kicker text-muted-foreground">In this story</p>
-              <ul className="mt-2 space-y-1.5">
+              <ul className="mt-3 space-y-2.5">
                 {headings.map((h) => (
                   <li key={h.id}>
-                    <a href={`#${h.id}`} className="text-sm hover:text-accent">
+                    <a href={`#${h.id}`} className={`block border-l pl-3 text-xs leading-relaxed transition-all ${activeHeading === h.id ? "border-secondary-accent text-secondary-accent" : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground"}`}>
                       {h.text}
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
-          ) : null}
+          ) : <div className="hidden lg:block" />}
 
-          <div className="mt-8">
+          <div>
             {post.dateline ? (
               <p className="prose-article">
                 <span className="kicker mr-2 text-foreground">{post.dateline} —</span>
               </p>
             ) : null}
             <BlockRenderer blocks={blocks} />
+          </div>
           </div>
 
           {(tags.data ?? []).length > 0 ? (
