@@ -17,9 +17,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LatestRouteImport } from './routes/latest'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminAuthorsRouteImport } from './routes/admin.authors'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminCommentsRouteImport } from './routes/admin.comments'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
@@ -68,6 +71,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuthorsRoute = AdminAuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
@@ -81,6 +94,11 @@ const AdminCommentsRoute = AdminCommentsRouteImport.update({
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTagsRoute = AdminTagsRouteImport.update({
@@ -127,9 +145,12 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
   '/search': typeof SearchRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
@@ -146,9 +167,12 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
   '/search': typeof SearchRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
@@ -167,9 +191,12 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
   '/search': typeof SearchRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/authors': typeof AdminAuthorsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
@@ -189,9 +216,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/latest'
     | '/search'
+    | '/admin/analytics'
+    | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
@@ -208,9 +238,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/latest'
     | '/search'
+    | '/admin/analytics'
+    | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
@@ -228,9 +261,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/latest'
     | '/search'
+    | '/admin/analytics'
+    | '/admin/authors'
     | '/admin/categories'
     | '/admin/comments'
     | '/admin/media'
+    | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
@@ -313,6 +349,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/authors': {
+      id: '/admin/authors'
+      path: '/authors'
+      fullPath: '/admin/authors'
+      preLoaderRoute: typeof AdminAuthorsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/categories': {
       id: '/admin/categories'
       path: '/categories'
@@ -332,6 +382,13 @@ declare module '@tanstack/react-router' {
       path: '/media'
       fullPath: '/admin/media'
       preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/tags': {
@@ -387,9 +444,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminAuthorsRoute: typeof AdminAuthorsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCommentsRoute: typeof AdminCommentsRoute
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminTagsRoute: typeof AdminTagsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminPostsIdRoute: typeof AdminPostsIdRoute
@@ -397,9 +457,12 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminAuthorsRoute: AdminAuthorsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCommentsRoute: AdminCommentsRoute,
   AdminMediaRoute: AdminMediaRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminTagsRoute: AdminTagsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminPostsIdRoute: AdminPostsIdRoute,
