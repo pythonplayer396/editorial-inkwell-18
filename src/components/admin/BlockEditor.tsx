@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { BLOCK_LABELS, newBlock, type Block, type BlockType } from "@/lib/blocks";
+import { BLOCK_LABELS, newBlock, type Block, type BlockType, type GalleryImage } from "@/lib/blocks";
 import { Btn, inputClass, textareaClass } from "./AdminUI";
 import { MediaPicker } from "./MediaPicker";
 
@@ -11,6 +11,7 @@ const ADDABLE: BlockType[] = [
   "quote",
   "list",
   "image",
+  "gallery",
   "callout",
   "code",
   "embed",
@@ -25,6 +26,7 @@ export function BlockEditor({
   onChange: (next: Block[]) => void;
 }) {
   const [pickerFor, setPickerFor] = useState<number | null>(null);
+  const [galleryPicker, setGalleryPicker] = useState<number | null>(null);
 
   const update = (i: number, patch: Partial<Block>) =>
     onChange(blocks.map((b, idx) => (idx === i ? { ...b, ...patch } : b)));
@@ -189,6 +191,86 @@ export function BlockEditor({
                 </div>
               </div>
             ) : null}
+
+            {block.type === "gallery" ? (
+              <div className="space-y-2">
+                {(block.images ?? []).length === 0 ? (
+                  <p className="text-xs text-muted-foreground">
+                    No images yet — add some from the library and drag the arrows to reorder.
+                  </p>
+                ) : (
+                  <ul className="grid gap-2 sm:grid-cols-2">
+                    {(block.images ?? []).map((g, k) => {
+                      const images = block.images ?? [];
+                      const setImages = (next: GalleryImage[]) => update(i, { images: next });
+                      const patch = (p: Partial<GalleryImage>) =>
+                        setImages(images.map((x, idx) => (idx === k ? { ...x, ...p } : x)));
+                      const swap = (dir: -1 | 1) => {
+                        const j = k + dir;
+                        if (j < 0 || j >= images.length) return;
+                        const next = [...images];
+                        const a = next[k]!;
+                        next[k] = next[j]!;
+                        next[j] = a;
+                        setImages(next);
+                      };
+                      return (
+                        <li key={`${g.url}-${k}`} className="space-y-1.5 border border-border p-2">
+                          <div className="flex items-start gap-2">
+                            <img
+                              src={g.url}
+                              alt={g.alt ?? ""}
+                              className="h-16 w-24 shrink-0 bg-muted object-cover"
+                            />
+                            <div className="flex flex-col gap-1">
+                              <IconBtn label="Move left" onClick={() => swap(-1)} disabled={k === 0}>
+                                ←
+                              </IconBtn>
+                              <IconBtn
+                                label="Move right"
+                                onClick={() => swap(1)}
+                                disabled={k === images.length - 1}
+                              >
+                                →
+                              </IconBtn>
+                              <IconBtn
+                                label="Remove image"
+                                onClick={() => setImages(images.filter((_, x) => x !== k))}
+                              >
+                                ×
+                              </IconBtn>
+                            </div>
+                          </div>
+                          <input
+                            value={g.alt ?? ""}
+                            onChange={(e) => patch({ alt: e.target.value })}
+                            placeholder="Alt text"
+                            className={inputClass}
+                          />
+                          <input
+                            value={g.caption ?? ""}
+                            onChange={(e) => patch({ caption: e.target.value })}
+                            placeholder="Caption"
+                            className={inputClass}
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                <div className="flex flex-wrap gap-1.5">
+                  <Btn variant="outline" onClick={() => setGalleryPicker(i)}>
+                    Add image
+                  </Btn>
+                </div>
+                <input
+                  value={block.caption ?? ""}
+                  onChange={(e) => update(i, { caption: e.target.value })}
+                  placeholder="Gallery caption"
+                  className={inputClass}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       ))}
@@ -206,6 +288,27 @@ export function BlockEditor({
           </button>
         ))}
       </div>
+
+      {galleryPicker !== null ? (
+        <MediaPicker
+          onClose={() => setGalleryPicker(null)}
+          onSelect={(item) => {
+            const current = blocks[galleryPicker]?.images ?? [];
+            update(galleryPicker, {
+              images: [
+                ...current,
+                {
+                  url: item.url,
+                  alt: item.alt_text ?? "",
+                  caption: item.caption ?? "",
+                  credit: item.credit ?? "",
+                },
+              ],
+            });
+            setGalleryPicker(null);
+          }}
+        />
+      ) : null}
 
       {pickerFor !== null ? (
         <MediaPicker

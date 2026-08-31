@@ -67,6 +67,39 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
                 )}
               </figure>
             ) : null;
+          case "gallery": {
+            const images = (block.images ?? []).filter((g) => g.url);
+            if (!images.length) return null;
+            return (
+              <figure key={key} className="image-reveal my-12">
+                <div
+                  className={`grid gap-2 ${
+                    images.length === 1
+                      ? "grid-cols-1"
+                      : images.length === 2
+                        ? "grid-cols-2"
+                        : "grid-cols-2 md:grid-cols-3"
+                  }`}
+                >
+                  {images.map((g, idx) => (
+                    <img
+                      key={`${g.url}-${idx}`}
+                      src={g.url}
+                      alt={g.alt || g.caption || ""}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-[4/3] w-full bg-muted object-cover"
+                    />
+                  ))}
+                </div>
+                {block.caption ? (
+                  <figcaption className="mt-2 font-sans text-xs leading-relaxed text-muted-foreground">
+                    {block.caption}
+                  </figcaption>
+                ) : null}
+              </figure>
+            );
+          }
           case "callout":
             return (
               <aside

@@ -5,10 +5,18 @@ export type BlockType =
   | "quote"
   | "list"
   | "image"
+  | "gallery"
   | "callout"
   | "divider"
   | "code"
   | "embed";
+
+export interface GalleryImage {
+  url: string;
+  alt?: string;
+  caption?: string;
+  credit?: string;
+}
 
 export interface Block {
   id?: string;
@@ -21,6 +29,7 @@ export interface Block {
   credit?: string;
   alt?: string;
   language?: string;
+  images?: GalleryImage[];
 }
 
 export const BLOCK_LABELS: Record<BlockType, string> = {
@@ -30,6 +39,7 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   quote: "Pull quote",
   list: "List",
   image: "Image",
+  gallery: "Gallery",
   callout: "Callout",
   divider: "Divider",
   code: "Code",
@@ -40,6 +50,7 @@ export function newBlock(type: BlockType): Block {
   const id = Math.random().toString(36).slice(2, 10);
   if (type === "list") return { id, type, items: [""] };
   if (type === "image") return { id, type, url: "", caption: "", credit: "", alt: "" };
+  if (type === "gallery") return { id, type, images: [], caption: "" };
   if (type === "divider") return { id, type };
   return { id, type, text: "" };
 }

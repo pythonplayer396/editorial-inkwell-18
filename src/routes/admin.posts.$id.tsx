@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { BlockEditor } from "@/components/admin/BlockEditor";
@@ -16,7 +16,7 @@ import {
 import { BlockRenderer } from "@/components/article/BlockRenderer";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { autoExcerpt, newBlock, readingMinutes, withIds, type Block } from "@/lib/blocks";
-import { formatDate, slugify } from "@/lib/format";
+import { formatDate, formatDateTime, slugify, timeAgo } from "@/lib/format";
 import {
   adminPostQuery,
   authorsQuery,
@@ -25,6 +25,14 @@ import {
   postTagsQuery,
   tagsQuery,
 } from "@/lib/queries";
+import {
+  pruneAutosaves,
+  revisionsQuery,
+  saveRevision,
+  snapshotSignature,
+  type PostRevision,
+  type RevisionSnapshot,
+} from "@/lib/revisions";
 import type { PostStatus } from "@/lib/types";
 import { STATUS_LABELS } from "@/lib/types";
 
@@ -51,6 +59,7 @@ interface Draft {
   seo_title: string;
   seo_description: string;
   canonical_url: string;
+  correction_note: string;
 }
 
 const EMPTY: Draft = {
@@ -72,6 +81,7 @@ const EMPTY: Draft = {
   seo_title: "",
   seo_description: "",
   canonical_url: "",
+  correction_note: "",
 };
 
 function toLocalInput(value: string | null) {
@@ -101,6 +111,14 @@ function EditorPage() {
   const [slugTouched, setSlugTouched] = useState(!isNew);
   const [coverPicker, setCoverPicker] = useState(false);
   const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [autosavedAt, setAutosavedAt] = useState<string | null>(null);
+  const [autosaving, setAutosaving] = useState(false);
+  const [recovery, setRecovery] = useState<PostRevision | null>(null);
+  const [recoveryChecked, setRecoveryChecked] = useState(false);
+  const baseSig = useRef<string | null>(null);
+
+  const revisions = useQuery({ ...revisionsQuery(isNew ? undefined : id), enabled: !isNew });
+
 
   useEffect(() => {
     if (isNew) {
@@ -129,8 +147,23 @@ function EditorPage() {
       seo_title: p.seo_title ?? "",
       seo_description: p.seo_description ?? "",
       canonical_url: p.canonical_url ?? "",
+      correction_note: p.correction_note ?? "",
     });
-    setBlocks(withIds(Array.isArray(p.body) && p.body.length ? p.body : [newBlock("paragraph")]));
+    const loadedBlocks = withIds(
+      Array.isArray(p.body) && p.body.length ? p.body : [newBlock("paragraph")],
+    );
+    setBlocks(loadedBlocks);
+    baseSig.current = snapshotSignature({
+      title: p.title,
+      subtitle: p.subtitle ?? "",
+      excerpt: p.excerpt ?? "",
+      dateline: p.dateline ?? "",
+      cover_url: p.cover_url ?? "",
+      cover_caption: p.cover_caption ?? "",
+      cover_credit: p.cover_credit ?? "",
+      body: loadedBlocks,
+      reading_minutes: p.reading_minutes ?? 1,
+    });
   }, [isNew, post.data, loadedId, profile?.id]);
 
   useEffect(() => {
@@ -150,6 +183,73 @@ function EditorPage() {
         .filter(Boolean).length,
     [blocks],
   );
+
+  const snapshot: RevisionSnapshot = useMemo(
+    () => ({
+      title: draft.title,
+      subtitle: draft.subtitle || null,
+      excerpt: draft.excerpt || null,
+      dateline: draft.dateline || null,
+      cover_url: draft.cover_url || null,
+      cover_caption: draft.cover_caption || null,
+      cover_credit: draft.cover_credit || null,
+      body: blocks,
+      reading_minutes: minutes,
+    }),
+    [draft, blocks, minutes],
+  );
+
+  const currentSig = useMemo(() => snapshotSignature(snapshot), [snapshot]);
+
+  // "We found a newer draft" — an autosave stored after the last real save.
+  useEffect(() => {
+    if (isNew || recoveryChecked || !post.data || !revisions.data) return;
+    setRecoveryChecked(true);
+    const latest = revisions.data.find((r) => r.kind === "autosave");
+    if (!latest) return;
+    const savedAt = new Date(post.data.updated_at ?? 0).getTime();
+    if (new Date(latest.created_at).getTime() <= savedAt + 2000) return;
+    if (snapshotSignature(latest) === baseSig.current) return;
+    setRecovery(latest);
+  }, [isNew, recoveryChecked, post.data, revisions.data]);
+
+  // Autosave a snapshot after the writer pauses.
+  useEffect(() => {
+    if (isNew || !loadedId || recovery) return;
+    if (!draft.title.trim() && !blocks.some((b) => b.text || b.items?.some(Boolean))) return;
+    if (currentSig === baseSig.current) return;
+    const timer = setTimeout(async () => {
+      try {
+        setAutosaving(true);
+        await saveRevision(id, snapshot, "autosave", {
+          userId: profile?.user_id ?? undefined,
+          name: profile?.display_name ?? undefined,
+        });
+        await pruneAutosaves(id);
+        setAutosavedAt(new Date().toISOString());
+        void revisions.refetch();
+      } catch {
+        /* autosave is best-effort */
+      } finally {
+        setAutosaving(false);
+      }
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [currentSig, isNew, loadedId, recovery, id, snapshot, profile, blocks, draft.title]);
+
+  function applySnapshot(r: RevisionSnapshot) {
+    setDraft((d) => ({
+      ...d,
+      title: r.title,
+      subtitle: r.subtitle ?? "",
+      excerpt: r.excerpt ?? "",
+      dateline: r.dateline ?? "",
+      cover_url: r.cover_url ?? "",
+      cover_caption: r.cover_caption ?? "",
+      cover_credit: r.cover_credit ?? "",
+    }));
+    setBlocks(withIds(Array.isArray(r.body) && r.body.length ? r.body : [newBlock("paragraph")]));
+  }
 
   const save = useMutation({
     mutationFn: async (status?: PostStatus) => {
@@ -186,6 +286,11 @@ function EditorPage() {
         seo_title: draft.seo_title || null,
         seo_description: draft.seo_description || null,
         canonical_url: draft.canonical_url || null,
+        correction_note: draft.correction_note || null,
+        correction_at:
+          draft.correction_note && draft.correction_note !== (post.data?.correction_note ?? "")
+            ? new Date().toISOString()
+            : (post.data?.correction_at ?? null),
         reading_minutes: minutes,
       };
 
@@ -207,6 +312,17 @@ function EditorPage() {
     },
     onSuccess: async ({ postId, status, slug }) => {
       set("status", status);
+      baseSig.current = currentSig;
+      setAutosavedAt(null);
+      try {
+        await saveRevision(postId, snapshot, "manual", {
+          userId: profile?.user_id ?? undefined,
+          name: profile?.display_name ?? undefined,
+        });
+        await qc.invalidateQueries({ queryKey: ["admin", "revisions", postId] });
+      } catch {
+        /* history is best-effort */
+      }
       await qc.invalidateQueries({ queryKey: ["admin"] });
       await qc.invalidateQueries({ queryKey: ["posts"] });
       toast.success(
@@ -250,6 +366,12 @@ function EditorPage() {
           draft.status === "published" && post.data?.published_at
             ? ` · published ${formatDate(post.data.published_at)}`
             : ""
+        }${
+          autosaving
+            ? " · autosaving…"
+            : autosavedAt
+              ? ` · draft autosaved ${timeAgo(autosavedAt)}`
+              : ""
         }`}
         actions={
           <>
@@ -269,6 +391,30 @@ function EditorPage() {
           </>
         }
       />
+
+      {recovery ? (
+        <div className="mt-4 flex flex-wrap items-center gap-3 border border-accent/40 bg-accent/5 px-4 py-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">We found a newer draft</p>
+            <p className="text-xs text-muted-foreground">
+              An unsaved autosave from {formatDateTime(recovery.created_at)} ({timeAgo(recovery.created_at)}) is
+              newer than the last saved version.
+            </p>
+          </div>
+          <Btn
+            onClick={() => {
+              applySnapshot(recovery);
+              setRecovery(null);
+              toast.success("Newer draft restored", { description: "Review it, then save." });
+            }}
+          >
+            Restore it
+          </Btn>
+          <Btn variant="outline" onClick={() => setRecovery(null)}>
+            Keep saved version
+          </Btn>
+        </div>
+      ) : null}
 
       <div className="mt-5 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
@@ -520,6 +666,48 @@ function EditorPage() {
             />
           </Panel>
 
+          {!isNew ? (
+            <Panel title="Version history">
+              {(revisions.data ?? []).length === 0 ? (
+                <p className="text-xs text-muted-foreground">
+                  Versions appear here as you write and save.
+                </p>
+              ) : (
+                <ul className="max-h-72 space-y-1 overflow-y-auto">
+                  {(revisions.data ?? []).map((r) => (
+                    <li
+                      key={r.id}
+                      className="flex items-center gap-2 border-b border-border/60 py-1.5 last:border-b-0"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs font-medium">
+                          {r.kind === "manual" ? "Saved version" : "Autosave"}
+                          {r.author_name ? ` · ${r.author_name}` : ""}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {timeAgo(r.created_at)} · {formatDateTime(r.created_at)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!confirm("Load this version into the editor?")) return;
+                          applySnapshot(r);
+                          toast.success("Version loaded", {
+                            description: "Save to keep it as the current article.",
+                          });
+                        }}
+                        className="shrink-0 rounded-sm border border-border px-2 py-1 text-[11px] transition-colors hover:bg-muted"
+                      >
+                        Restore
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Panel>
+          ) : null}
+
           <Panel title="Search & social">
             <Field label="SEO title" htmlFor="f-seo-t" hint={`${draft.seo_title.length}/60`}>
               <input
@@ -541,6 +729,20 @@ function EditorPage() {
                 value={draft.seo_description}
                 onChange={(e) => set("seo_description", e.target.value)}
                 placeholder={draft.excerpt || autoExcerpt(blocks)}
+                className={textareaClass}
+              />
+            </Field>
+            <Field
+              label="Correction notice"
+              htmlFor="f-correction"
+              hint="Shown publicly at the end of the article."
+            >
+              <textarea
+                id="f-correction"
+                rows={3}
+                value={draft.correction_note}
+                onChange={(e) => set("correction_note", e.target.value)}
+                placeholder="An earlier version of this story said…"
                 className={textareaClass}
               />
             </Field>

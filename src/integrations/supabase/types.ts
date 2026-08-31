@@ -342,6 +342,68 @@ export type Database = {
         }
         Relationships: []
       }
+      post_revisions: {
+        Row: {
+          author_id: string | null
+          author_name: string | null
+          body: Json
+          cover_caption: string | null
+          cover_credit: string | null
+          cover_url: string | null
+          created_at: string
+          dateline: string | null
+          excerpt: string | null
+          id: string
+          kind: string
+          post_id: string
+          reading_minutes: number
+          subtitle: string | null
+          title: string
+        }
+        Insert: {
+          author_id?: string | null
+          author_name?: string | null
+          body?: Json
+          cover_caption?: string | null
+          cover_credit?: string | null
+          cover_url?: string | null
+          created_at?: string
+          dateline?: string | null
+          excerpt?: string | null
+          id?: string
+          kind?: string
+          post_id: string
+          reading_minutes?: number
+          subtitle?: string | null
+          title?: string
+        }
+        Update: {
+          author_id?: string | null
+          author_name?: string | null
+          body?: Json
+          cover_caption?: string | null
+          cover_credit?: string | null
+          cover_url?: string | null
+          created_at?: string
+          dateline?: string | null
+          excerpt?: string | null
+          id?: string
+          kind?: string
+          post_id?: string
+          reading_minutes?: number
+          subtitle?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_revisions_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       post_tags: {
         Row: {
           post_id: string

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Container, PublicLayout, SectionHeading } from "@/components/site/PublicLayout";
-import { StoryRow } from "@/components/site/StoryCard";
+import { StoryCard, StoryRow } from "@/components/site/StoryCard";
 import { EmptyState, StoryListSkeleton } from "@/components/ui-kit/States";
 import { profileBySlugQuery, publishedPostsQuery } from "@/lib/queries";
 
@@ -29,6 +29,12 @@ function AuthorPage() {
   const profile = useQuery(profileBySlugQuery(slug));
   const posts = useQuery(publishedPostsQuery({ authorSlug: slug, limit: 30, key: "author" }));
   const list = posts.data ?? [];
+  const featured = list
+    .filter((p) => p.is_editors_pick || p.is_featured)
+    .slice(0, 3);
+  const featuredIds = new Set(featured.map((p) => p.id));
+  const rest = list.filter((p) => !featuredIds.has(p.id));
+  const areas = profile.data?.coverage_areas ?? [];
 
   return (
     <PublicLayout>
@@ -57,6 +63,18 @@ function AuthorPage() {
                 {profile.data.bio}
               </p>
             ) : null}
+            {areas.length ? (
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {areas.map((a) => (
+                  <li
+                    key={a}
+                    className="rounded-sm border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                  >
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
               <span>
                 {list.length} published {list.length === 1 ? "story" : "stories"}
@@ -80,6 +98,17 @@ function AuthorPage() {
           </div>
         </header>
 
+        {featured.length ? (
+          <div className="mt-10">
+            <SectionHeading title="Featured work" />
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.map((p) => (
+                <StoryCard key={p.id} post={p} />
+              ))}
+            </div>
+          </div>
+        ) : null}
+
         <div className="mt-10">
           <SectionHeading title="Published work" />
           {posts.isLoading ? (
@@ -91,7 +120,7 @@ function AuthorPage() {
             />
           ) : (
             <div className="divide-y divide-border">
-              {list.map((p) => (
+              {(featured.length ? rest : list).map((p) => (
                 <StoryRow key={p.id} post={p} />
               ))}
             </div>
