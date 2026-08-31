@@ -33,7 +33,9 @@ export function BlockEditor({
     const j = i + dir;
     if (j < 0 || j >= blocks.length) return;
     const next = [...blocks];
-    [next[i], next[j]] = [next[j], next[i]];
+    const a = next[i]!;
+    next[i] = next[j]!;
+    next[j] = a;
     onChange(next);
   };
   const insert = (type: BlockType, at?: number) => {

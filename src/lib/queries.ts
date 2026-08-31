@@ -59,12 +59,12 @@ export const authorsQuery = queryOptions({
 });
 
 export function publishedPostsQuery(options?: {
-  categorySlug?: string;
-  authorSlug?: string;
-  tagSlug?: string;
-  limit?: number;
-  offset?: number;
-  key?: string;
+  categorySlug?: string | undefined;
+  authorSlug?: string | undefined;
+  tagSlug?: string | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  key?: string | undefined;
 }) {
   const { categorySlug, authorSlug, tagSlug, limit = 12, offset = 0, key = "list" } = options ?? {};
   return queryOptions({
@@ -167,8 +167,8 @@ export function postTagsQuery(postId: string | undefined) {
 
 export function searchPostsQuery(params: {
   q: string;
-  category?: string;
-  since?: string;
+  category?: string | undefined;
+  since?: string | undefined;
 }) {
   const { q, category, since } = params;
   return queryOptions({
