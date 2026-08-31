@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
 
 import { categoriesQuery, settingsQuery } from "@/lib/queries";
 
@@ -105,7 +106,10 @@ export function SiteFooter() {
             © {new Date().getUTCFullYear()} {settings?.site_name ?? "The Dispatch"}. All rights
             reserved.
           </p>
-          <p>Published independently.</p>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <p>Published independently.</p>
+          </div>
         </div>
       </div>
     </footer>
