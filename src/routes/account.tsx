@@ -97,7 +97,7 @@ function AccountPage() {
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t(tab === tt.id ? tt.labelKey : tt.labelKey)}
+              {t(tt.labelKey)}
             </button>
           ))}
         </nav>
