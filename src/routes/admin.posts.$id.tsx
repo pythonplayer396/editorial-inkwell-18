@@ -59,6 +59,7 @@ interface Draft {
   seo_title: string;
   seo_description: string;
   canonical_url: string;
+  correction_note: string;
 }
 
 const EMPTY: Draft = {
@@ -80,6 +81,7 @@ const EMPTY: Draft = {
   seo_title: "",
   seo_description: "",
   canonical_url: "",
+  correction_note: "",
 };
 
 function toLocalInput(value: string | null) {
@@ -145,6 +147,7 @@ function EditorPage() {
       seo_title: p.seo_title ?? "",
       seo_description: p.seo_description ?? "",
       canonical_url: p.canonical_url ?? "",
+      correction_note: p.correction_note ?? "",
     });
     const loadedBlocks = withIds(
       Array.isArray(p.body) && p.body.length ? p.body : [newBlock("paragraph")],
@@ -283,6 +286,11 @@ function EditorPage() {
         seo_title: draft.seo_title || null,
         seo_description: draft.seo_description || null,
         canonical_url: draft.canonical_url || null,
+        correction_note: draft.correction_note || null,
+        correction_at:
+          draft.correction_note && draft.correction_note !== (post.data?.correction_note ?? "")
+            ? new Date().toISOString()
+            : (post.data?.correction_at ?? null),
         reading_minutes: minutes,
       };
 
@@ -721,6 +729,20 @@ function EditorPage() {
                 value={draft.seo_description}
                 onChange={(e) => set("seo_description", e.target.value)}
                 placeholder={draft.excerpt || autoExcerpt(blocks)}
+                className={textareaClass}
+              />
+            </Field>
+            <Field
+              label="Correction notice"
+              htmlFor="f-correction"
+              hint="Shown publicly at the end of the article."
+            >
+              <textarea
+                id="f-correction"
+                rows={3}
+                value={draft.correction_note}
+                onChange={(e) => set("correction_note", e.target.value)}
+                placeholder="An earlier version of this story said…"
                 className={textareaClass}
               />
             </Field>

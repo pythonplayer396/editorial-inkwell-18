@@ -351,6 +351,20 @@ function ArticlePage() {
               </p>
             ) : null}
             <BlockRenderer blocks={blocks} />
+
+            {post.correction_note ? (
+              <aside className="mt-10 border-l-2 border-accent bg-accent/5 px-4 py-3">
+                <p className="kicker text-accent">Correction</p>
+                <p className="mt-1 text-sm leading-relaxed text-foreground">
+                  {post.correction_note}
+                </p>
+                {post.correction_at ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Updated {formatDateTime(post.correction_at)}
+                  </p>
+                ) : null}
+              </aside>
+            ) : null}
           </div>
           </div>
 
