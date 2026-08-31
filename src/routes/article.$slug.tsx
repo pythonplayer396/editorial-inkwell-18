@@ -1,3 +1,4 @@
+import { useT } from "@/lib/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Bookmark, BookmarkCheck, Link2, Share2 } from "lucide-react";
@@ -20,6 +21,7 @@ import {
   publishedPostsQuery,
   registerView,
 } from "@/lib/queries";
+import { useBookmarks } from "@/lib/reader";
 import type { Post } from "@/lib/types";
 
 export const Route = createFileRoute("/article/$slug")({
@@ -79,29 +81,28 @@ export const Route = createFileRoute("/article/$slug")({
   component: ArticlePage,
 });
 
-function useBookmark(slug: string) {
-  const [saved, setSaved] = useState(false);
-  useEffect(() => {
-    const raw = window.localStorage.getItem("dispatch:bookmarks");
-    setSaved(raw ? (JSON.parse(raw) as string[]).includes(slug) : false);
-  }, [slug]);
-  const toggle = () => {
-    const raw = window.localStorage.getItem("dispatch:bookmarks");
-    const list = raw ? (JSON.parse(raw) as string[]) : [];
-    const next = list.includes(slug) ? list.filter((s) => s !== slug) : [...list, slug];
-    window.localStorage.setItem("dispatch:bookmarks", JSON.stringify(next));
-    setSaved(next.includes(slug));
-    toast.success(next.includes(slug) ? "Saved to your reading list" : "Removed from your list");
+function useBookmark(postId: string) {
+  const { isSaved, toggle, signedIn, busy } = useBookmarks();
+  return {
+    saved: signedIn && isSaved(postId),
+    busy,
+    toggle: () => {
+      if (!signedIn) {
+        toast.info("Sign in to save stories to your reading list");
+        return;
+      }
+      toggle(postId);
+    },
   };
-  return { saved, toggle };
 }
 
 function ArticlePage() {
   const { post } = Route.useLoaderData() as { post: Post };
   const blocks = (Array.isArray(post.body) ? post.body : []) as Block[];
-  const { saved, toggle } = useBookmark(post.slug);
+  const { saved, toggle, busy: savingBookmark } = useBookmark(post.id);
   const [progress, setProgress] = useState(0);
   const [activeHeading, setActiveHeading] = useState("");
+  const t = useT();
 
   const tags = useQuery(postTagsQuery(post.id));
   const comments = useQuery(approvedCommentsQuery(post.id));
@@ -295,6 +296,7 @@ function ArticlePage() {
                 <button
                   type="button"
                   onClick={toggle}
+                  disabled={savingBookmark}
                   aria-pressed={saved}
                   aria-label={saved ? "Remove bookmark" : "Bookmark this story"}
                    className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
@@ -330,8 +332,8 @@ function ArticlePage() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[190px_minmax(0,720px)] lg:justify-center lg:gap-14" data-article-body>
           {headings.length >= 3 ? (
-            <nav aria-label="In this story" className="hidden self-start border-t border-border-strong pt-4 lg:sticky lg:top-8 lg:block">
-              <p className="kicker text-muted-foreground">In this story</p>
+            <nav aria-label={t("public.contents")} className="hidden self-start border-t border-border-strong pt-4 lg:sticky lg:top-8 lg:block">
+              <p className="kicker text-muted-foreground">{t("public.contents")}</p>
               <ul className="mt-3 space-y-2.5">
                 {headings.map((h) => (
                   <li key={h.id}>
@@ -424,7 +426,7 @@ function ArticlePage() {
       <Container className="grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-12">
           <section>
-            <SectionHeading title="Related coverage" />
+            <SectionHeading title={t("public.related")} />
             <div className="divide-y divide-border">
               {(related.data ?? [])
                 .filter((p) => p.id !== post.id)
@@ -449,7 +451,7 @@ function ArticlePage() {
           ) : null}
         </div>
         <aside>
-          <SectionHeading title="Most read" />
+          <SectionHeading title={t("public.mostRead")} />
           <ol className="divide-y divide-border">
             {(mostRead.data ?? []).map((p, i) => (
               <li key={p.id} className="flex gap-3 py-4">
