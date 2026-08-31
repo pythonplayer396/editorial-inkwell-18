@@ -42,8 +42,14 @@ const NAV = [
 
 function AdminLayout() {
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { session, profile, roles, isStaff, loading } = useCurrentUser();
   const [open, setOpen] = useState(false);
+
+  const visibleNav = NAV.filter((item) => roles.some((r) => (item.roles as readonly AppRole[]).includes(r)));
+  const restricted = NAV.filter(
+    (item) => !roles.some((r) => (item.roles as readonly AppRole[]).includes(r)),
+  ).some((item) => pathname === item.to || pathname.startsWith(`${item.to}/`));
 
   useEffect(() => {
     if (!loading && !session) void navigate({ to: "/auth/staff" });
