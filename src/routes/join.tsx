@@ -65,6 +65,7 @@ function JoinPage() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
+    email: "",
     bio: "",
     experience: "",
     coverage_areas: "",
