@@ -31,17 +31,17 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
       className={
         compact
           ? "border-y border-border py-8"
-          : "border-y border-border bg-muted/50 px-5 py-12"
+          : "relative overflow-hidden border-y border-border-strong bg-ink px-5 py-14 text-primary-foreground sm:py-16"
       }
       aria-labelledby="newsletter-heading"
     >
-      <div className="mx-auto grid max-w-[1200px] items-center gap-6 md:grid-cols-[1.2fr_1fr]">
+      <div className="relative mx-auto grid max-w-[1200px] items-center gap-8 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
-          <p className="kicker text-accent">Newsletter</p>
-          <h2 id="newsletter-heading" className="headline mt-2 text-2xl">
+          <p className="kicker text-accent-soft">Weekday intelligence</p>
+          <h2 id="newsletter-heading" className="headline mt-3 text-3xl sm:text-4xl">
             The morning briefing
           </h2>
-          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-primary-foreground/65">
             What happened, what it means, and what to watch — one email, weekday mornings.
           </p>
         </div>
@@ -62,12 +62,12 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="h-10 min-w-0 flex-1 rounded-sm border border-input bg-background px-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring"
+            className="h-12 min-w-0 flex-1 rounded-sm border border-primary-foreground/20 bg-primary-foreground/7 px-4 text-sm text-primary-foreground outline-none transition-all duration-300 placeholder:text-primary-foreground/40 focus-visible:border-secondary-accent focus-visible:bg-primary-foreground/10"
           />
           <button
             type="submit"
             disabled={subscribe.isPending}
-            className="h-10 shrink-0 rounded-sm bg-primary px-5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+            className="h-12 shrink-0 rounded-sm bg-accent px-6 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/90 active:translate-y-0 disabled:opacity-60"
           >
             {subscribe.isPending ? "Signing up…" : "Subscribe"}
           </button>
