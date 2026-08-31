@@ -40,9 +40,8 @@ function ApplicationsPage() {
         .from("journalist_applications")
         .update({
           status,
-          decision_note: note || null,
-          reviewed_by: userId ?? null,
-          reviewed_at: new Date().toISOString(),
+          reviewer_note: note || null,
+          reviewer_id: userId ?? null,
         })
         .eq("id", id);
       if (error) throw new Error((error as { message: string }).message);
