@@ -83,6 +83,7 @@ function JoinPage() {
       const { error } = await db.from("journalist_applications").insert({
         user_id: userId ?? null,
         full_name: form.full_name || profile?.display_name || "",
+        email: form.email || profile?.email || "",
         bio: form.bio,
         experience: form.experience,
         coverage_areas: form.coverage_areas
