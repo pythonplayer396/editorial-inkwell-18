@@ -155,9 +155,9 @@ function AuthPage() {
           </div>
 
 
-          <form className="space-y-3" onSubmit={submit}>
+          <form className="auth-rise space-y-3" style={{ animationDelay: "200ms" }} onSubmit={submit}>
             {mode === "signup" ? (
-              <div>
+              <div className="auth-rise">
                 <label htmlFor="a-name" className="mb-1.5 block text-sm font-medium">
                   Full name
                 </label>
@@ -165,7 +165,7 @@ function AuthPage() {
                   id="a-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
+                  className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none transition-all duration-200 focus-visible:border-ring focus-visible:shadow-[0_0_0_3px_color-mix(in_oklab,var(--ring)_18%,transparent)]"
                 />
               </div>
             ) : null}
@@ -180,7 +180,7 @@ function AuthPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
+                className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none transition-all duration-200 focus-visible:border-ring focus-visible:shadow-[0_0_0_3px_color-mix(in_oklab,var(--ring)_18%,transparent)]"
               />
             </div>
             <div>
@@ -195,28 +195,38 @@ function AuthPage() {
                 autoComplete={mode === "signin" ? "current-password" : "new-password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
+                className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none transition-all duration-200 focus-visible:border-ring focus-visible:shadow-[0_0_0_3px_color-mix(in_oklab,var(--ring)_18%,transparent)]"
               />
             </div>
             <button
               type="submit"
               disabled={busy}
-              className="h-10 w-full rounded-sm bg-primary text-sm font-medium text-primary-foreground disabled:opacity-60"
+              className="relative h-10 w-full overflow-hidden rounded-sm bg-primary text-sm font-medium text-primary-foreground transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
             >
-              {busy ? "Working…" : mode === "signin" ? "Sign in" : "Create account"}
+              <span className="relative z-10">
+                {busy ? "Working…" : mode === "signin" ? "Sign in" : "Create account"}
+              </span>
+              {busy ? (
+                <span
+                  aria-hidden
+                  className="absolute inset-0 bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--primary-foreground)_28%,transparent),transparent)]"
+                  style={{ animation: "auth-sweep 1.1s linear infinite" }}
+                />
+              ) : null}
             </button>
           </form>
 
-          <p className="mt-5 text-sm text-muted-foreground">
+          <p className="auth-rise mt-5 text-sm text-muted-foreground" style={{ animationDelay: "260ms" }}>
             {mode === "signin" ? "No account yet?" : "Already have an account?"}{" "}
             <button
               type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="font-medium text-foreground underline underline-offset-4"
+              className="story-link font-medium text-foreground underline underline-offset-4"
             >
               {mode === "signin" ? "Create one" : "Sign in"}
             </button>
           </p>
+
         </div>
       </div>
     </div>
