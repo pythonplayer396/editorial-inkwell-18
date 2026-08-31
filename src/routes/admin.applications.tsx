@@ -45,12 +45,16 @@ function ApplicationsPage() {
         })
         .eq("id", id);
       if (error) throw new Error((error as { message: string }).message);
-      await recordAudit(
-        { userId, name: profile?.display_name ?? "An administrator" },
-        `Application ${LABELS[status]}`,
-        { type: "application", id, label: name },
-        note || undefined,
-      );
+      try {
+        await recordAudit(
+          { userId, name: profile?.display_name ?? "An administrator" },
+          `Application ${LABELS[status]}`,
+          { type: "application", id, label: name },
+          note || undefined,
+        );
+      } catch {
+        // audit logging must never block the decision
+      }
       setNote("");
       toast.success(`Application marked ${LABELS[status]?.toLowerCase()}`);
       void qc.invalidateQueries({ queryKey: ["admin", "applications"] });
