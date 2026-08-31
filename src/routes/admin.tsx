@@ -172,7 +172,25 @@ function AdminLayout() {
       </aside>
 
       <div className="min-w-0 bg-background">
-        <Outlet />
+        {restricted ? (
+          <div className="flex min-h-[60vh] items-center justify-center px-6">
+            <div className="max-w-sm text-center">
+              <h1 className="text-lg font-semibold tracking-tight">This area is restricted</h1>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Your role doesn't include access to this part of the newsroom. Ask an editor if you
+                need it.
+              </p>
+              <Link
+                to="/admin"
+                className="mt-5 inline-flex h-9 items-center rounded-sm border border-border px-4 text-sm font-medium"
+              >
+                Back to dashboard
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </div>
   );
