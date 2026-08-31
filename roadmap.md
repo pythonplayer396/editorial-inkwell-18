@@ -7,3 +7,27 @@
 - [x] Upgrade search interaction
 - [x] Polish newsroom shell, dashboard, and editor interactions
 - [x] Verify responsive rendering, reduced motion, and build health
+
+# Newsroom system (phased)
+
+## Phase 1 — workflow core, i18n, notifications (done)
+- [x] Workflow statuses, timeline, feedback, notifications, audit, permissions (database)
+- [x] i18n architecture, 8 languages, persisted preference, language switcher
+- [x] Separate portals: /auth (readers), /auth/journalist, /auth/staff, /auth/admin
+- [x] Journalist portal at /newsroom: status counts, attention queue, feedback, profile
+- [x] Staff desk: /admin/submissions queue and /admin/review/$id workspace
+      (approve, request changes with note, reject with reason, schedule, publish,
+      internal notes, timeline, desktop/mobile preview, next submission)
+- [x] Admin oversight: /admin/oversight, /admin/audit, /admin/staff, /admin/applications
+- [x] Join The Dispatch public page + application system
+- [x] File-based image uploader (drag & drop / select) with alt, caption, credit
+- [x] In-app notification bell
+
+## Phase 2 — next
+- [ ] Autosave + "we found a newer draft" restore in the editor
+- [ ] Revision history with restore
+- [ ] Journalist featured work on public profile
+- [ ] Related coverage and corrections on articles
+- [ ] Multi-image galleries with reordering
+- [ ] Reader accounts: bookmarks, follows, notification preferences
+- [ ] Translate remaining interface strings across public pages
