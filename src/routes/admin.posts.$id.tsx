@@ -16,7 +16,7 @@ import {
 import { BlockRenderer } from "@/components/article/BlockRenderer";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { autoExcerpt, newBlock, readingMinutes, withIds, type Block } from "@/lib/blocks";
-import { formatDate, slugify } from "@/lib/format";
+import { formatDate, formatDateTime, slugify, timeAgo } from "@/lib/format";
 import {
   adminPostQuery,
   authorsQuery,
@@ -25,6 +25,14 @@ import {
   postTagsQuery,
   tagsQuery,
 } from "@/lib/queries";
+import {
+  pruneAutosaves,
+  revisionsQuery,
+  saveRevision,
+  snapshotSignature,
+  type PostRevision,
+  type RevisionSnapshot,
+} from "@/lib/revisions";
 import type { PostStatus } from "@/lib/types";
 import { STATUS_LABELS } from "@/lib/types";
 
