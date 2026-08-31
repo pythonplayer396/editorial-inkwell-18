@@ -95,11 +95,6 @@ export function SiteFooter() {
                 </a>
               </li>
             ) : null}
-            <li>
-               <Link to="/auth" className="editorial-link text-sm">
-                Staff sign in
-              </Link>
-            </li>
           </ul>
         </nav>
       </div>
