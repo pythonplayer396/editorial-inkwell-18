@@ -1,3 +1,4 @@
+import { useT } from "@/lib/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import { db } from "@/lib/queries";
 
 export function Newsletter({ compact = false }: { compact?: boolean }) {
   const [email, setEmail] = useState("");
+  const t = useT();
 
   const subscribe = useMutation({
     mutationFn: async (value: string) => {
@@ -61,7 +63,7 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={t("public.emailPlaceholder")}
             className="h-12 min-w-0 flex-1 rounded-sm border border-primary-foreground/20 bg-primary-foreground/7 px-4 text-sm text-primary-foreground outline-none transition-all duration-300 placeholder:text-primary-foreground/40 focus-visible:border-secondary-accent focus-visible:bg-primary-foreground/10"
           />
           <button

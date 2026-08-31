@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { useT } from "@/lib/i18n";
 import { ArrowUpRight, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ export function SiteHeader() {
   const { data: categories } = useQuery(categoriesQuery);
   const { session, isStaff } = useCurrentUser();
   const [open, setOpen] = useState(false);
+  const t = useT();
 
   const today = new Date().toLocaleDateString("en-GB", {
     weekday: "long",
@@ -49,21 +51,21 @@ export function SiteHeader() {
             to="/join"
             className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
           >
-            Join The Dispatch
+            {t("nav.join")}
           </Link>
           {session ? (
             <Link
               to={isStaff ? "/admin" : "/account"}
               className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
-               {isStaff ? "Newsroom" : "Account"}<ArrowUpRight className="h-3 w-3" />
+               {isStaff ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
             </Link>
           ) : (
             <Link
               to="/auth"
               className="pressable hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
-              Sign in
+              {t("nav.signin")}
             </Link>
           )}
           <button
@@ -78,14 +80,14 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <nav aria-label="Sections" className="hidden border-t border-border md:block">
+      <nav aria-label={t("public.sections")} className="hidden border-t border-border md:block">
         <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-7 overflow-x-auto px-7 lg:px-10">
           <Link
             to="/latest"
             className="kicker relative py-3.5 text-foreground transition-colors hover:text-secondary-accent"
             activeProps={{ className: "kicker relative py-3.5 text-secondary-accent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-secondary-accent" }}
           >
-            Latest
+            {t("public.latest")}
           </Link>
           {(categories ?? []).map((c) => (
             <Link
@@ -102,11 +104,11 @@ export function SiteHeader() {
       </nav>
 
       {open ? (
-        <nav aria-label="Sections" className="animate-in fade-in slide-in-from-top-2 border-t border-border bg-background px-5 py-3 duration-300 md:hidden">
+        <nav aria-label={t("public.sections")} className="animate-in fade-in slide-in-from-top-2 border-t border-border bg-background px-5 py-3 duration-300 md:hidden">
           <ul className="divide-y divide-border">
             <li>
               <Link to="/latest" onClick={() => setOpen(false)} className="block py-2.5 text-sm font-medium">
-                Latest
+                {t("public.latest")}
               </Link>
             </li>
             {(categories ?? []).map((c) => (
@@ -127,7 +129,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className="block py-2.5 text-sm font-medium"
               >
-                {session ? (isStaff ? "Newsroom" : "Account") : "Sign in"}
+                {session ? (isStaff ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
               </Link>
             </li>
           </ul>

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Check, Plus } from "lucide-react";
 
+import { useT } from "@/lib/i18n";
 import { useFollows } from "@/lib/reader";
 
 export function FollowButton({
@@ -13,6 +14,7 @@ export function FollowButton({
   label: string;
 }) {
   const { isFollowing, toggle, busy, signedIn } = useFollows();
+  const t = useT();
 
   if (!signedIn) {
     return (
@@ -20,7 +22,7 @@ export function FollowButton({
         to="/auth"
         className="pressable inline-flex h-9 items-center gap-1.5 rounded-sm border border-border px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-secondary-accent hover:text-secondary-accent"
       >
-        <Plus className="h-3.5 w-3.5" /> Follow {label}
+        <Plus className="h-3.5 w-3.5" /> {t("public.follow")} {label}
       </Link>
     );
   }
@@ -39,7 +41,7 @@ export function FollowButton({
       }`}
     >
       {following ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
-      {following ? "Following" : `Follow ${label}`}
+      {following ? t("public.following") : `${t("public.follow")} ${label}`}
     </button>
   );
 }

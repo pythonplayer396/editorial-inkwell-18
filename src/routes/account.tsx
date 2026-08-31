@@ -6,7 +6,7 @@ import { Container, PublicLayout } from "@/components/site/PublicLayout";
 import { StoryRow } from "@/components/site/StoryCard";
 import { EmptyState } from "@/components/ui-kit/States";
 import { useAuth } from "@/hooks/useAuth";
-import { LOCALES, useI18n } from "@/lib/i18n";
+import { LOCALES, useI18n, useT } from "@/lib/i18n";
 import { authorsQuery, categoriesQuery } from "@/lib/queries";
 import { useBookmarks, useFollows, usePreferences } from "@/lib/reader";
 import type { Post } from "@/lib/types";
@@ -33,14 +33,15 @@ export const Route = createFileRoute("/account")({
 });
 
 const TABS = [
-  { id: "saved", label: "Saved stories" },
-  { id: "following", label: "Following" },
-  { id: "preferences", label: "Preferences" },
+  { id: "saved", labelKey: "public.saved" },
+  { id: "following", labelKey: "public.following" },
+  { id: "preferences", labelKey: "public.preferences" },
 ] as const;
 
 function AccountPage() {
   const { session, loading } = useAuth();
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("saved");
+  const t = useT();
 
   if (loading) {
     return (
@@ -85,18 +86,18 @@ function AccountPage() {
         </header>
 
         <nav className="mt-6 flex flex-wrap gap-1 border-b border-border" aria-label="Account sections">
-          {TABS.map((t) => (
+          {TABS.map((tt) => (
             <button
-              key={t.id}
+              key={tt.id}
               type="button"
-              onClick={() => setTab(t.id)}
+              onClick={() => setTab(tt.id)}
               className={`pressable -mb-px border-b-2 px-3 py-2.5 text-sm font-medium transition-colors ${
-                tab === t.id
+                tab === tt.id
                   ? "border-secondary-accent text-secondary-accent"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t.label}
+              {t(tab === tt.id ? tt.labelKey : tt.labelKey)}
             </button>
           ))}
         </nav>
