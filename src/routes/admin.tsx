@@ -1,4 +1,4 @@
-import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, Outlet, createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
 import { BarChart3, ClipboardCheck, FileText, FolderTree, Image, Inbox, LayoutDashboard, Menu, MessageSquare, ScrollText, Settings, ShieldCheck, Tags, UserPlus, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -6,7 +6,7 @@ import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
 import { NotificationBell } from "@/components/newsroom/NotificationBell";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { ROLE_LABELS } from "@/lib/types";
+import { ROLE_LABELS, type AppRole } from "@/lib/types";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
