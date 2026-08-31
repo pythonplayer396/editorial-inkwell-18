@@ -100,9 +100,9 @@ function JoinPage() {
       toast.success("Application received", {
         description: "The editorial desk will be in touch.",
       });
-    } catch {
+    } catch (err) {
       toast.error("We couldn't send your application", {
-        description: "Please check the form and try again.",
+        description: (err as Error).message || "Please check the form and try again.",
       });
     } finally {
       setBusy(false);
