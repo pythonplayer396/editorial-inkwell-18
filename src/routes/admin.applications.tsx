@@ -54,8 +54,10 @@ function ApplicationsPage() {
       setNote("");
       toast.success(`Application marked ${LABELS[status]?.toLowerCase()}`);
       void qc.invalidateQueries({ queryKey: ["admin", "applications"] });
-    } catch {
-      toast.error("We couldn't update this application", { description: "Please try again." });
+    } catch (err) {
+      toast.error("We couldn't update this application", {
+        description: err instanceof Error ? err.message : "Please try again.",
+      });
     }
   };
 
