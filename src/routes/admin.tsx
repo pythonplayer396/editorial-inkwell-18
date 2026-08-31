@@ -1,4 +1,4 @@
-import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, Outlet, createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
 import { BarChart3, ClipboardCheck, FileText, FolderTree, Image, Inbox, LayoutDashboard, Menu, MessageSquare, ScrollText, Settings, ShieldCheck, Tags, UserPlus, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -6,7 +6,7 @@ import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
 import { NotificationBell } from "@/components/newsroom/NotificationBell";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { ROLE_LABELS } from "@/lib/types";
+import { ROLE_LABELS, type AppRole } from "@/lib/types";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -19,27 +19,37 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
+const ALL: AppRole[] = ["owner", "editor", "author", "contributor"];
+const EDITORS: AppRole[] = ["owner", "editor"];
+const OWNERS: AppRole[] = ["owner"];
+
 const NAV = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/submissions", label: "Submissions", icon: Inbox },
-  { to: "/admin/posts", label: "Articles", icon: FileText },
-  { to: "/admin/media", label: "Media", icon: Image },
-  { to: "/admin/categories", label: "Categories", icon: FolderTree },
-  { to: "/admin/tags", label: "Tags", icon: Tags },
-  { to: "/admin/comments", label: "Comments", icon: MessageSquare },
-  { to: "/admin/authors", label: "Authors", icon: Users },
-  { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck },
-  { to: "/admin/applications", label: "Applications", icon: UserPlus },
-  { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck },
-  { to: "/admin/audit", label: "Audit log", icon: ScrollText },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, roles: ALL },
+  { to: "/admin/submissions", label: "Submissions", icon: Inbox, roles: EDITORS },
+  { to: "/admin/posts", label: "Articles", icon: FileText, roles: ALL },
+  { to: "/admin/media", label: "Media", icon: Image, roles: ALL },
+  { to: "/admin/categories", label: "Categories", icon: FolderTree, roles: EDITORS },
+  { to: "/admin/tags", label: "Tags", icon: Tags, roles: EDITORS },
+  { to: "/admin/comments", label: "Comments", icon: MessageSquare, roles: EDITORS },
+  { to: "/admin/authors", label: "Authors", icon: Users, roles: EDITORS },
+  { to: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: EDITORS },
+  { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck, roles: EDITORS },
+  { to: "/admin/applications", label: "Applications", icon: UserPlus, roles: EDITORS },
+  { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck, roles: OWNERS },
+  { to: "/admin/audit", label: "Audit log", icon: ScrollText, roles: OWNERS },
+  { to: "/admin/settings", label: "Settings", icon: Settings, roles: OWNERS },
 ] as const;
 
 function AdminLayout() {
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { session, profile, roles, isStaff, loading } = useCurrentUser();
   const [open, setOpen] = useState(false);
+
+  const visibleNav = NAV.filter((item) => roles.some((r) => (item.roles as readonly AppRole[]).includes(r)));
+  const restricted = NAV.filter(
+    (item) => !roles.some((r) => (item.roles as readonly AppRole[]).includes(r)),
+  ).some((item) => pathname === item.to || pathname.startsWith(`${item.to}/`));
 
   useEffect(() => {
     if (!loading && !session) void navigate({ to: "/auth/staff" });
@@ -110,7 +120,7 @@ function AdminLayout() {
           className={`${open ? "animate-in fade-in slide-in-from-top-2 block" : "hidden"} px-2 pb-4 duration-200 lg:block`}
         >
           <ul className="space-y-0.5">
-            {NAV.map((item) => {
+            {visibleNav.map((item) => {
               const Icon = item.icon;
               return (
               <li key={item.to}>
@@ -162,7 +172,25 @@ function AdminLayout() {
       </aside>
 
       <div className="min-w-0 bg-background">
-        <Outlet />
+        {restricted ? (
+          <div className="flex min-h-[60vh] items-center justify-center px-6">
+            <div className="max-w-sm text-center">
+              <h1 className="text-lg font-semibold tracking-tight">This area is restricted</h1>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Your role doesn't include access to this part of the newsroom. Ask an editor if you
+                need it.
+              </p>
+              <Link
+                to="/admin"
+                className="mt-5 inline-flex h-9 items-center rounded-sm border border-border px-4 text-sm font-medium"
+              >
+                Back to dashboard
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </div>
   );
