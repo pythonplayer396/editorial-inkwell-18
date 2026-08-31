@@ -19,21 +19,25 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
+const ALL: AppRole[] = ["owner", "editor", "author", "contributor"];
+const EDITORS: AppRole[] = ["owner", "editor"];
+const OWNERS: AppRole[] = ["owner"];
+
 const NAV = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/submissions", label: "Submissions", icon: Inbox },
-  { to: "/admin/posts", label: "Articles", icon: FileText },
-  { to: "/admin/media", label: "Media", icon: Image },
-  { to: "/admin/categories", label: "Categories", icon: FolderTree },
-  { to: "/admin/tags", label: "Tags", icon: Tags },
-  { to: "/admin/comments", label: "Comments", icon: MessageSquare },
-  { to: "/admin/authors", label: "Authors", icon: Users },
-  { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck },
-  { to: "/admin/applications", label: "Applications", icon: UserPlus },
-  { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck },
-  { to: "/admin/audit", label: "Audit log", icon: ScrollText },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, roles: ALL },
+  { to: "/admin/submissions", label: "Submissions", icon: Inbox, roles: EDITORS },
+  { to: "/admin/posts", label: "Articles", icon: FileText, roles: ALL },
+  { to: "/admin/media", label: "Media", icon: Image, roles: ALL },
+  { to: "/admin/categories", label: "Categories", icon: FolderTree, roles: EDITORS },
+  { to: "/admin/tags", label: "Tags", icon: Tags, roles: EDITORS },
+  { to: "/admin/comments", label: "Comments", icon: MessageSquare, roles: EDITORS },
+  { to: "/admin/authors", label: "Authors", icon: Users, roles: EDITORS },
+  { to: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: EDITORS },
+  { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck, roles: EDITORS },
+  { to: "/admin/applications", label: "Applications", icon: UserPlus, roles: EDITORS },
+  { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck, roles: OWNERS },
+  { to: "/admin/audit", label: "Audit log", icon: ScrollText, roles: OWNERS },
+  { to: "/admin/settings", label: "Settings", icon: Settings, roles: OWNERS },
 ] as const;
 
 function AdminLayout() {
