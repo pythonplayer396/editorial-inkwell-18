@@ -65,6 +65,7 @@ function JoinPage() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
+    email: "",
     bio: "",
     experience: "",
     coverage_areas: "",
@@ -83,6 +84,7 @@ function JoinPage() {
       const { error } = await db.from("journalist_applications").insert({
         user_id: userId ?? null,
         full_name: form.full_name || profile?.display_name || "",
+        email: form.email || profile?.email || "",
         bio: form.bio,
         experience: form.experience,
         coverage_areas: form.coverage_areas
@@ -98,9 +100,9 @@ function JoinPage() {
       toast.success("Application received", {
         description: "The editorial desk will be in touch.",
       });
-    } catch {
+    } catch (err) {
       toast.error("We couldn't send your application", {
-        description: "Please check the form and try again.",
+        description: (err as Error).message || "Please check the form and try again.",
       });
     } finally {
       setBusy(false);
@@ -184,6 +186,16 @@ function JoinPage() {
               <label className="block text-xs font-medium">
                 Full name
                 <input required className={`${input} mt-1.5`} value={form.full_name} onChange={set("full_name")} />
+              </label>
+              <label className="block text-xs font-medium">
+                Email
+                <input
+                  required
+                  type="email"
+                  className={`${input} mt-1.5`}
+                  value={form.email}
+                  onChange={set("email")}
+                />
               </label>
               <label className="block text-xs font-medium">
                 Short bio
