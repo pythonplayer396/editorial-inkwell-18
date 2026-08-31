@@ -358,6 +358,12 @@ function EditorPage() {
           draft.status === "published" && post.data?.published_at
             ? ` · published ${formatDate(post.data.published_at)}`
             : ""
+        }${
+          autosaving
+            ? " · autosaving…"
+            : autosavedAt
+              ? ` · draft autosaved ${timeAgo(autosavedAt)}`
+              : ""
         }`}
         actions={
           <>
@@ -377,6 +383,30 @@ function EditorPage() {
           </>
         }
       />
+
+      {recovery ? (
+        <div className="mt-4 flex flex-wrap items-center gap-3 border border-accent/40 bg-accent/5 px-4 py-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">We found a newer draft</p>
+            <p className="text-xs text-muted-foreground">
+              An unsaved autosave from {formatDateTime(recovery.created_at)} ({timeAgo(recovery.created_at)}) is
+              newer than the last saved version.
+            </p>
+          </div>
+          <Btn
+            onClick={() => {
+              applySnapshot(recovery);
+              setRecovery(null);
+              toast.success("Newer draft restored", { description: "Review it, then save." });
+            }}
+          >
+            Restore it
+          </Btn>
+          <Btn variant="outline" onClick={() => setRecovery(null)}>
+            Keep saved version
+          </Btn>
+        </div>
+      ) : null}
 
       <div className="mt-5 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
@@ -627,6 +657,48 @@ function EditorPage() {
               className={inputClass}
             />
           </Panel>
+
+          {!isNew ? (
+            <Panel title="Version history">
+              {(revisions.data ?? []).length === 0 ? (
+                <p className="text-xs text-muted-foreground">
+                  Versions appear here as you write and save.
+                </p>
+              ) : (
+                <ul className="max-h-72 space-y-1 overflow-y-auto">
+                  {(revisions.data ?? []).map((r) => (
+                    <li
+                      key={r.id}
+                      className="flex items-center gap-2 border-b border-border/60 py-1.5 last:border-b-0"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs font-medium">
+                          {r.kind === "manual" ? "Saved version" : "Autosave"}
+                          {r.author_name ? ` · ${r.author_name}` : ""}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {timeAgo(r.created_at)} · {formatDateTime(r.created_at)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!confirm("Load this version into the editor?")) return;
+                          applySnapshot(r);
+                          toast.success("Version loaded", {
+                            description: "Save to keep it as the current article.",
+                          });
+                        }}
+                        className="shrink-0 rounded-sm border border-border px-2 py-1 text-[11px] transition-colors hover:bg-muted"
+                      >
+                        Restore
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Panel>
+          ) : null}
 
           <Panel title="Search & social">
             <Field label="SEO title" htmlFor="f-seo-t" hint={`${draft.seo_title.length}/60`}>
