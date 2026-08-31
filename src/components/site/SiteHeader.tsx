@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Menu, Search, X } from "lucide-react";
+import { ArrowUpRight, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 
 import { useCurrentUser } from "@/hooks/useAuth";
@@ -21,14 +21,15 @@ export function SiteHeader() {
   });
 
   return (
-    <header className="border-b border-border bg-background">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 md:py-6">
+    <header className="relative z-40 border-b border-border-strong bg-background/95 backdrop-blur-md">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-7 md:py-7 lg:px-10">
         <div className="hidden min-w-0 md:block">
-          <p className="text-xs text-muted-foreground">{today}</p>
+          <p className="text-[0.7rem] font-medium uppercase text-muted-foreground">{today}</p>
+          <p className="mt-1 text-[0.65rem] text-muted-foreground/70">Independent · Since 2026</p>
         </div>
         <div className="md:text-center">
           <Link to="/" className="inline-block">
-            <span className="headline text-2xl tracking-[-0.03em] md:text-[2rem]">
+            <span className="headline text-3xl md:text-[2.75rem]">
               {settings?.site_name ?? "The Dispatch"}
             </span>
           </Link>
@@ -40,21 +41,21 @@ export function SiteHeader() {
           <Link
             to="/search"
             aria-label="Search stories"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm text-muted-foreground hover:bg-muted hover:text-secondary-accent"
           >
             <Search className="h-4 w-4" />
           </Link>
           {session ? (
             <Link
               to={isStaff ? "/admin" : "/"}
-              className="hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium transition-colors hover:bg-muted md:inline-flex"
+              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
-              {isStaff ? "Newsroom" : "Account"}
+               {isStaff ? "Newsroom" : "Account"}<ArrowUpRight className="h-3 w-3" />
             </Link>
           ) : (
             <Link
               to="/auth"
-              className="hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium transition-colors hover:bg-muted md:inline-flex"
+              className="pressable hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
               Sign in
             </Link>
@@ -64,7 +65,7 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-foreground md:hidden"
+            className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm text-foreground hover:bg-muted md:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -72,11 +73,11 @@ export function SiteHeader() {
       </div>
 
       <nav aria-label="Sections" className="hidden border-t border-border md:block">
-        <div className="mx-auto flex max-w-[1200px] items-center gap-6 overflow-x-auto px-5">
+        <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-7 overflow-x-auto px-7 lg:px-10">
           <Link
             to="/latest"
-            className="kicker py-3 text-foreground transition-colors hover:text-accent"
-            activeProps={{ className: "kicker py-3 text-accent" }}
+            className="kicker relative py-3.5 text-foreground transition-colors hover:text-secondary-accent"
+            activeProps={{ className: "kicker relative py-3.5 text-secondary-accent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-secondary-accent" }}
           >
             Latest
           </Link>
@@ -85,8 +86,8 @@ export function SiteHeader() {
               key={c.id}
               to="/category/$slug"
               params={{ slug: c.slug }}
-              className="kicker whitespace-nowrap py-3 text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "kicker whitespace-nowrap py-3 text-accent" }}
+              className="kicker relative whitespace-nowrap py-3.5 text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "kicker relative whitespace-nowrap py-3.5 text-secondary-accent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-secondary-accent" }}
             >
               {c.name}
             </Link>
@@ -95,7 +96,7 @@ export function SiteHeader() {
       </nav>
 
       {open ? (
-        <nav aria-label="Sections" className="border-t border-border px-5 py-3 md:hidden">
+        <nav aria-label="Sections" className="animate-in fade-in slide-in-from-top-2 border-t border-border bg-background px-5 py-3 duration-300 md:hidden">
           <ul className="divide-y divide-border">
             <li>
               <Link to="/latest" onClick={() => setOpen(false)} className="block py-2.5 text-sm font-medium">
