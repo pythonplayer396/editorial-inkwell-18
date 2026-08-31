@@ -109,6 +109,14 @@ function EditorPage() {
   const [slugTouched, setSlugTouched] = useState(!isNew);
   const [coverPicker, setCoverPicker] = useState(false);
   const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [autosavedAt, setAutosavedAt] = useState<string | null>(null);
+  const [autosaving, setAutosaving] = useState(false);
+  const [recovery, setRecovery] = useState<PostRevision | null>(null);
+  const [recoveryChecked, setRecoveryChecked] = useState(false);
+  const baseSig = useRef<string | null>(null);
+
+  const revisions = useQuery({ ...revisionsQuery(isNew ? undefined : id), enabled: !isNew });
+
 
   useEffect(() => {
     if (isNew) {
