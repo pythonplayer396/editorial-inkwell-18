@@ -39,6 +39,7 @@ import { Route as NewsroomProfileRouteImport } from './routes/newsroom.profile'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
 import { Route as AdminPostsIdRouteImport } from './routes/admin.posts.$id'
+import { Route as AdminReviewIdRouteImport } from './routes/admin.review.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -190,6 +191,11 @@ const AdminPostsIdRoute = AdminPostsIdRouteImport.update({
   path: '/posts/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminReviewIdRoute = AdminReviewIdRouteImport.update({
+  id: '/review/$id',
+  path: '/review/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/auth/': typeof AuthIndexRoute
   '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthIndexRoute
   '/newsroom': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
   '/admin/posts': typeof AdminPostsIndexRoute
 }
 export interface FileRoutesById {
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/auth/': typeof AuthIndexRoute
   '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
 export interface FileRouteTypes {
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/newsroom/'
     | '/admin/posts/$id'
+    | '/admin/review/$id'
     | '/admin/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/newsroom'
     | '/admin/posts/$id'
+    | '/admin/review/$id'
     | '/admin/posts'
   id:
     | '__root__'
@@ -378,6 +389,7 @@ export interface FileRouteTypes {
     | '/auth/'
     | '/newsroom/'
     | '/admin/posts/$id'
+    | '/admin/review/$id'
     | '/admin/posts/'
   fileRoutesById: FileRoutesById
 }
@@ -609,6 +621,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPostsIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/review/$id': {
+      id: '/admin/review/$id'
+      path: '/review/$id'
+      fullPath: '/admin/review/$id'
+      preLoaderRoute: typeof AdminReviewIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
@@ -623,6 +642,7 @@ interface AdminRouteChildren {
   AdminTagsRoute: typeof AdminTagsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminPostsIdRoute: typeof AdminPostsIdRoute
+  AdminReviewIdRoute: typeof AdminReviewIdRoute
   AdminPostsIndexRoute: typeof AdminPostsIndexRoute
 }
 
@@ -637,6 +657,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminTagsRoute: AdminTagsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminPostsIdRoute: AdminPostsIdRoute,
+  AdminReviewIdRoute: AdminReviewIdRoute,
   AdminPostsIndexRoute: AdminPostsIndexRoute,
 }
 
