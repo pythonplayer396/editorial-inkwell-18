@@ -28,6 +28,7 @@ import { Route as AdminCommentsRouteImport } from './routes/admin.comments'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminOversightRouteImport } from './routes/admin.oversight'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminStaffRouteImport } from './routes/admin.staff'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -139,6 +140,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminStaffRoute = AdminStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
   id: '/submissions',
   path: '/submissions',
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/admin/media': typeof AdminMediaRoute
   '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/admin/media': typeof AdminMediaRoute
   '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -304,6 +312,7 @@ export interface FileRoutesById {
   '/admin/media': typeof AdminMediaRoute
   '/admin/oversight': typeof AdminOversightRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/oversight'
     | '/admin/settings'
+    | '/admin/staff'
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/oversight'
     | '/admin/settings'
+    | '/admin/staff'
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/admin/media'
     | '/admin/oversight'
     | '/admin/settings'
+    | '/admin/staff'
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
@@ -580,6 +592,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/staff': {
+      id: '/admin/staff'
+      path: '/staff'
+      fullPath: '/admin/staff'
+      preLoaderRoute: typeof AdminStaffRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/submissions': {
       id: '/admin/submissions'
       path: '/submissions'
@@ -698,6 +717,7 @@ interface AdminRouteChildren {
   AdminMediaRoute: typeof AdminMediaRoute
   AdminOversightRoute: typeof AdminOversightRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStaffRoute: typeof AdminStaffRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTagsRoute: typeof AdminTagsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -716,6 +736,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMediaRoute: AdminMediaRoute,
   AdminOversightRoute: AdminOversightRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminStaffRoute: AdminStaffRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTagsRoute: AdminTagsRoute,
   AdminIndexRoute: AdminIndexRoute,

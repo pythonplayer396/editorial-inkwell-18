@@ -1,7 +1,9 @@
 import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { BarChart3, FileText, FolderTree, Image, LayoutDashboard, Menu, MessageSquare, Settings, Tags, Users, X } from "lucide-react";
+import { BarChart3, ClipboardCheck, FileText, FolderTree, Image, Inbox, LayoutDashboard, Menu, MessageSquare, ScrollText, Settings, ShieldCheck, Tags, UserPlus, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
+import { NotificationBell } from "@/components/newsroom/NotificationBell";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { ROLE_LABELS } from "@/lib/types";
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/admin")({
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/submissions", label: "Submissions", icon: Inbox },
   { to: "/admin/posts", label: "Articles", icon: FileText },
   { to: "/admin/media", label: "Media", icon: Image },
   { to: "/admin/categories", label: "Categories", icon: FolderTree },
@@ -26,6 +29,10 @@ const NAV = [
   { to: "/admin/comments", label: "Comments", icon: MessageSquare },
   { to: "/admin/authors", label: "Authors", icon: Users },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck },
+  { to: "/admin/applications", label: "Applications", icon: UserPlus },
+  { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck },
+  { to: "/admin/audit", label: "Audit log", icon: ScrollText },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -35,7 +42,7 @@ function AdminLayout() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading && !session) void navigate({ to: "/auth" });
+    if (!loading && !session) void navigate({ to: "/auth/staff" });
   }, [loading, session, navigate]);
 
   if (loading || !session) {
@@ -85,6 +92,8 @@ function AdminLayout() {
             </p>
             <p className="text-[0.7rem] text-muted-foreground">Newsroom</p>
           </Link>
+          <div className="flex items-center gap-2">
+          <NotificationBell />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -93,6 +102,7 @@ function AdminLayout() {
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
+          </div>
         </div>
 
         <nav
@@ -128,6 +138,7 @@ function AdminLayout() {
             <p className="text-xs text-muted-foreground">
               {roles.map((r) => ROLE_LABELS[r]).join(", ") || "Staff"}
             </p>
+            <div className="mt-3"><LanguageSwitcher /></div>
             <div className="mt-3 flex flex-col gap-1.5">
               <Link
                 to="/"
@@ -139,7 +150,7 @@ function AdminLayout() {
                 type="button"
                 onClick={async () => {
                   await supabase.auth.signOut();
-                  void navigate({ to: "/auth" });
+                  void navigate({ to: "/auth/staff" });
                 }}
                 className="text-left text-xs text-muted-foreground underline-offset-4 hover:underline"
               >
