@@ -1,0 +1,43 @@
+import type { ReactNode } from "react";
+
+import { BreakingBar } from "./BreakingBar";
+import { SiteFooter } from "./SiteFooter";
+import { SiteHeader } from "./SiteHeader";
+
+export function PublicLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-h-screen flex-col bg-paper">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:text-sm"
+      >
+        Skip to content
+      </a>
+      <BreakingBar />
+      <SiteHeader />
+      <main id="main" className="flex-1">
+        {children}
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
+export function Container({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <div className={`mx-auto w-full max-w-[1200px] px-5 ${className}`}>{children}</div>;
+}
+
+export function SectionHeading({ title, href }: { title: string; href?: ReactNode }) {
+  return (
+    <div className="mb-5 flex items-baseline justify-between border-b-2 border-foreground pb-2">
+      <h2 className="kicker text-foreground">{title}</h2>
+      {href}
+    </div>
+  );
+}
