@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { BlockEditor } from "@/components/admin/BlockEditor";
@@ -146,7 +146,21 @@ function EditorPage() {
       seo_description: p.seo_description ?? "",
       canonical_url: p.canonical_url ?? "",
     });
-    setBlocks(withIds(Array.isArray(p.body) && p.body.length ? p.body : [newBlock("paragraph")]));
+    const loadedBlocks = withIds(
+      Array.isArray(p.body) && p.body.length ? p.body : [newBlock("paragraph")],
+    );
+    setBlocks(loadedBlocks);
+    baseSig.current = snapshotSignature({
+      title: p.title,
+      subtitle: p.subtitle ?? "",
+      excerpt: p.excerpt ?? "",
+      dateline: p.dateline ?? "",
+      cover_url: p.cover_url ?? "",
+      cover_caption: p.cover_caption ?? "",
+      cover_credit: p.cover_credit ?? "",
+      body: loadedBlocks,
+      reading_minutes: p.reading_minutes ?? 1,
+    });
   }, [isNew, post.data, loadedId, profile?.id]);
 
   useEffect(() => {
@@ -166,6 +180,73 @@ function EditorPage() {
         .filter(Boolean).length,
     [blocks],
   );
+
+  const snapshot: RevisionSnapshot = useMemo(
+    () => ({
+      title: draft.title,
+      subtitle: draft.subtitle || null,
+      excerpt: draft.excerpt || null,
+      dateline: draft.dateline || null,
+      cover_url: draft.cover_url || null,
+      cover_caption: draft.cover_caption || null,
+      cover_credit: draft.cover_credit || null,
+      body: blocks,
+      reading_minutes: minutes,
+    }),
+    [draft, blocks, minutes],
+  );
+
+  const currentSig = useMemo(() => snapshotSignature(snapshot), [snapshot]);
+
+  // "We found a newer draft" — an autosave stored after the last real save.
+  useEffect(() => {
+    if (isNew || recoveryChecked || !post.data || !revisions.data) return;
+    setRecoveryChecked(true);
+    const latest = revisions.data.find((r) => r.kind === "autosave");
+    if (!latest) return;
+    const savedAt = new Date(post.data.updated_at ?? 0).getTime();
+    if (new Date(latest.created_at).getTime() <= savedAt + 2000) return;
+    if (snapshotSignature(latest) === baseSig.current) return;
+    setRecovery(latest);
+  }, [isNew, recoveryChecked, post.data, revisions.data]);
+
+  // Autosave a snapshot after the writer pauses.
+  useEffect(() => {
+    if (isNew || !loadedId || recovery) return;
+    if (!draft.title.trim() && !blocks.some((b) => b.text || b.items?.some(Boolean))) return;
+    if (currentSig === baseSig.current) return;
+    const timer = setTimeout(async () => {
+      try {
+        setAutosaving(true);
+        await saveRevision(id, snapshot, "autosave", {
+          userId: profile?.user_id ?? undefined,
+          name: profile?.display_name ?? undefined,
+        });
+        await pruneAutosaves(id);
+        setAutosavedAt(new Date().toISOString());
+        void revisions.refetch();
+      } catch {
+        /* autosave is best-effort */
+      } finally {
+        setAutosaving(false);
+      }
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [currentSig, isNew, loadedId, recovery, id, snapshot, profile, blocks, draft.title]);
+
+  function applySnapshot(r: RevisionSnapshot) {
+    setDraft((d) => ({
+      ...d,
+      title: r.title,
+      subtitle: r.subtitle ?? "",
+      excerpt: r.excerpt ?? "",
+      dateline: r.dateline ?? "",
+      cover_url: r.cover_url ?? "",
+      cover_caption: r.cover_caption ?? "",
+      cover_credit: r.cover_credit ?? "",
+    }));
+    setBlocks(withIds(Array.isArray(r.body) && r.body.length ? r.body : [newBlock("paragraph")]));
+  }
 
   const save = useMutation({
     mutationFn: async (status?: PostStatus) => {
@@ -223,6 +304,17 @@ function EditorPage() {
     },
     onSuccess: async ({ postId, status, slug }) => {
       set("status", status);
+      baseSig.current = currentSig;
+      setAutosavedAt(null);
+      try {
+        await saveRevision(postId, snapshot, "manual", {
+          userId: profile?.user_id ?? undefined,
+          name: profile?.display_name ?? undefined,
+        });
+        await qc.invalidateQueries({ queryKey: ["admin", "revisions", postId] });
+      } catch {
+        /* history is best-effort */
+      }
       await qc.invalidateQueries({ queryKey: ["admin"] });
       await qc.invalidateQueries({ queryKey: ["posts"] });
       toast.success(
