@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LatestRouteImport } from './routes/latest'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -56,6 +57,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
   path: '/article/$slug',
@@ -80,7 +86,7 @@ const TagSlugRoute = TagSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
@@ -89,11 +95,11 @@ export interface FileRoutesByFullPath {
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
@@ -102,12 +108,13 @@ export interface FileRoutesByTo {
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
@@ -116,6 +123,7 @@ export interface FileRoutesById {
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,11 +139,11 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/admin'
     | '/auth'
     | '/contact'
     | '/latest'
@@ -144,6 +152,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -157,12 +166,13 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   LatestRoute: typeof LatestRoute
@@ -224,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/article/$slug': {
       id: '/article/$slug'
       path: '/article/$slug'
@@ -255,10 +272,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   LatestRoute: LatestRoute,
