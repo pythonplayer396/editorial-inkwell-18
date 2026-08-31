@@ -14,7 +14,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as LatestRouteImport } from './routes/latest'
+import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
@@ -25,8 +27,13 @@ import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as AuthIndexRouteImport } from './routes/auth.index'
+import { Route as AuthAdminRouteImport } from './routes/auth.admin'
+import { Route as AuthJournalistRouteImport } from './routes/auth.journalist'
+import { Route as AuthStaffRouteImport } from './routes/auth.staff'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as NewsroomIndexRouteImport } from './routes/newsroom.index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
 import { Route as AdminPostsIdRouteImport } from './routes/admin.posts.$id'
@@ -56,9 +63,19 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LatestRoute = LatestRouteImport.update({
   id: '/latest',
   path: '/latest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsroomRoute = NewsroomRouteImport.update({
+  id: '/newsroom',
+  path: '/newsroom',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -111,6 +128,26 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminRoute = AuthAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthJournalistRoute = AuthJournalistRouteImport.update({
+  id: '/journalist',
+  path: '/journalist',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthStaffRoute = AuthStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthorSlugRoute = AuthorSlugRouteImport.update({
   id: '/author/$slug',
   path: '/author/$slug',
@@ -120,6 +157,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const NewsroomIndexRoute = NewsroomIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => NewsroomRoute,
 } as any)
 const TagSlugRoute = TagSlugRouteImport.update({
   id: '/tag/$slug',
@@ -141,9 +183,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
+  '/newsroom': typeof NewsroomRouteWithChildren
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/authors': typeof AdminAuthorsRoute
@@ -153,18 +197,23 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/auth/admin': typeof AuthAdminRoute
+  '/auth/journalist': typeof AuthJournalistRoute
+  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/auth/': typeof AuthIndexRoute
+  '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -175,10 +224,15 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/auth/admin': typeof AuthAdminRoute
+  '/auth/journalist': typeof AuthJournalistRoute
+  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/auth': typeof AuthIndexRoute
+  '/newsroom': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
   '/admin/posts': typeof AdminPostsIndexRoute
 }
@@ -187,9 +241,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
+  '/newsroom': typeof NewsroomRouteWithChildren
   '/search': typeof SearchRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/authors': typeof AdminAuthorsRoute
@@ -199,10 +255,15 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/auth/admin': typeof AuthAdminRoute
+  '/auth/journalist': typeof AuthJournalistRoute
+  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/auth/': typeof AuthIndexRoute
+  '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
@@ -214,7 +275,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/contact'
+    | '/join'
     | '/latest'
+    | '/newsroom'
     | '/search'
     | '/admin/analytics'
     | '/admin/authors'
@@ -224,18 +287,23 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
+    | '/auth/admin'
+    | '/auth/journalist'
+    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin/'
+    | '/auth/'
+    | '/newsroom/'
     | '/admin/posts/$id'
     | '/admin/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/auth'
     | '/contact'
+    | '/join'
     | '/latest'
     | '/search'
     | '/admin/analytics'
@@ -246,10 +314,15 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
+    | '/auth/admin'
+    | '/auth/journalist'
+    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin'
+    | '/auth'
+    | '/newsroom'
     | '/admin/posts/$id'
     | '/admin/posts'
   id:
@@ -259,7 +332,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/contact'
+    | '/join'
     | '/latest'
+    | '/newsroom'
     | '/search'
     | '/admin/analytics'
     | '/admin/authors'
@@ -269,10 +344,15 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/tags'
     | '/article/$slug'
+    | '/auth/admin'
+    | '/auth/journalist'
+    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin/'
+    | '/auth/'
+    | '/newsroom/'
     | '/admin/posts/$id'
     | '/admin/posts/'
   fileRoutesById: FileRoutesById
@@ -281,9 +361,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   ContactRoute: typeof ContactRoute
+  JoinRoute: typeof JoinRoute
   LatestRoute: typeof LatestRoute
+  NewsroomRoute: typeof NewsroomRouteWithChildren
   SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   AuthorSlugRoute: typeof AuthorSlugRoute
@@ -328,11 +410,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/latest': {
       id: '/latest'
       path: '/latest'
       fullPath: '/latest'
       preLoaderRoute: typeof LatestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsroom': {
+      id: '/newsroom'
+      path: '/newsroom'
+      fullPath: '/newsroom'
+      preLoaderRoute: typeof NewsroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -405,6 +501,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/': {
+      id: '/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/admin': {
+      id: '/auth/admin'
+      path: '/admin'
+      fullPath: '/auth/admin'
+      preLoaderRoute: typeof AuthAdminRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/journalist': {
+      id: '/auth/journalist'
+      path: '/journalist'
+      fullPath: '/auth/journalist'
+      preLoaderRoute: typeof AuthJournalistRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/staff': {
+      id: '/auth/staff'
+      path: '/staff'
+      fullPath: '/auth/staff'
+      preLoaderRoute: typeof AuthStaffRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/author/$slug': {
       id: '/author/$slug'
       path: '/author/$slug'
@@ -418,6 +542,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/newsroom/': {
+      id: '/newsroom/'
+      path: '/'
+      fullPath: '/newsroom/'
+      preLoaderRoute: typeof NewsroomIndexRouteImport
+      parentRoute: typeof NewsroomRoute
     }
     '/tag/$slug': {
       id: '/tag/$slug'
@@ -471,13 +602,43 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AuthRouteChildren {
+  AuthAdminRoute: typeof AuthAdminRoute
+  AuthJournalistRoute: typeof AuthJournalistRoute
+  AuthStaffRoute: typeof AuthStaffRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminRoute: AuthAdminRoute,
+  AuthJournalistRoute: AuthJournalistRoute,
+  AuthStaffRoute: AuthStaffRoute,
+  AuthIndexRoute: AuthIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface NewsroomRouteChildren {
+  NewsroomIndexRoute: typeof NewsroomIndexRoute
+}
+
+const NewsroomRouteChildren: NewsroomRouteChildren = {
+  NewsroomIndexRoute: NewsroomIndexRoute,
+}
+
+const NewsroomRouteWithChildren = NewsroomRoute._addFileChildren(
+  NewsroomRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   ContactRoute: ContactRoute,
+  JoinRoute: JoinRoute,
   LatestRoute: LatestRoute,
+  NewsroomRoute: NewsroomRouteWithChildren,
   SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   AuthorSlugRoute: AuthorSlugRoute,

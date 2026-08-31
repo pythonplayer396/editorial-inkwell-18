@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { PostStatus } from "@/lib/types";
+import { statusTone } from "@/lib/workflow";
 import { STATUS_LABELS } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -27,18 +28,11 @@ export function PageHeader({
 }
 
 export function StatusPill({ status }: { status: PostStatus }) {
-  const tone: Record<PostStatus, string> = {
-    published: "border-success/40 text-success",
-    scheduled: "border-warning/40 text-warning",
-    in_review: "border-accent/40 text-accent",
-    draft: "border-border text-muted-foreground",
-    archived: "border-border text-muted-foreground/70",
-  };
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-xs font-medium",
-        tone[status],
+        "inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-xs font-medium transition-colors duration-300",
+        statusTone(status),
       )}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />

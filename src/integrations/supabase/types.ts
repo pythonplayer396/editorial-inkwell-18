@@ -14,6 +14,124 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_events: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          post_id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          post_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_events_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      article_feedback: {
+        Row: {
+          author_id: string | null
+          author_name: string | null
+          body: string
+          created_at: string
+          id: string
+          internal: boolean
+          kind: string
+          post_id: string
+          reason: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          author_name?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          internal?: boolean
+          kind?: string
+          post_id: string
+          reason?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          author_name?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          internal?: boolean
+          kind?: string
+          post_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_feedback_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string | null
+          created_at: string
+          detail: string | null
+          entity_id: string | null
+          entity_label: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name?: string | null
+          created_at?: string
+          detail?: string | null
+          entity_id?: string | null
+          entity_label?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string | null
+          created_at?: string
+          detail?: string | null
+          entity_id?: string | null
+          entity_label?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -89,6 +207,63 @@ export type Database = {
           },
         ]
       }
+      journalist_applications: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          coverage_areas: string[]
+          created_at: string
+          email: string
+          experience: string | null
+          full_name: string
+          id: string
+          motivation: string | null
+          portfolio_links: string | null
+          previous_publications: string | null
+          reviewer_id: string | null
+          reviewer_note: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          coverage_areas?: string[]
+          created_at?: string
+          email: string
+          experience?: string | null
+          full_name: string
+          id?: string
+          motivation?: string | null
+          portfolio_links?: string | null
+          previous_publications?: string | null
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          coverage_areas?: string[]
+          created_at?: string
+          email?: string
+          experience?: string | null
+          full_name?: string
+          id?: string
+          motivation?: string | null
+          portfolio_links?: string | null
+          previous_publications?: string | null
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
@@ -134,6 +309,39 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          href: string | null
+          id: string
+          kind: string
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          href?: string | null
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          href?: string | null
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       post_tags: {
         Row: {
           post_id: string
@@ -166,10 +374,14 @@ export type Database = {
       }
       posts: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           author_id: string | null
           body: Json
           canonical_url: string | null
           category_id: string | null
+          correction_at: string | null
+          correction_note: string | null
           cover_caption: string | null
           cover_credit: string | null
           cover_url: string | null
@@ -182,23 +394,32 @@ export type Database = {
           is_editors_pick: boolean
           is_featured: boolean
           published_at: string | null
+          published_by: string | null
           reading_minutes: number
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           scheduled_for: string | null
           seo_description: string | null
           seo_title: string | null
           slug: string
           social_image_url: string | null
           status: Database["public"]["Enums"]["post_status"]
+          submitted_at: string | null
           subtitle: string | null
           title: string
           updated_at: string
           view_count: number
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           author_id?: string | null
           body?: Json
           canonical_url?: string | null
           category_id?: string | null
+          correction_at?: string | null
+          correction_note?: string | null
           cover_caption?: string | null
           cover_credit?: string | null
           cover_url?: string | null
@@ -211,23 +432,32 @@ export type Database = {
           is_editors_pick?: boolean
           is_featured?: boolean
           published_at?: string | null
+          published_by?: string | null
           reading_minutes?: number
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           scheduled_for?: string | null
           seo_description?: string | null
           seo_title?: string | null
           slug: string
           social_image_url?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          submitted_at?: string | null
           subtitle?: string | null
           title: string
           updated_at?: string
           view_count?: number
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           author_id?: string | null
           body?: Json
           canonical_url?: string | null
           category_id?: string | null
+          correction_at?: string | null
+          correction_note?: string | null
           cover_caption?: string | null
           cover_credit?: string | null
           cover_url?: string | null
@@ -240,13 +470,18 @@ export type Database = {
           is_editors_pick?: boolean
           is_featured?: boolean
           published_at?: string | null
+          published_by?: string | null
           reading_minutes?: number
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           scheduled_for?: string | null
           seo_description?: string | null
           seo_title?: string | null
           slug?: string
           social_image_url?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          submitted_at?: string | null
           subtitle?: string | null
           title?: string
           updated_at?: string
@@ -273,12 +508,15 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
+          coverage_areas: string[]
           created_at: string
           display_name: string
           email: string | null
+          experience: string | null
           id: string
           job_title: string | null
           linkedin: string | null
+          locale: string
           slug: string
           twitter: string | null
           updated_at: string
@@ -288,12 +526,15 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           bio?: string | null
+          coverage_areas?: string[]
           created_at?: string
           display_name: string
           email?: string | null
+          experience?: string | null
           id?: string
           job_title?: string | null
           linkedin?: string | null
+          locale?: string
           slug: string
           twitter?: string | null
           updated_at?: string
@@ -303,17 +544,41 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           bio?: string | null
+          coverage_areas?: string[]
           created_at?: string
           display_name?: string
           email?: string | null
+          experience?: string | null
           id?: string
           job_title?: string | null
           linkedin?: string | null
+          locale?: string
           slug?: string
           twitter?: string | null
           updated_at?: string
           user_id?: string | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      role_permissions: {
+        Row: {
+          created_at: string
+          id: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          permission?: string
+          role?: Database["public"]["Enums"]["app_role"]
         }
         Relationships: []
       }
@@ -424,6 +689,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_permission: {
+        Args: { _permission: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -440,6 +709,11 @@ export type Database = {
       comment_status: "pending" | "approved" | "spam"
       post_status:
         | "draft"
+        | "submitted"
+        | "under_review"
+        | "changes_requested"
+        | "rejected"
+        | "approved"
         | "in_review"
         | "scheduled"
         | "published"
@@ -573,7 +847,18 @@ export const Constants = {
     Enums: {
       app_role: ["owner", "editor", "author", "contributor", "subscriber"],
       comment_status: ["pending", "approved", "spam"],
-      post_status: ["draft", "in_review", "scheduled", "published", "archived"],
+      post_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "changes_requested",
+        "rejected",
+        "approved",
+        "in_review",
+        "scheduled",
+        "published",
+        "archived",
+      ],
     },
   },
 } as const
