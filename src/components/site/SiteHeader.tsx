@@ -10,7 +10,8 @@ import { categoriesQuery, settingsQuery } from "@/lib/queries";
 export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
   const { data: categories } = useQuery(categoriesQuery);
-  const { session, isStaff } = useCurrentUser();
+  const { session, isStaff, isEditor } = useCurrentUser();
+  const isWriter = isStaff;
   const [open, setOpen] = useState(false);
   const t = useT();
 
