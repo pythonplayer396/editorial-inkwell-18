@@ -137,11 +137,11 @@ export function SiteHeader() {
             ))}
             <li>
               <Link
-                to={session ? (isStaff ? "/admin" : "/account") : "/auth"}
+                to={session ? (isEditor ? "/admin" : isWriter ? "/newsroom" : "/account") : "/auth"}
                 onClick={() => setOpen(false)}
                 className="block py-2.5 text-sm font-medium"
               >
-                {session ? (isStaff ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
+                {session ? (isWriter ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
               </Link>
             </li>
           </ul>
