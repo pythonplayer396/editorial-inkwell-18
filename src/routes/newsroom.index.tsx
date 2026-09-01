@@ -61,7 +61,7 @@ function JournalistDashboard() {
                 <span className="font-medium">{p.title}</span>
                 <span className="text-muted-foreground">{nextStepFor(p.status)}</span>
                 <Link
-                  to="/admin/posts/$id"
+                  to="/newsroom/write/$id"
                   params={{ id: p.id }}
                   className="story-link ml-auto font-medium underline underline-offset-4"
                 >
@@ -84,7 +84,7 @@ function JournalistDashboard() {
               description={t("empty.storiesHint")}
               action={
                 <Link
-                  to="/admin/posts/$id"
+                  to="/newsroom/write/$id"
                   params={{ id: "new" }}
                   className="pressable inline-flex h-9 items-center rounded-sm bg-primary px-3.5 text-sm font-medium text-primary-foreground"
                 >
@@ -108,7 +108,7 @@ function JournalistDashboard() {
                   </div>
                   <StatusBadge status={p.status} />
                   <Link
-                    to="/admin/posts/$id"
+                    to="/newsroom/write/$id"
                     params={{ id: p.id }}
                     className="text-sm font-medium underline underline-offset-4"
                   >

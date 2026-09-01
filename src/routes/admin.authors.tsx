@@ -12,7 +12,7 @@ export const Route = createFileRoute("/admin/authors")({
   component: AuthorsPage,
 });
 
-const ASSIGNABLE: AppRole[] = ["owner", "editor", "author", "contributor"];
+const ASSIGNABLE: AppRole[] = ["owner", "editor", "author"];
 
 function AuthorsPage() {
   const qc = useQueryClient();

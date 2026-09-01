@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/staff")({
   component: StaffPage,
 });
 
-const ROLES: AppRole[] = ["owner", "editor", "author", "contributor", "subscriber"];
+const ROLES: AppRole[] = ["owner", "editor", "author", "subscriber"];
 
 function StaffPage() {
   const qc = useQueryClient();

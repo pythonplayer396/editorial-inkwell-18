@@ -19,32 +19,33 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const ALL: AppRole[] = ["owner", "editor", "author", "contributor"];
 const EDITORS: AppRole[] = ["owner", "editor"];
 const OWNERS: AppRole[] = ["owner"];
 
 const NAV = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, roles: ALL },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, roles: EDITORS },
+  { to: "/admin/applications", label: "Applications", icon: UserPlus, roles: EDITORS },
   { to: "/admin/submissions", label: "Submissions", icon: Inbox, roles: EDITORS },
-  { to: "/admin/posts", label: "Articles", icon: FileText, roles: ALL },
-  { to: "/admin/media", label: "Media", icon: Image, roles: ALL },
+  { to: "/admin/posts", label: "Articles", icon: FileText, roles: EDITORS },
+  { to: "/admin/media", label: "Media", icon: Image, roles: EDITORS },
   { to: "/admin/categories", label: "Categories", icon: FolderTree, roles: EDITORS },
   { to: "/admin/tags", label: "Tags", icon: Tags, roles: EDITORS },
   { to: "/admin/comments", label: "Comments", icon: MessageSquare, roles: EDITORS },
   { to: "/admin/authors", label: "Authors", icon: Users, roles: EDITORS },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: EDITORS },
   { to: "/admin/oversight", label: "Oversight", icon: ShieldCheck, roles: EDITORS },
-  { to: "/admin/applications", label: "Applications", icon: UserPlus, roles: EDITORS },
   { to: "/admin/staff", label: "Staff & roles", icon: ClipboardCheck, roles: OWNERS },
   { to: "/admin/audit", label: "Audit log", icon: ScrollText, roles: OWNERS },
   { to: "/admin/settings", label: "Settings", icon: Settings, roles: OWNERS },
 ] as const;
 
+
 function AdminLayout() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { session, profile, roles, isStaff, loading } = useCurrentUser();
+  const { session, profile, roles, isEditor, loading } = useCurrentUser();
   const [open, setOpen] = useState(false);
+  const isAuthorOnly = !isEditor && roles.includes("author");
 
   const visibleNav = NAV.filter((item) => roles.some((r) => (item.roles as readonly AppRole[]).includes(r)));
   const restricted = NAV.filter(
@@ -55,7 +56,11 @@ function AdminLayout() {
     if (!loading && !session) void navigate({ to: "/auth/staff" });
   }, [loading, session, navigate]);
 
-  if (loading || !session) {
+  useEffect(() => {
+    if (!loading && session && isAuthorOnly) void navigate({ to: "/newsroom" });
+  }, [loading, session, isAuthorOnly, navigate]);
+
+  if (loading || !session || isAuthorOnly) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex items-center gap-3 text-sm text-muted-foreground"><span className="h-2 w-2 animate-pulse rounded-full bg-secondary-accent" />Loading the newsroom…</div>
@@ -63,7 +68,8 @@ function AdminLayout() {
     );
   }
 
-  if (!isStaff) {
+  if (!isEditor) {
+
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-6">
         <div className="max-w-sm text-center">
