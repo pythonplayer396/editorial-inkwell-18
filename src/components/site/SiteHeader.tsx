@@ -47,20 +47,31 @@ export function SiteHeader() {
           >
             <Search className="h-4 w-4" />
           </Link>
-          <Link
-            to="/join"
-            className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
-          >
-            {t("nav.join")}
-          </Link>
-          {session ? (
+          {isWriter ? (
             <Link
-              to={isStaff ? "/admin" : "/account"}
-              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
+              to="/newsroom/write/$id"
+              params={{ id: "new" }}
+              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
             >
-               {isStaff ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
+              Upload
             </Link>
           ) : (
+            <Link
+              to="/join"
+              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
+            >
+              {t("nav.join")}
+            </Link>
+          )}
+          {session ? (
+            <Link
+              to={isEditor ? "/admin" : isWriter ? "/newsroom" : "/account"}
+              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
+            >
+               {isWriter ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
+            </Link>
+          ) : (
+
             <Link
               to="/auth"
               className="pressable hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
