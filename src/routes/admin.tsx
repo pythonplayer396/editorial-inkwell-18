@@ -43,8 +43,9 @@ const NAV = [
 function AdminLayout() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { session, profile, roles, isStaff, loading } = useCurrentUser();
+  const { session, profile, roles, isEditor, loading } = useCurrentUser();
   const [open, setOpen] = useState(false);
+  const isAuthorOnly = !isEditor && roles.includes("author");
 
   const visibleNav = NAV.filter((item) => roles.some((r) => (item.roles as readonly AppRole[]).includes(r)));
   const restricted = NAV.filter(
@@ -55,7 +56,11 @@ function AdminLayout() {
     if (!loading && !session) void navigate({ to: "/auth/staff" });
   }, [loading, session, navigate]);
 
-  if (loading || !session) {
+  useEffect(() => {
+    if (!loading && session && isAuthorOnly) void navigate({ to: "/newsroom" });
+  }, [loading, session, isAuthorOnly, navigate]);
+
+  if (loading || !session || isAuthorOnly) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex items-center gap-3 text-sm text-muted-foreground"><span className="h-2 w-2 animate-pulse rounded-full bg-secondary-accent" />Loading the newsroom…</div>
@@ -63,7 +68,8 @@ function AdminLayout() {
     );
   }
 
-  if (!isStaff) {
+  if (!isEditor) {
+
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-6">
         <div className="max-w-sm text-center">
