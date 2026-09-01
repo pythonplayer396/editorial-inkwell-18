@@ -70,7 +70,7 @@ function JournalistShell() {
           </nav>
           <div className="ml-auto flex items-center gap-3">
             <Link
-              to="/admin/posts/$id"
+              to="/newsroom/write/$id"
               params={{ id: "new" }}
               className="pressable hidden h-9 items-center gap-1.5 rounded-sm bg-primary px-3.5 text-sm font-medium text-primary-foreground sm:inline-flex"
             >

@@ -11,7 +11,7 @@ export type PostStatus =
   | "scheduled"
   | "published"
   | "archived";
-export type AppRole = "owner" | "editor" | "author" | "contributor" | "subscriber";
+export type AppRole = "owner" | "editor" | "author" | "subscriber";
 export type CommentStatus = "pending" | "approved" | "spam";
 
 export interface Category {
@@ -261,6 +261,5 @@ export const ROLE_LABELS: Record<AppRole, string> = {
   owner: "Owner",
   editor: "Editor",
   author: "Author",
-  contributor: "Contributor",
   subscriber: "Subscriber",
 };

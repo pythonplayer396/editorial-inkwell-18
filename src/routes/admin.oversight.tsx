@@ -29,7 +29,7 @@ function OversightPage() {
     p.roles.some((r) => ["owner", "editor"].includes(r)),
   );
   const journalists = (people.data ?? []).filter((p) =>
-    p.roles.some((r) => ["author", "contributor"].includes(r)),
+    p.roles.some((r) => ["author"].includes(r)),
   );
 
   const events = activity.data ?? [];
