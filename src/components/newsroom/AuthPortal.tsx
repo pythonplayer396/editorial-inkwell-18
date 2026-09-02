@@ -167,23 +167,30 @@ export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string 
             <p className="mt-1.5 text-sm text-muted-foreground">{copy.formHint}</p>
           </div>
 
-          <button
-            type="button"
-            onClick={google}
-            className="auth-rise mt-6 h-10 w-full rounded-sm border border-border bg-background text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted hover:shadow-sm active:translate-y-0"
-            style={{ animationDelay: "80ms" }}
-          >
-            Continue with Google
-          </button>
+          {googleAvailable ? (
+            <>
+              <button
+                type="button"
+                onClick={google}
+                className="auth-rise mt-6 h-10 w-full rounded-sm border border-border bg-background text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted hover:shadow-sm active:translate-y-0"
+                style={{ animationDelay: "80ms" }}
+              >
+                Continue with Google
+              </button>
 
-          <div
-            className="auth-rise my-5 flex items-center gap-3 text-xs text-muted-foreground"
-            style={{ animationDelay: "140ms" }}
-          >
-            <span className="h-px flex-1 bg-border" />
-            or
-            <span className="h-px flex-1 bg-border" />
-          </div>
+              <div
+                className="auth-rise my-5 flex items-center gap-3 text-xs text-muted-foreground"
+                style={{ animationDelay: "140ms" }}
+              >
+                <span className="h-px flex-1 bg-border" />
+                or
+                <span className="h-px flex-1 bg-border" />
+              </div>
+            </>
+          ) : (
+            <div className="mt-6" />
+          )}
+
 
           <form className="auth-rise space-y-3" style={{ animationDelay: "200ms" }} onSubmit={submit}>
             {mode === "signup" ? (
