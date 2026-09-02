@@ -5,14 +5,14 @@ import { AuthPortal } from "@/components/newsroom/AuthPortal";
 export const Route = createFileRoute("/auth/")({
   head: () => ({
     meta: [
-      { title: "Reader account — The Dispatch" },
+      { title: "Sign in — The Dispatch" },
       {
         name: "description",
         content:
-          "Sign in to bookmark stories, comment, and follow the journalists and sections you care about.",
+          "One sign-in for The Dispatch: readers, journalists and editors all start here.",
       },
-      { property: "og:title", content: "Reader account — The Dispatch" },
-      { property: "og:description", content: "Bookmark, comment and follow on The Dispatch." },
+      { property: "og:title", content: "Sign in — The Dispatch" },
+      { property: "og:description", content: "One account for reading, writing and editing." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
