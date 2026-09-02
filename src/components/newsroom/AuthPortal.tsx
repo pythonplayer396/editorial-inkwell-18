@@ -34,6 +34,7 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   // Managed Google sign-in relies on the /~oauth broker, which only exists on
   // Lovable-hosted origins. On other hosts (e.g. Vercel) hide the button.
@@ -61,17 +62,24 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
         if (error) throw error;
         void navigate({ to: copy.redirect });
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}${copy.redirect}`,
+            emailRedirectTo: window.location.origin,
             data: { display_name: name || email.split("@")[0] },
           },
         });
         if (error) throw error;
-        toast.success("Account created", { description: "You can sign in now." });
-        setMode("signin");
+        if (data.session) {
+          toast.success("Account created", { description: "You're signed in." });
+          return;
+        }
+        setConfirmationEmail(email);
+        setPassword("");
+        toast.success("Check your email", {
+          description: "Confirm your email address before signing in.",
+        });
       }
     } catch (err) {
       toast.error(mode === "signin" ? "We couldn't sign you in" : "We couldn't create that account", {
@@ -170,6 +178,29 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
           )}
 
 
+          {confirmationEmail ? (
+            <div
+              className="auth-rise mt-6 border-y border-border py-5"
+              style={{ animationDelay: "200ms" }}
+              role="status"
+            >
+              <p className="text-sm font-semibold">Confirm your email to continue</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                We sent a confirmation link to <span className="font-medium text-foreground">{confirmationEmail}</span>.
+                Open it, then return here to sign in.
+              </p>
+              <button
+                type="button"
+                className="story-link mt-4 text-sm font-medium text-foreground underline underline-offset-4"
+                onClick={() => {
+                  setConfirmationEmail(null);
+                  setMode("signin");
+                }}
+              >
+                Back to sign in
+              </button>
+            </div>
+          ) : (
           <form className="auth-rise space-y-3" style={{ animationDelay: "200ms" }} onSubmit={submit}>
             {mode === "signup" ? (
               <div>
@@ -225,8 +256,9 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
               ) : null}
             </button>
           </form>
+          )}
 
-          {copy.allowSignUp ? (
+          {!confirmationEmail && copy.allowSignUp ? (
             <p className="auth-rise mt-5 text-sm text-muted-foreground" style={{ animationDelay: "260ms" }}>
               {mode === "signin" ? "No account yet?" : "Already have an account?"}{" "}
               <button
