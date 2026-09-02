@@ -34,9 +34,6 @@ import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthIndexRouteImport } from './routes/auth.index'
-import { Route as AuthAdminRouteImport } from './routes/auth.admin'
-import { Route as AuthJournalistRouteImport } from './routes/auth.journalist'
-import { Route as AuthStaffRouteImport } from './routes/auth.staff'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as NewsroomIndexRouteImport } from './routes/newsroom.index'
@@ -172,21 +169,6 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthAdminRoute = AuthAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthJournalistRoute = AuthJournalistRouteImport.update({
-  id: '/journalist',
-  path: '/journalist',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthStaffRoute = AuthStaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthorSlugRoute = AuthorSlugRouteImport.update({
   id: '/author/$slug',
   path: '/author/$slug',
@@ -257,9 +239,6 @@ export interface FileRoutesByFullPath {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
-  '/auth/admin': typeof AuthAdminRoute
-  '/auth/journalist': typeof AuthJournalistRoute
-  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/newsroom/profile': typeof NewsroomProfileRoute
@@ -293,9 +272,6 @@ export interface FileRoutesByTo {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
-  '/auth/admin': typeof AuthAdminRoute
-  '/auth/journalist': typeof AuthJournalistRoute
-  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/newsroom/profile': typeof NewsroomProfileRoute
@@ -333,9 +309,6 @@ export interface FileRoutesById {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
-  '/auth/admin': typeof AuthAdminRoute
-  '/auth/journalist': typeof AuthJournalistRoute
-  '/auth/staff': typeof AuthStaffRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/newsroom/profile': typeof NewsroomProfileRoute
@@ -374,9 +347,6 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
-    | '/auth/admin'
-    | '/auth/journalist'
-    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/newsroom/profile'
@@ -410,9 +380,6 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
-    | '/auth/admin'
-    | '/auth/journalist'
-    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/newsroom/profile'
@@ -449,9 +416,6 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/tags'
     | '/article/$slug'
-    | '/auth/admin'
-    | '/auth/journalist'
-    | '/auth/staff'
     | '/author/$slug'
     | '/category/$slug'
     | '/newsroom/profile'
@@ -659,27 +623,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/auth/admin': {
-      id: '/auth/admin'
-      path: '/admin'
-      fullPath: '/auth/admin'
-      preLoaderRoute: typeof AuthAdminRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/auth/journalist': {
-      id: '/auth/journalist'
-      path: '/journalist'
-      fullPath: '/auth/journalist'
-      preLoaderRoute: typeof AuthJournalistRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/auth/staff': {
-      id: '/auth/staff'
-      path: '/staff'
-      fullPath: '/auth/staff'
-      preLoaderRoute: typeof AuthStaffRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/author/$slug': {
       id: '/author/$slug'
       path: '/author/$slug'
@@ -787,16 +730,10 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AuthRouteChildren {
-  AuthAdminRoute: typeof AuthAdminRoute
-  AuthJournalistRoute: typeof AuthJournalistRoute
-  AuthStaffRoute: typeof AuthStaffRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthAdminRoute: AuthAdminRoute,
-  AuthJournalistRoute: AuthJournalistRoute,
-  AuthStaffRoute: AuthStaffRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 

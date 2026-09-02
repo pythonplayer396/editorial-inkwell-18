@@ -19,7 +19,6 @@ export const Route = createFileRoute("/auth/")({
   }),
   component: () => (
     <AuthPortal
-      active="/auth"
       copy={{
         eyebrow: "Readers",
         heading: "Keep the stories you care about close.",
