@@ -25,7 +25,7 @@ function JournalistShell() {
   const { session, profile, loading } = useCurrentUser();
 
   useEffect(() => {
-    if (!loading && !session) void navigate({ to: "/auth/journalist" });
+    if (!loading && !session) void navigate({ to: "/auth" });
   }, [loading, session, navigate]);
 
   if (loading || !session) {
@@ -87,7 +87,7 @@ function JournalistShell() {
                 type="button"
                 onClick={async () => {
                   await supabase.auth.signOut();
-                  void navigate({ to: "/auth/journalist" });
+                  void navigate({ to: "/auth" });
                 }}
                 className="text-xs text-muted-foreground underline-offset-4 hover:underline"
               >

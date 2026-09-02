@@ -227,7 +227,7 @@ function JoinPage() {
           </dl>
           <p className="mt-5 text-sm text-muted-foreground">
             Already writing for us?{" "}
-            <Link to="/auth/journalist" className="story-link font-medium text-foreground underline underline-offset-4">
+            <Link to="/auth" className="story-link font-medium text-foreground underline underline-offset-4">
               Sign in to the newsroom
             </Link>
             .
