@@ -53,7 +53,7 @@ function AdminLayout() {
   ).some((item) => pathname === item.to || pathname.startsWith(`${item.to}/`));
 
   useEffect(() => {
-    if (!loading && !session) void navigate({ to: "/auth/staff" });
+    if (!loading && !session) void navigate({ to: "/auth" });
   }, [loading, session, navigate]);
 
   useEffect(() => {
@@ -166,7 +166,7 @@ function AdminLayout() {
                 type="button"
                 onClick={async () => {
                   await supabase.auth.signOut();
-                  void navigate({ to: "/auth/staff" });
+                  void navigate({ to: "/auth" });
                 }}
                 className="text-left text-xs text-muted-foreground underline-offset-4 hover:underline"
               >

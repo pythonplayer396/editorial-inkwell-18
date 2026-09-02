@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useCurrentUser } from "@/hooks/useAuth";
 import { lovable } from "@/integrations/lovable/index";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -27,16 +27,9 @@ const MARQUEE = [
   "Editors' picks, updated hourly",
 ];
 
-const PORTALS = [
-  { to: "/auth", label: "Reader" },
-  { to: "/auth/journalist", label: "Journalist" },
-  { to: "/auth/staff", label: "Staff" },
-  { to: "/auth/admin", label: "Admin" },
-] as const;
-
-export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string }) {
+export function AuthPortal({ copy }: { copy: PortalCopy }) {
   const navigate = useNavigate();
-  const { session } = useAuth();
+  const { session, roles, isEditor, loading } = useCurrentUser();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,9 +44,13 @@ export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string 
     setGoogleAvailable(host === "localhost" || host.endsWith(".lovable.app"));
   }, []);
 
+  // One sign-in page for everyone: after the session resolves, send people to
+  // the surface their role actually grants.
   useEffect(() => {
-    if (session) void navigate({ to: copy.redirect });
-  }, [session, navigate, copy.redirect]);
+    if (!session || loading) return;
+    const destination = isEditor ? "/admin" : roles.includes("author") ? "/newsroom" : copy.redirect;
+    void navigate({ to: destination });
+  }, [session, loading, isEditor, roles, navigate, copy.redirect]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,25 +138,6 @@ export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string 
 
       <div className="flex items-center justify-center px-6 py-16">
         <div className="w-full max-w-sm">
-          <nav
-            aria-label="Account type"
-            className="auth-rise mb-6 flex flex-wrap gap-1 rounded-sm border border-border bg-background p-1 text-xs"
-          >
-            {PORTALS.map((p) => (
-              <Link
-                key={p.to}
-                to={p.to}
-                className={`flex-1 rounded-sm px-2 py-1.5 text-center font-medium transition-all duration-200 ${
-                  p.to === active
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:bg-muted"
-                }`}
-              >
-                {p.label}
-              </Link>
-            ))}
-          </nav>
-
           <div className="auth-rise">
             <h1 className="text-xl font-semibold tracking-tight">
               {mode === "signin" ? copy.formTitle : "Create your account"}

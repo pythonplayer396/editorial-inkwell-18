@@ -5,28 +5,27 @@ import { AuthPortal } from "@/components/newsroom/AuthPortal";
 export const Route = createFileRoute("/auth/")({
   head: () => ({
     meta: [
-      { title: "Reader account — The Dispatch" },
+      { title: "Sign in — The Dispatch" },
       {
         name: "description",
         content:
-          "Sign in to bookmark stories, comment, and follow the journalists and sections you care about.",
+          "One sign-in for The Dispatch: readers, journalists and editors all start here.",
       },
-      { property: "og:title", content: "Reader account — The Dispatch" },
-      { property: "og:description", content: "Bookmark, comment and follow on The Dispatch." },
+      { property: "og:title", content: "Sign in — The Dispatch" },
+      { property: "og:description", content: "One account for reading, writing and editing." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (
     <AuthPortal
-      active="/auth"
       copy={{
-        eyebrow: "Readers",
-        heading: "Keep the stories you care about close.",
+        eyebrow: "The Dispatch",
+        heading: "One account for reading and writing.",
         blurb:
-          "A reader account lets you bookmark reporting, join the conversation in comments, and follow journalists and sections. Reading The Dispatch never requires an account.",
+          "Sign in to bookmark reporting, comment and follow journalists. Writing for The Dispatch starts here too — once your application is approved, this same account opens your newsroom.",
         formTitle: "Sign in to The Dispatch",
-        formHint: "For readers. Bookmarks, comments and follows.",
+        formHint: "Readers, journalists and editors all sign in here.",
         redirect: "/",
         allowSignUp: true,
         footnote: "Reading is always free and open.",
