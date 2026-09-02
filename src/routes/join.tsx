@@ -251,6 +251,21 @@ function JoinPage() {
                 Upload a story
               </Link>
             </div>
+          ) : !userId ? (
+            <div className="editorial-enter py-6 text-center">
+              <PenLine className="mx-auto h-7 w-7 text-secondary-accent" />
+              <p className="mt-3 font-serif text-xl">Sign in to apply</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Writing for The Dispatch is tied to an account, so editors can reach you and your
+                newsroom is ready the moment you're approved.
+              </p>
+              <Link
+                to="/auth"
+                className="pressable mt-5 inline-flex h-10 items-center rounded-sm bg-primary px-4 text-sm font-medium text-primary-foreground"
+              >
+                Sign in or create an account
+              </Link>
+            </div>
           ) : pending || sent ? (
             <div className="editorial-enter py-6 text-center">
               <Clock className="mx-auto h-7 w-7 text-secondary-accent" />
