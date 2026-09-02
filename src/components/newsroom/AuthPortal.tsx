@@ -138,25 +138,6 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
 
       <div className="flex items-center justify-center px-6 py-16">
         <div className="w-full max-w-sm">
-          <nav
-            aria-label="Account type"
-            className="auth-rise mb-6 flex flex-wrap gap-1 rounded-sm border border-border bg-background p-1 text-xs"
-          >
-            {PORTALS.map((p) => (
-              <Link
-                key={p.to}
-                to={p.to}
-                className={`flex-1 rounded-sm px-2 py-1.5 text-center font-medium transition-all duration-200 ${
-                  p.to === active
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:bg-muted"
-                }`}
-              >
-                {p.label}
-              </Link>
-            ))}
-          </nav>
-
           <div className="auth-rise">
             <h1 className="text-xl font-semibold tracking-tight">
               {mode === "signin" ? copy.formTitle : "Create your account"}
