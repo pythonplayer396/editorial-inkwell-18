@@ -44,9 +44,13 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
     setGoogleAvailable(host === "localhost" || host.endsWith(".lovable.app"));
   }, []);
 
+  // One sign-in page for everyone: after the session resolves, send people to
+  // the surface their role actually grants.
   useEffect(() => {
-    if (session) void navigate({ to: copy.redirect });
-  }, [session, navigate, copy.redirect]);
+    if (!session || loading) return;
+    const destination = isEditor ? "/admin" : roles.includes("author") ? "/newsroom" : copy.redirect;
+    void navigate({ to: destination });
+  }, [session, loading, isEditor, roles, navigate, copy.redirect]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
