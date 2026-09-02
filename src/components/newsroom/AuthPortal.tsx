@@ -27,16 +27,9 @@ const MARQUEE = [
   "Editors' picks, updated hourly",
 ];
 
-const PORTALS = [
-  { to: "/auth", label: "Reader" },
-  { to: "/auth/journalist", label: "Journalist" },
-  { to: "/auth/staff", label: "Staff" },
-  { to: "/auth/admin", label: "Admin" },
-] as const;
-
-export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string }) {
+export function AuthPortal({ copy }: { copy: PortalCopy }) {
   const navigate = useNavigate();
-  const { session } = useAuth();
+  const { session, roles, isEditor, loading } = useCurrentUser();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
