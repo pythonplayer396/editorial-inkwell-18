@@ -42,6 +42,14 @@ export function AuthPortal({ copy, active }: { copy: PortalCopy; active: string 
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
+  // Managed Google sign-in relies on the /~oauth broker, which only exists on
+  // Lovable-hosted origins. On other hosts (e.g. Vercel) hide the button.
+  const [googleAvailable, setGoogleAvailable] = useState(false);
+
+  useEffect(() => {
+    const host = window.location.hostname;
+    setGoogleAvailable(host === "localhost" || host.endsWith(".lovable.app"));
+  }, []);
 
   useEffect(() => {
     if (session) void navigate({ to: copy.redirect });
