@@ -20,12 +20,12 @@ export const Route = createFileRoute("/auth/")({
   component: () => (
     <AuthPortal
       copy={{
-        eyebrow: "Readers",
-        heading: "Keep the stories you care about close.",
+        eyebrow: "The Dispatch",
+        heading: "One account for reading and writing.",
         blurb:
-          "A reader account lets you bookmark reporting, join the conversation in comments, and follow journalists and sections. Reading The Dispatch never requires an account.",
+          "Sign in to bookmark reporting, comment and follow journalists. Writing for The Dispatch starts here too — once your application is approved, this same account opens your newsroom.",
         formTitle: "Sign in to The Dispatch",
-        formHint: "For readers. Bookmarks, comments and follows.",
+        formHint: "Readers, journalists and editors all sign in here.",
         redirect: "/",
         allowSignUp: true,
         footnote: "Reading is always free and open.",
