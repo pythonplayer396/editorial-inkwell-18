@@ -10,8 +10,10 @@ import { categoriesQuery, settingsQuery } from "@/lib/queries";
 export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
   const { data: categories } = useQuery(categoriesQuery);
-  const { session, isStaff, isEditor } = useCurrentUser();
+  const { session, isStaff, isEditor, roles } = useCurrentUser();
+  const isAuthor = roles.includes("author");
   const isWriter = isStaff;
+
   const [open, setOpen] = useState(false);
   const t = useT();
 
@@ -48,7 +50,14 @@ export function SiteHeader() {
           >
             <Search className="h-4 w-4" />
           </Link>
-          {isWriter ? (
+          {isAuthor ? (
+            <Link
+              to="/newsroom"
+              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
+            >
+              {t("brand.newsroom")}
+            </Link>
+          ) : isWriter ? (
             <Link
               to="/newsroom/write/$id"
               params={{ id: "new" }}
@@ -64,6 +73,7 @@ export function SiteHeader() {
               {t("nav.join")}
             </Link>
           )}
+
           {session ? (
             <Link
               to={isEditor ? "/admin" : isWriter ? "/newsroom" : "/account"}

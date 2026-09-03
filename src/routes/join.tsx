@@ -225,13 +225,16 @@ function JoinPage() {
               </div>
             ))}
           </dl>
-          <p className="mt-5 text-sm text-muted-foreground">
-            Already writing for us?{" "}
-            <Link to="/auth" className="story-link font-medium text-foreground underline underline-offset-4">
-              Sign in to the newsroom
-            </Link>
-            .
-          </p>
+          {!userId ? (
+            <p className="mt-5 text-sm text-muted-foreground">
+              Already writing for us?{" "}
+              <Link to="/auth" className="story-link font-medium text-foreground underline underline-offset-4">
+                Sign in to the newsroom
+              </Link>
+              .
+            </p>
+          ) : null}
+
         </div>
 
         <aside className="premium-surface h-fit p-5">
