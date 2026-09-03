@@ -11,7 +11,7 @@ export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
   const { data: categories } = useQuery(categoriesQuery);
   const { session, isStaff, isEditor, roles } = useCurrentUser();
-  const isAuthor = roles.includes("author");
+  
   const isWriter = isStaff;
 
   const [open, setOpen] = useState(false);
