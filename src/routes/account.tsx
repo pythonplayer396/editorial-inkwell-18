@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
+
+import { supabase } from "@/integrations/supabase/client";
 
 import { Container, PublicLayout } from "@/components/site/PublicLayout";
 import { StoryRow } from "@/components/site/StoryCard";
