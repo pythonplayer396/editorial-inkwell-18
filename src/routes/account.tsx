@@ -80,12 +80,15 @@ function AccountPage() {
   return (
     <PublicLayout>
       <Container className="py-12 md:py-16">
-        <header className="editorial-enter border-b border-border-strong pb-6">
-          <p className="kicker text-secondary-accent">Reader account</p>
-          <h1 className="headline mt-2 text-4xl md:text-5xl">Your Dispatch</h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            {session.user.email} — saved reporting, the people you follow, and how we reach you.
-          </p>
+        <header className="editorial-enter flex flex-col gap-4 border-b border-border-strong pb-6 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="kicker text-secondary-accent">Reader account</p>
+            <h1 className="headline mt-2 text-4xl md:text-5xl">Your Dispatch</h1>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              {session.user.email} — saved reporting, the people you follow, and how we reach you.
+            </p>
+          </div>
+          <LogOutButton />
         </header>
 
         <nav className="mt-6 flex flex-wrap gap-1 border-b border-border" aria-label="Account sections">
