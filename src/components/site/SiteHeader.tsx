@@ -10,8 +10,8 @@ import { categoriesQuery, settingsQuery } from "@/lib/queries";
 export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
   const { data: categories } = useQuery(categoriesQuery);
-  const { session, isStaff, isEditor, roles } = useCurrentUser();
-  const isAuthor = roles.includes("author");
+  const { session, isStaff, isEditor } = useCurrentUser();
+  
   const isWriter = isStaff;
 
   const [open, setOpen] = useState(false);
@@ -50,14 +50,7 @@ export function SiteHeader() {
           >
             <Search className="h-4 w-4" />
           </Link>
-          {isAuthor ? (
-            <Link
-              to="/newsroom"
-              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
-            >
-              {t("brand.newsroom")}
-            </Link>
-          ) : isWriter ? (
+          {isWriter ? (
             <Link
               to="/newsroom/write/$id"
               params={{ id: "new" }}
@@ -76,10 +69,10 @@ export function SiteHeader() {
 
           {session ? (
             <Link
-              to={isEditor ? "/admin" : isWriter ? "/newsroom" : "/account"}
+              to={isEditor ? "/admin" : "/account"}
               className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
-               {isWriter ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
+               {isEditor ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
             </Link>
           ) : (
 
@@ -147,11 +140,11 @@ export function SiteHeader() {
             ))}
             <li>
               <Link
-                to={session ? (isEditor ? "/admin" : isWriter ? "/newsroom" : "/account") : "/auth"}
+                to={session ? (isEditor ? "/admin" : "/account") : "/auth"}
                 onClick={() => setOpen(false)}
                 className="block py-2.5 text-sm font-medium"
               >
-                {session ? (isWriter ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
+                {session ? (isEditor ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
               </Link>
             </li>
           </ul>
