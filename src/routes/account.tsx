@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
+
+import { supabase } from "@/integrations/supabase/client";
 
 import { Container, PublicLayout } from "@/components/site/PublicLayout";
 import { StoryRow } from "@/components/site/StoryCard";
@@ -37,6 +40,27 @@ const TABS = [
   { id: "following", labelKey: "public.following" },
   { id: "preferences", labelKey: "public.preferences" },
 ] as const;
+
+function LogOutButton() {
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+
+  return (
+    <button
+      type="button"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        await supabase.auth.signOut();
+        void navigate({ to: "/" });
+      }}
+      className="pressable inline-flex h-9 items-center gap-1.5 rounded-sm border border-border px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-border-strong hover:bg-muted hover:text-foreground disabled:opacity-60"
+    >
+      <LogOut className="h-4 w-4" />
+      Log out
+    </button>
+  );
+}
 
 function AccountPage() {
   const { session, loading } = useAuth();
@@ -77,12 +101,15 @@ function AccountPage() {
   return (
     <PublicLayout>
       <Container className="py-12 md:py-16">
-        <header className="editorial-enter border-b border-border-strong pb-6">
-          <p className="kicker text-secondary-accent">Reader account</p>
-          <h1 className="headline mt-2 text-4xl md:text-5xl">Your Dispatch</h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            {session.user.email} — saved reporting, the people you follow, and how we reach you.
-          </p>
+        <header className="editorial-enter flex flex-col gap-4 border-b border-border-strong pb-6 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="kicker text-secondary-accent">Reader account</p>
+            <h1 className="headline mt-2 text-4xl md:text-5xl">Your Dispatch</h1>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              {session.user.email} — saved reporting, the people you follow, and how we reach you.
+            </p>
+          </div>
+          <LogOutButton />
         </header>
 
         <nav className="mt-6 flex flex-wrap gap-1 border-b border-border" aria-label="Account sections">
