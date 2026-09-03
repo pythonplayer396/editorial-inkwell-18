@@ -41,6 +41,27 @@ const TABS = [
   { id: "preferences", labelKey: "public.preferences" },
 ] as const;
 
+function LogOutButton() {
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+
+  return (
+    <button
+      type="button"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        await supabase.auth.signOut();
+        void navigate({ to: "/" });
+      }}
+      className="pressable inline-flex h-9 items-center gap-1.5 rounded-sm border border-border px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-border-strong hover:bg-muted hover:text-foreground disabled:opacity-60"
+    >
+      <LogOut className="h-4 w-4" />
+      Log out
+    </button>
+  );
+}
+
 function AccountPage() {
   const { session, loading } = useAuth();
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("saved");
