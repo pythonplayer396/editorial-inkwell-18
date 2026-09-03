@@ -69,10 +69,10 @@ export function SiteHeader() {
 
           {session ? (
             <Link
-              to={isEditor ? "/admin" : isWriter ? "/newsroom" : "/account"}
+              to={isEditor ? "/admin" : "/account"}
               className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
             >
-               {isWriter ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
+               {isEditor ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
             </Link>
           ) : (
 
