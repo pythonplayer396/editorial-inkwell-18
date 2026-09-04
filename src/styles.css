@@ -11,7 +11,8 @@
  *   - Public site: paper background, serif headlines, generous measure.
  *   - Admin: white surfaces, sans UI, dense rows, hairline borders.
  *
- * Colour is deliberately scarce: paper, ink, neutral greys and one accent.
+ * Colour is restrained: warm paper and ink, burgundy editorial emphasis,
+ * deep teal navigation, and navy high-impact bands.
  */
 
 @theme inline {
@@ -289,8 +290,7 @@
 }
 
 @utility editorial-page {
-  background:
-    linear-gradient(to bottom, color-mix(in oklab, var(--secondary-accent-soft) 38%, var(--paper)) 0, var(--paper) 22rem);
+  background: var(--paper);
 }
 
 @utility editorial-band {
