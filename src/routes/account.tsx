@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 
+import { ProfileForm } from "@/components/account/ProfileForm";
 import { Container, PublicLayout } from "@/components/site/PublicLayout";
 import { StoryRow } from "@/components/site/StoryCard";
 import { EmptyState } from "@/components/ui-kit/States";
@@ -65,7 +66,7 @@ function LogOutButton() {
 
 function AccountPage() {
   const { session, loading } = useAuth();
-  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("saved");
+  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("profile");
   const t = useT();
 
   if (loading) {
@@ -125,12 +126,13 @@ function AccountPage() {
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t(tt.labelKey)}
+              {"label" in tt ? tt.label : t(tt.labelKey)}
             </button>
           ))}
         </nav>
 
         <div className="mt-8">
+          {tab === "profile" ? <ProfileForm /> : null}
           {tab === "saved" ? <SavedTab /> : null}
           {tab === "following" ? <FollowingTab /> : null}
           {tab === "preferences" ? <PreferencesTab /> : null}
