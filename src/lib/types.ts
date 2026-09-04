@@ -88,6 +88,18 @@ export interface Post {
   author?: Profile | null;
 }
 
+export interface ArticleSource {
+  title: string;
+  url: string;
+  publisher?: string | null;
+}
+
+export interface TimelineEntry {
+  date: string;
+  text: string;
+}
+
+
 export interface ArticleEvent {
   id: string;
   post_id: string;
