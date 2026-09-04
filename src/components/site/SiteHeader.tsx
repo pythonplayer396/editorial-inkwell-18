@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { useCurrentUser } from "@/hooks/useAuth";
 import { categoriesQuery, settingsQuery } from "@/lib/queries";
+import { BrandLogo } from "@/components/site/BrandLogo";
 
 export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
@@ -34,15 +35,10 @@ export function SiteHeader() {
           <p className="text-[0.7rem] font-medium uppercase text-muted-foreground">{today}</p>
           <p className="mt-1 text-[0.65rem] text-muted-foreground/70">Independent · Since 2026</p>
         </div>
-        <div className="md:text-center">
-          <Link to="/" className="inline-block">
-            <span className="headline text-3xl md:text-[2.75rem]">
-              {settings?.site_name ?? "The Dispatch"}
-            </span>
+        <div className="min-w-0 md:text-center">
+          <Link to="/" className="inline-block max-w-full" aria-label={settings?.site_name ?? "The Dispatch"}>
+            <BrandLogo className="w-[190px] sm:w-[230px] md:w-[330px]" />
           </Link>
-          <p className="hidden text-[0.7rem] text-muted-foreground md:mt-1 md:block">
-            {settings?.tagline}
-          </p>
         </div>
         <div className="flex items-center justify-end gap-1">
           <Link

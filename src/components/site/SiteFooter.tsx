@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
+import { BrandLogo } from "@/components/site/BrandLogo";
 
 import { categoriesQuery, settingsQuery } from "@/lib/queries";
 
@@ -12,7 +13,9 @@ export function SiteFooter() {
     <footer className="border-t-2 border-accent bg-editorial-dark text-editorial-dark-foreground">
       <div className="mx-auto grid max-w-[1280px] gap-10 px-5 py-14 sm:px-7 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10">
         <div>
-          <p className="headline text-2xl text-editorial-dark-foreground">{settings?.site_name ?? "The Dispatch"}</p>
+          <Link to="/" aria-label={settings?.site_name ?? "The Dispatch"} className="inline-block rounded-sm bg-paper px-3 py-2">
+            <BrandLogo className="w-52" />
+          </Link>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-auth-muted">
             {settings?.tagline}
           </p>
