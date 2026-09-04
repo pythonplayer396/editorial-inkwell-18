@@ -36,6 +36,7 @@ export const Route = createFileRoute("/account")({
 });
 
 const TABS = [
+  { id: "profile", label: "Profile" },
   { id: "saved", labelKey: "public.saved" },
   { id: "following", labelKey: "public.following" },
   { id: "preferences", labelKey: "public.preferences" },
