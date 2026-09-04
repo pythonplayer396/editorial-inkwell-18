@@ -34,7 +34,7 @@ function ContactPage() {
     <PublicLayout>
       <Container className="py-12">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="max-w-[640px]">
+          <div className="editorial-rule max-w-[640px] pt-5">
             <p className="kicker text-accent">Contact</p>
             <h1 className="headline mt-2 text-4xl">Get in touch</h1>
             <p className="mt-3 text-[1.05rem] leading-relaxed text-muted-foreground">
@@ -139,7 +139,7 @@ function ContactPage() {
             )}
           </div>
 
-          <aside className="space-y-6 border-t border-border pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+          <aside className="editorial-band h-fit space-y-6 border-t-2 border-accent p-6 lg:p-7">
             <div>
               <p className="kicker text-muted-foreground">Newsroom</p>
               <a

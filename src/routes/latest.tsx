@@ -33,7 +33,8 @@ function LatestPage() {
   return (
     <PublicLayout>
       <Container className="py-10">
-        <header className="border-b-2 border-foreground pb-3">
+        <header className="editorial-rule border-b-2 border-secondary-accent/65 pt-5 pb-5">
+          <p className="kicker mb-2 text-accent">News desk</p>
           <h1 className="headline text-3xl md:text-4xl">Latest</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Everything the newsroom has published, newest first.

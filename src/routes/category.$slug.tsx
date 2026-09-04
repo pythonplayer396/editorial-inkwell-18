@@ -39,8 +39,8 @@ function CategoryPage() {
   return (
     <PublicLayout>
       <Container className="py-10">
-        <header className="border-b-2 border-foreground pb-3">
-          <p className="kicker text-accent">Section</p>
+        <header className="editorial-rule border-b-2 border-secondary-accent/65 pt-5 pb-5">
+          <p className="kicker text-secondary-accent">Section</p>
           <h1 className="headline mt-1 text-3xl md:text-4xl">
             {category.data?.name ?? slug.replace(/-/g, " ")}
           </h1>
@@ -98,7 +98,7 @@ function CategoryPage() {
               ) : null}
             </div>
 
-            <aside>
+            <aside className="editorial-band h-fit border-t-2 border-accent p-5 lg:p-6">
               <SectionHeading title="Most read in this section" />
               <ol className="divide-y divide-border">
                 {mostRead.map((p, i) => (

@@ -88,7 +88,7 @@ function HomePage() {
         )}
       </Container>
 
-      <Container className="grid gap-12 border-t border-border-strong py-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+      <Container className="grid gap-12 border-t-2 border-secondary-accent/55 py-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
         <section aria-labelledby="latest-heading">
           <SectionHeading
             title="Latest"
@@ -165,7 +165,7 @@ function HomePage() {
       </Container>
 
       {feature ? (
-        <section className="border-y border-border-strong bg-background py-14 sm:py-18">
+        <section className="editorial-band border-y py-14 sm:py-18">
           <Container>
             <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14">
               <div className="lg:col-span-5 lg:pl-8">

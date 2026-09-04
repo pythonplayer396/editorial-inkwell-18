@@ -230,7 +230,7 @@ function ArticlePage() {
         </nav>
 
         <article className="mx-auto mt-8 max-w-[1120px]">
-          <header className="editorial-enter max-w-[900px]">
+          <header className="editorial-enter editorial-rule max-w-[900px] pt-5">
             <div className="flex items-center gap-3">
               {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
               {post.category ? (
@@ -252,7 +252,7 @@ function ArticlePage() {
               </p>
             ) : null}
 
-             <div className="mt-8 grid gap-3 border-y border-border-strong py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+             <div className="editorial-band mt-8 grid gap-3 border-y px-4 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
               <div className="min-w-0 text-sm">
                 {post.author ? (
                   <p>

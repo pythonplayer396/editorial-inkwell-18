@@ -33,17 +33,17 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
       className={
         compact
           ? "border-y border-border py-8"
-          : "relative overflow-hidden border-y border-border-strong bg-ink px-5 py-14 text-primary-foreground sm:py-16"
+          : "relative overflow-hidden border-y-2 border-accent bg-editorial-dark px-5 py-14 text-editorial-dark-foreground sm:py-16"
       }
       aria-labelledby="newsletter-heading"
     >
       <div className="relative mx-auto grid max-w-[1200px] items-center gap-8 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
-          <p className="kicker text-accent-soft">Weekday intelligence</p>
+          <p className="kicker text-auth-teal">Weekday intelligence</p>
           <h2 id="newsletter-heading" className="headline mt-3 text-3xl sm:text-4xl">
             The morning briefing
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-primary-foreground/65">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-auth-muted">
             What happened, what it means, and what to watch — one email, weekday mornings.
           </p>
         </div>
@@ -64,7 +64,7 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("public.emailPlaceholder")}
-            className="h-12 min-w-0 flex-1 rounded-sm border border-primary-foreground/20 bg-primary-foreground/7 px-4 text-sm text-primary-foreground outline-none transition-all duration-300 placeholder:text-primary-foreground/40 focus-visible:border-secondary-accent focus-visible:bg-primary-foreground/10"
+            className="h-12 min-w-0 flex-1 rounded-sm border border-auth-line bg-auth-night px-4 text-sm text-editorial-dark-foreground outline-none transition-all duration-300 placeholder:text-auth-muted/70 focus-visible:border-auth-teal"
           />
           <button
             type="submit"

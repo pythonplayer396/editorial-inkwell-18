@@ -26,7 +26,7 @@ export function SiteHeader() {
   });
 
   return (
-    <header className="relative z-40 border-b border-border-strong bg-background/95 backdrop-blur-md">
+    <header className="relative z-40 border-b border-border-strong bg-background/95 shadow-[0_8px_30px_-28px_color-mix(in_oklab,var(--ink)_55%,transparent)] backdrop-blur-md before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-accent before:content-['']">
       <div className="mx-auto grid max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-7 md:py-7 lg:px-10">
         <div className="hidden min-w-0 md:block">
           <p className="text-[0.7rem] font-medium uppercase text-muted-foreground">{today}</p>
@@ -54,7 +54,7 @@ export function SiteHeader() {
             <Link
               to="/newsroom/write/$id"
               params={{ id: "new" }}
-              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
+              className="pressable hidden h-9 items-center rounded-sm bg-secondary-accent px-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-secondary-accent/90 md:inline-flex"
             >
               Upload
             </Link>
@@ -70,7 +70,7 @@ export function SiteHeader() {
           {session ? (
             <Link
               to={isEditor ? "/admin" : "/account"}
-              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
+              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-secondary-accent/35 bg-secondary-accent-soft/50 px-3 text-sm font-medium text-secondary-accent hover:border-secondary-accent hover:bg-secondary-accent-soft md:inline-flex"
             >
                {isEditor ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
             </Link>
@@ -78,7 +78,7 @@ export function SiteHeader() {
 
             <Link
               to="/auth"
-              className="pressable hidden h-9 items-center rounded-sm border border-border px-3 text-sm font-medium hover:border-border-strong hover:bg-muted md:inline-flex"
+              className="pressable hidden h-9 items-center rounded-sm border border-secondary-accent/35 bg-secondary-accent-soft/35 px-3 text-sm font-medium text-secondary-accent hover:border-secondary-accent hover:bg-secondary-accent-soft md:inline-flex"
             >
               {t("nav.signin")}
             </Link>

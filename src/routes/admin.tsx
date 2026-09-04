@@ -99,14 +99,14 @@ function AdminLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/20 lg:grid lg:grid-cols-[236px_minmax(0,1fr)]">
-      <aside className="border-b border-sidebar-border bg-sidebar lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
+    <div className="min-h-screen bg-paper lg:grid lg:grid-cols-[236px_minmax(0,1fr)]">
+      <aside className="border-b border-auth-line bg-editorial-dark text-editorial-dark-foreground lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-4">
           <Link to="/" className="min-w-0">
-            <p className="truncate font-serif text-base font-semibold tracking-tight">
+            <p className="truncate font-serif text-base font-semibold tracking-tight text-editorial-dark-foreground">
               The Dispatch
             </p>
-            <p className="text-[0.7rem] text-muted-foreground">Newsroom</p>
+            <p className="text-[0.7rem] text-auth-muted">Newsroom</p>
           </Link>
           <div className="flex items-center gap-2">
           <NotificationBell />
@@ -134,10 +134,10 @@ function AdminLayout() {
                   to={item.to}
                   activeOptions={{ exact: (item as { exact?: boolean }).exact ?? false }}
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-sm text-sidebar-foreground transition-all hover:translate-x-0.5 hover:bg-sidebar-accent"
+                  className="flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-sm text-auth-muted transition-all hover:translate-x-0.5 hover:bg-auth-line hover:text-editorial-dark-foreground"
                   activeProps={{
                     className:
-                      "flex items-center gap-2.5 rounded-sm border-l-2 border-secondary-accent bg-sidebar-accent px-2.5 py-2 text-sm font-medium text-sidebar-accent-foreground",
+                      "flex items-center gap-2.5 rounded-sm border-l-2 border-auth-teal bg-auth-line px-2.5 py-2 text-sm font-medium text-editorial-dark-foreground",
                   }}
                 >
                   <Icon className="h-4 w-4" />
@@ -147,18 +147,18 @@ function AdminLayout() {
             )})}
           </ul>
 
-          <div className="mt-6 border-t border-sidebar-border px-2.5 pt-4">
+          <div className="mt-6 border-t border-auth-line px-2.5 pt-4">
             <p className="truncate text-sm font-medium">
               {profile?.display_name ?? session.user.email}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-auth-muted">
               {roles.map((r) => ROLE_LABELS[r]).join(", ") || "Staff"}
             </p>
             <div className="mt-3"><LanguageSwitcher /></div>
             <div className="mt-3 flex flex-col gap-1.5">
               <Link
                 to="/"
-                className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+                className="text-xs text-auth-muted underline-offset-4 hover:text-auth-teal hover:underline"
               >
                 View website
               </Link>
@@ -168,7 +168,7 @@ function AdminLayout() {
                   await supabase.auth.signOut();
                   void navigate({ to: "/auth" });
                 }}
-                className="text-left text-xs text-muted-foreground underline-offset-4 hover:underline"
+                className="text-left text-xs text-auth-muted underline-offset-4 hover:text-auth-teal hover:underline"
               >
                 Sign out
               </button>
@@ -177,7 +177,7 @@ function AdminLayout() {
         </nav>
       </aside>
 
-      <div className="min-w-0 bg-background">
+      <div className="min-w-0 bg-paper">
         {restricted ? (
           <div className="flex min-h-[60vh] items-center justify-center px-6">
             <div className="max-w-sm text-center">

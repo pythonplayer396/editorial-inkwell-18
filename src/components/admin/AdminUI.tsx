@@ -15,9 +15,9 @@ export function PageHeader({
   actions?: ReactNode | undefined;
 }) {
   return (
-    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border-strong pb-5">
+    <header className="editorial-rule grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border-strong pt-4 pb-5">
       <div className="min-w-0">
-        <h1 className="truncate text-xl font-semibold">{title}</h1>
+        <h1 className="headline truncate text-2xl">{title}</h1>
         {description ? (
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         ) : null}
@@ -106,7 +106,7 @@ export function StatCard({
   sub?: string | undefined;
 }) {
   return (
-    <div className="premium-surface group p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-border-strong">
+    <div className="premium-surface group border-t-2 border-t-secondary-accent p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-border-strong">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="mt-1.5 text-2xl font-semibold tabular-nums transition-colors group-hover:text-secondary-accent">{value}</p>
       {sub ? <p className="mt-1 text-xs text-muted-foreground">{sub}</p> : null}

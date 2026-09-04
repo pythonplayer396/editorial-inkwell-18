@@ -101,7 +101,7 @@ function AccountPage() {
   return (
     <PublicLayout>
       <Container className="py-12 md:py-16">
-        <header className="editorial-enter flex flex-col gap-4 border-b border-border-strong pb-6 sm:flex-row sm:items-start sm:justify-between">
+        <header className="editorial-enter editorial-rule flex flex-col gap-4 border-b-2 border-secondary-accent/60 pt-5 pb-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="kicker text-secondary-accent">Reader account</p>
             <h1 className="headline mt-2 text-4xl md:text-5xl">Your Dispatch</h1>
