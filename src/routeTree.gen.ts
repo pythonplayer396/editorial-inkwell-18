@@ -37,7 +37,6 @@ import { Route as AuthIndexRouteImport } from './routes/auth.index'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as NewsroomIndexRouteImport } from './routes/newsroom.index'
-import { Route as NewsroomProfileRouteImport } from './routes/newsroom.profile'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
 import { Route as AdminPostsIdRouteImport } from './routes/admin.posts.$id'
@@ -184,11 +183,6 @@ const NewsroomIndexRoute = NewsroomIndexRouteImport.update({
   path: '/',
   getParentRoute: () => NewsroomRoute,
 } as any)
-const NewsroomProfileRoute = NewsroomProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => NewsroomRoute,
-} as any)
 const TagSlugRoute = TagSlugRouteImport.update({
   id: '/tag/$slug',
   path: '/tag/$slug',
@@ -241,7 +235,6 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
-  '/newsroom/profile': typeof NewsroomProfileRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
@@ -274,7 +267,6 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
-  '/newsroom/profile': typeof NewsroomProfileRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin': typeof AdminIndexRoute
   '/auth': typeof AuthIndexRoute
@@ -311,7 +303,6 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
-  '/newsroom/profile': typeof NewsroomProfileRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/auth/': typeof AuthIndexRoute
@@ -349,7 +340,6 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
-    | '/newsroom/profile'
     | '/tag/$slug'
     | '/admin/'
     | '/auth/'
@@ -382,7 +372,6 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
-    | '/newsroom/profile'
     | '/tag/$slug'
     | '/admin'
     | '/auth'
@@ -418,7 +407,6 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
-    | '/newsroom/profile'
     | '/tag/$slug'
     | '/admin/'
     | '/auth/'
@@ -644,13 +632,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsroomIndexRouteImport
       parentRoute: typeof NewsroomRoute
     }
-    '/newsroom/profile': {
-      id: '/newsroom/profile'
-      path: '/profile'
-      fullPath: '/newsroom/profile'
-      preLoaderRoute: typeof NewsroomProfileRouteImport
-      parentRoute: typeof NewsroomRoute
-    }
     '/tag/$slug': {
       id: '/tag/$slug'
       path: '/tag/$slug'
@@ -740,13 +721,11 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface NewsroomRouteChildren {
-  NewsroomProfileRoute: typeof NewsroomProfileRoute
   NewsroomIndexRoute: typeof NewsroomIndexRoute
   NewsroomWriteIdRoute: typeof NewsroomWriteIdRoute
 }
 
 const NewsroomRouteChildren: NewsroomRouteChildren = {
-  NewsroomProfileRoute: NewsroomProfileRoute,
   NewsroomIndexRoute: NewsroomIndexRoute,
   NewsroomWriteIdRoute: NewsroomWriteIdRoute,
 }
