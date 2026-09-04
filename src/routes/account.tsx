@@ -126,7 +126,7 @@ function AccountPage() {
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {"label" in tt ? tt.label : t(tt.labelKey)}
+              {"labelKey" in tt ? t(tt.labelKey) : tt.label}
             </button>
           ))}
         </nav>
