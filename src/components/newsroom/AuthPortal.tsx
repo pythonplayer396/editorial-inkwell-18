@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { lovable } from "@/integrations/lovable/index";
 import { supabase } from "@/integrations/supabase/client";
@@ -126,8 +127,8 @@ export function AuthPortal({ copy }: { copy: PortalCopy }) {
 
         <div className="auth-rise relative flex items-start justify-between gap-6">
           <div>
-            <Link to="/" className="headline text-2xl text-auth-on-night sm:text-3xl">
-              The Dispatch
+            <Link to="/" aria-label="The Dispatch" className="inline-block rounded-sm bg-paper px-3 py-2">
+              <BrandLogo className="w-48 sm:w-56" />
             </Link>
             <p className="mt-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-auth-muted">
               Independent reporting · Since 2026
