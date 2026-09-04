@@ -45,12 +45,12 @@ function JournalistShell() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-muted/20">
-      <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
+    <div className="min-h-screen bg-paper">
+      <header className="sticky top-0 z-40 border-b border-auth-line bg-editorial-dark text-editorial-dark-foreground shadow-sm">
         <div className="mx-auto flex w-full max-w-[1180px] items-center gap-4 px-5 py-3">
           <Link to="/" className="min-w-0">
-            <p className="truncate font-serif text-base font-semibold tracking-tight">The Dispatch</p>
-            <p className="text-[0.7rem] text-muted-foreground">Journalist</p>
+            <p className="truncate font-serif text-base font-semibold tracking-tight text-editorial-dark-foreground">The Dispatch</p>
+            <p className="text-[0.7rem] text-auth-muted">Journalist</p>
           </Link>
           <nav aria-label="Newsroom" className="ml-4 hidden gap-1 md:flex">
             {NAV.map((item) => (
@@ -58,10 +58,10 @@ function JournalistShell() {
                 key={item.to}
                 to={item.to}
                 activeOptions={{ exact: (item as { exact?: boolean }).exact ?? false }}
-                className="rounded-sm px-2.5 py-1.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                className="rounded-sm px-2.5 py-1.5 text-sm text-auth-muted transition-all duration-200 hover:bg-auth-line hover:text-editorial-dark-foreground"
                 activeProps={{
                   className:
-                    "rounded-sm bg-muted px-2.5 py-1.5 text-sm font-medium text-foreground shadow-[inset_0_-2px_0_0_var(--secondary-accent)]",
+                    "rounded-sm bg-auth-line px-2.5 py-1.5 text-sm font-medium text-editorial-dark-foreground shadow-[inset_0_-2px_0_0_var(--auth-teal)]",
                 }}
               >
                 {item.label}
@@ -72,7 +72,7 @@ function JournalistShell() {
             <Link
               to="/newsroom/write/$id"
               params={{ id: "new" }}
-              className="pressable hidden h-9 items-center gap-1.5 rounded-sm bg-primary px-3.5 text-sm font-medium text-primary-foreground sm:inline-flex"
+               className="pressable hidden h-9 items-center gap-1.5 rounded-sm bg-accent px-3.5 text-sm font-medium text-accent-foreground sm:inline-flex"
             >
               <PenLine className="h-4 w-4" />
               {t("nav.write")}
@@ -80,7 +80,7 @@ function JournalistShell() {
             <LanguageSwitcher compact />
             <NotificationBell />
             <div className="hidden text-right sm:block">
-              <p className="max-w-40 truncate text-sm font-medium">
+               <p className="max-w-40 truncate text-sm font-medium text-editorial-dark-foreground">
                 {profile?.display_name ?? session.user.email}
               </p>
               <button
@@ -89,7 +89,7 @@ function JournalistShell() {
                   await supabase.auth.signOut();
                   void navigate({ to: "/auth" });
                 }}
-                className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+                 className="text-xs text-auth-muted underline-offset-4 hover:text-auth-teal hover:underline"
               >
                 {t("nav.signout")}
               </button>

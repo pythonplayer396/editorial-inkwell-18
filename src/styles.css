@@ -76,12 +76,15 @@
   --color-auth-line: var(--auth-line);
   --color-auth-red: var(--auth-red);
   --color-auth-teal: var(--auth-teal);
+  --color-editorial-dark: var(--editorial-dark);
+  --color-editorial-dark-foreground: var(--editorial-dark-foreground);
+  --color-editorial-wash: var(--editorial-wash);
 }
 
 :root {
   --radius: 4px;
 
-  --paper: oklch(0.978 0.009 88);
+  --paper: oklch(0.976 0.012 88);
   --background: oklch(1 0 0);
   --foreground: oklch(0.19 0.008 255);
   --ink: oklch(0.165 0.01 250);
@@ -101,11 +104,11 @@
   --muted: oklch(0.955 0.008 88);
   --muted-foreground: oklch(0.49 0.015 250);
 
-  --accent: oklch(0.49 0.13 27);
-  --accent-soft: oklch(0.78 0.08 28);
+  --accent: oklch(0.47 0.145 27);
+  --accent-soft: oklch(0.78 0.075 28);
   --accent-foreground: oklch(0.99 0.002 90);
-  --secondary-accent: oklch(0.38 0.065 205);
-  --secondary-accent-soft: oklch(0.93 0.025 205);
+  --secondary-accent: oklch(0.405 0.075 205);
+  --secondary-accent-soft: oklch(0.925 0.032 205);
   --breaking-surface: oklch(0.965 0.018 28);
 
   --destructive: oklch(0.52 0.19 27);
@@ -140,6 +143,9 @@
   --auth-line: oklch(0.34 0.025 225);
   --auth-red: oklch(0.58 0.16 28);
   --auth-teal: oklch(0.72 0.095 185);
+  --editorial-dark: oklch(0.205 0.025 235);
+  --editorial-dark-foreground: oklch(0.965 0.012 88);
+  --editorial-wash: oklch(0.955 0.018 205);
 }
 
 @layer base {
@@ -280,6 +286,29 @@
   background: color-mix(in oklab, var(--background) 92%, var(--paper));
   border: 1px solid var(--border);
   box-shadow: 0 18px 50px -42px color-mix(in oklab, var(--ink) 32%, transparent);
+}
+
+@utility editorial-page {
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--secondary-accent-soft) 38%, var(--paper)) 0, var(--paper) 22rem);
+}
+
+@utility editorial-band {
+  background: color-mix(in oklab, var(--secondary-accent-soft) 48%, var(--background));
+  border-color: color-mix(in oklab, var(--secondary-accent) 24%, var(--border));
+}
+
+@utility editorial-rule {
+  position: relative;
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.5rem;
+    height: 2px;
+    content: "";
+    background: var(--accent);
+  }
 }
 
 @utility hairline-grid {

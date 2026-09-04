@@ -13,7 +13,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main" className="flex-1">
+      <main id="main" className="editorial-page flex-1">
         {children}
       </main>
       <SiteFooter />
@@ -34,7 +34,7 @@ export function Container({
 export function SectionHeading({ title, href }: { title: string; href?: ReactNode }) {
   return (
     <div className="mb-6 flex items-baseline justify-between border-b border-border-strong pb-3">
-      <h2 className="kicker flex items-center gap-3 text-foreground before:h-1.5 before:w-1.5 before:bg-secondary-accent before:content-['']">{title}</h2>
+      <h2 className="kicker flex items-center gap-3 text-foreground before:h-2 before:w-0.5 before:bg-accent before:content-['']">{title}</h2>
       {href}
     </div>
   );

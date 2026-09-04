@@ -9,17 +9,17 @@ export function SiteFooter() {
   const { data: categories } = useQuery(categoriesQuery);
 
   return (
-    <footer className="border-t border-border-strong bg-background">
+    <footer className="border-t-2 border-accent bg-editorial-dark text-editorial-dark-foreground">
       <div className="mx-auto grid max-w-[1280px] gap-10 px-5 py-14 sm:px-7 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10">
         <div>
-          <p className="headline text-2xl">{settings?.site_name ?? "The Dispatch"}</p>
-          <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+          <p className="headline text-2xl text-editorial-dark-foreground">{settings?.site_name ?? "The Dispatch"}</p>
+          <p className="mt-2 max-w-xs text-sm leading-relaxed text-auth-muted">
             {settings?.tagline}
           </p>
           {settings?.contact_email ? (
             <a
               href={`mailto:${settings.contact_email}`}
-                className="editorial-link mt-4 inline-block text-sm"
+                className="editorial-link mt-4 inline-block text-sm text-auth-teal"
             >
               {settings.contact_email}
             </a>
@@ -27,14 +27,14 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Sections">
-          <p className="kicker text-muted-foreground">Sections</p>
+          <p className="kicker text-auth-teal">Sections</p>
           <ul className="mt-3 space-y-2">
             {(categories ?? []).slice(0, 6).map((c) => (
               <li key={c.id}>
                 <Link
                   to="/category/$slug"
                   params={{ slug: c.slug }}
-                   className="editorial-link text-sm text-foreground"
+                    className="editorial-link text-sm text-editorial-dark-foreground"
                 >
                   {c.name}
                 </Link>
@@ -44,25 +44,25 @@ export function SiteFooter() {
         </nav>
 
         <nav aria-label="Publication">
-          <p className="kicker text-muted-foreground">Publication</p>
+          <p className="kicker text-auth-teal">Publication</p>
           <ul className="mt-3 space-y-2">
             <li>
-               <Link to="/about" className="editorial-link text-sm">
+               <Link to="/about" className="editorial-link text-sm text-editorial-dark-foreground">
                 About
               </Link>
             </li>
             <li>
-               <Link to="/contact" className="editorial-link text-sm">
+               <Link to="/contact" className="editorial-link text-sm text-editorial-dark-foreground">
                 Contact
               </Link>
             </li>
             <li>
-               <Link to="/latest" className="editorial-link text-sm">
+               <Link to="/latest" className="editorial-link text-sm text-editorial-dark-foreground">
                 Latest stories
               </Link>
             </li>
             <li>
-               <Link to="/search" className="editorial-link text-sm">
+               <Link to="/search" className="editorial-link text-sm text-editorial-dark-foreground">
                 Search
               </Link>
             </li>
@@ -70,13 +70,13 @@ export function SiteFooter() {
         </nav>
 
         <nav aria-label="Elsewhere">
-          <p className="kicker text-muted-foreground">Elsewhere</p>
+          <p className="kicker text-auth-teal">Elsewhere</p>
           <ul className="mt-3 space-y-2">
             {settings?.twitter ? (
               <li>
                 <a
                   href={`https://x.com/${settings.twitter}`}
-                   className="editorial-link text-sm"
+                    className="editorial-link text-sm text-editorial-dark-foreground"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -88,7 +88,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={settings.linkedin}
-                   className="editorial-link text-sm"
+                    className="editorial-link text-sm text-editorial-dark-foreground"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -100,8 +100,8 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <div className="border-t border-border">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-2 px-5 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-10">
+      <div className="border-t border-auth-line">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-2 px-5 py-5 text-xs text-auth-muted sm:flex-row sm:items-center sm:justify-between sm:px-7 lg:px-10">
           <p>
             © {new Date().getUTCFullYear()} {settings?.site_name ?? "The Dispatch"}. All rights
             reserved.
