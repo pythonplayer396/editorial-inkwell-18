@@ -82,6 +82,8 @@ export interface Post {
   rejection_reason?: string | null;
   correction_note?: string | null;
   correction_at?: string | null;
+  sources?: ArticleSource[] | null;
+  timeline?: TimelineEntry[] | null;
   category?: Category | null;
   author?: Profile | null;
 }
