@@ -9,7 +9,9 @@ import { categoriesQuery, settingsQuery } from "@/lib/queries";
 
 export function SiteHeader() {
   const { data: settings } = useQuery(settingsQuery);
-  const { data: categories } = useQuery(categoriesQuery);
+  const { data: allCategories } = useQuery(categoriesQuery);
+  // Legacy sections are kept in the database but parked out of the main navigation.
+  const categories = (allCategories ?? []).filter((c) => (c.sort_order ?? 0) < 50);
   const { session, isStaff, isEditor } = useCurrentUser();
   
   const isWriter = isStaff;
