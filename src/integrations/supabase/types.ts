@@ -466,9 +466,11 @@ export type Database = {
           seo_title: string | null
           slug: string
           social_image_url: string | null
+          sources: Json
           status: Database["public"]["Enums"]["post_status"]
           submitted_at: string | null
           subtitle: string | null
+          timeline: Json
           title: string
           updated_at: string
           view_count: number
@@ -504,9 +506,11 @@ export type Database = {
           seo_title?: string | null
           slug: string
           social_image_url?: string | null
+          sources?: Json
           status?: Database["public"]["Enums"]["post_status"]
           submitted_at?: string | null
           subtitle?: string | null
+          timeline?: Json
           title: string
           updated_at?: string
           view_count?: number
@@ -542,9 +546,11 @@ export type Database = {
           seo_title?: string | null
           slug?: string
           social_image_url?: string | null
+          sources?: Json
           status?: Database["public"]["Enums"]["post_status"]
           submitted_at?: string | null
           subtitle?: string | null
+          timeline?: Json
           title?: string
           updated_at?: string
           view_count?: number
