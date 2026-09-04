@@ -40,8 +40,8 @@ function AuthorPage() {
   return (
     <PublicLayout>
       <Container className="py-10">
-        <header className="grid gap-6 border-b border-border pb-8 sm:grid-cols-[auto_minmax(0,1fr)]">
-          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-muted">
+        <header className="editorial-band grid gap-6 border-y border-secondary-accent/20 p-6 sm:grid-cols-[auto_minmax(0,1fr)] sm:p-8">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-background bg-muted shadow-sm">
             {profile.data?.avatar_url ? (
               <img
                 src={profile.data.avatar_url}
@@ -74,7 +74,7 @@ function AuthorPage() {
                 {areas.map((a) => (
                   <li
                     key={a}
-                    className="rounded-sm border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                    className="rounded-sm border border-secondary-accent/25 bg-background/70 px-2.5 py-1 text-xs text-secondary-accent"
                   >
                     {a}
                   </li>

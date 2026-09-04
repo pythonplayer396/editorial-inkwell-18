@@ -31,7 +31,7 @@ function TagPage() {
   return (
     <PublicLayout>
       <Container className="py-10">
-        <header className="border-b-2 border-foreground pb-3">
+        <header className="editorial-rule border-b-2 border-secondary-accent/65 pt-5 pb-5">
           <p className="kicker text-accent">Topic</p>
           <h1 className="headline mt-1 text-3xl capitalize md:text-4xl">{slug.replace(/-/g, " ")}</h1>
         </header>

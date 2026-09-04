@@ -30,7 +30,7 @@ function AboutPage() {
   return (
     <PublicLayout>
       <Container className="py-12">
-        <div className="max-w-[720px]">
+        <div className="editorial-rule max-w-[720px] pt-5">
           <p className="kicker text-accent">About</p>
           <h1 className="headline mt-2 text-4xl md:text-5xl">
             {settings.data?.site_name ?? "The Dispatch"}
@@ -58,7 +58,7 @@ function AboutPage() {
           </div>
         </div>
 
-        <section className="mt-16">
+        <section className="editorial-band mt-16 border-y px-5 py-10 sm:px-8">
           <SectionHeading title="The newsroom" />
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {(authors.data ?? []).map((a) => (

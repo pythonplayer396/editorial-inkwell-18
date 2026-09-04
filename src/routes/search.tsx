@@ -53,7 +53,7 @@ function SearchPage() {
   return (
     <PublicLayout>
       <Container className="py-12 sm:py-16">
-        <div className="max-w-2xl editorial-enter">
+        <div className="editorial-enter editorial-rule max-w-2xl pt-5">
         <p className="kicker text-secondary-accent">The archive</p>
         <h1 className="headline mt-3 text-4xl sm:text-6xl">What are you looking for?</h1>
         <p className="mt-4 text-base text-muted-foreground">
@@ -62,7 +62,7 @@ function SearchPage() {
         </div>
 
         <form
-          className="premium-surface mt-9 grid gap-3 p-4 md:grid-cols-[minmax(0,1fr)_180px_160px_auto] md:p-5"
+          className="premium-surface mt-9 grid gap-3 border-t-2 border-t-secondary-accent p-4 md:grid-cols-[minmax(0,1fr)_180px_160px_auto] md:p-5"
           onSubmit={(e) => {
             e.preventDefault();
             setSubmitted(term);

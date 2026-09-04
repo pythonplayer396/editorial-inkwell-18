@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, Clock, PenLine } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { PublicLayout } from "@/components/site/PublicLayout";
+import { Container, PublicLayout } from "@/components/site/PublicLayout";
 import { useCurrentUser } from "@/hooks/useAuth";
 import { db } from "@/lib/queries";
 
@@ -159,7 +159,8 @@ function JoinPage() {
 
   return (
     <PublicLayout>
-      <section className="editorial-enter border-b border-border pb-10">
+      <Container className="py-10 sm:py-14">
+      <section className="editorial-enter editorial-rule border-b-2 border-secondary-accent/60 pt-5 pb-10">
         <p className="kicker">For writers</p>
         <h1 className="headline mt-3 max-w-3xl text-4xl leading-[1.05] md:text-6xl">
           {isAuthor ? "You write for The Dispatch" : "Write for The Dispatch"}
@@ -237,7 +238,7 @@ function JoinPage() {
 
         </div>
 
-        <aside className="premium-surface h-fit p-5">
+        <aside className="premium-surface h-fit border-t-2 border-t-accent p-5">
           {isAuthor ? (
             <div className="editorial-enter py-6 text-center">
               <CheckCircle2 className="mx-auto h-7 w-7 text-secondary-accent" />
@@ -345,6 +346,7 @@ function JoinPage() {
           )}
         </aside>
       </section>
+      </Container>
     </PublicLayout>
   );
 }
