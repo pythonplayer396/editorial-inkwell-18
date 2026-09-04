@@ -82,9 +82,23 @@ export interface Post {
   rejection_reason?: string | null;
   correction_note?: string | null;
   correction_at?: string | null;
+  sources?: ArticleSource[] | null;
+  timeline?: TimelineEntry[] | null;
   category?: Category | null;
   author?: Profile | null;
 }
+
+export interface ArticleSource {
+  title: string;
+  url: string;
+  publisher?: string | null;
+}
+
+export interface TimelineEntry {
+  date: string;
+  text: string;
+}
+
 
 export interface ArticleEvent {
   id: string;

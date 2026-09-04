@@ -31,3 +31,13 @@
 - [x] Multi-image galleries with reordering
 - [x] Reader accounts: bookmarks, follows, notification preferences
 - [x] Public interface chrome translated (8 languages) + footer language switcher
+
+# Bangladesh news archive (independent)
+
+- [x] Expand sections: Politics, Economy, Society, Education, Crime & Justice,
+      Climate & Disasters, Technology, International, Regions, Opinion
+- [x] Region + topic tags (all eight divisions and key issues)
+- [x] Articles carry a source list and optional event timeline, shown on the page
+- [x] Batch 1 published: 48 verified stories (Mar-Sep 2026), original wording, sources linked
+- [ ] Batch 2+: expand toward 200-300 stories (sports, culture, tech, more regional reporting)
+- [ ] Add source/timeline editing to the article editor

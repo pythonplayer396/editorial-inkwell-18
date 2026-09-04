@@ -354,6 +354,44 @@ function ArticlePage() {
             ) : null}
             <BlockRenderer blocks={blocks} />
 
+            {(post.timeline ?? []).length > 0 ? (
+              <section className="mt-12 border-t border-border-strong pt-6">
+                <h2 className="headline text-xl text-foreground">How this developed</h2>
+                <ol className="mt-4 space-y-4">
+                  {(post.timeline ?? []).map((entry, i) => (
+                    <li key={i} className="border-l-2 border-secondary-accent/40 pl-4">
+                      <p className="kicker text-secondary-accent">{formatDate(entry.date)}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-foreground">{entry.text}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ) : null}
+
+            {(post.sources ?? []).length > 0 ? (
+              <section className="mt-12 border-t border-border-strong pt-6">
+                <h2 className="headline text-xl text-foreground">Sources</h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  This report was written from the sources below. Nothing here is copied from them.
+                </p>
+                <ol className="mt-4 space-y-2">
+                  {(post.sources ?? []).map((source, i) => (
+                    <li key={i} className="text-sm leading-relaxed">
+                      <span className="mr-2 text-muted-foreground">{i + 1}.</span>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        className="text-secondary-accent underline decoration-secondary-accent/40 underline-offset-4 hover:decoration-secondary-accent"
+                      >
+                        {source.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ) : null}
+
             {post.correction_note ? (
               <aside className="mt-10 border-l-2 border-accent bg-accent/5 px-4 py-3">
                 <p className="kicker text-accent">Correction</p>
