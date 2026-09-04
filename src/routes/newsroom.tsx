@@ -1,5 +1,5 @@
 import { Link, Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { FileText, PenLine, User } from "lucide-react";
+import { FileText, PenLine } from "lucide-react";
 import { useEffect } from "react";
 
 import { LanguageSwitcher } from "@/components/newsroom/LanguageSwitcher";
@@ -41,7 +41,6 @@ function JournalistShell() {
 
   const NAV = [
     { to: "/newsroom", label: t("nav.dashboard"), icon: FileText, exact: true },
-    { to: "/newsroom/profile", label: t("nav.profile"), icon: User },
   ] as const;
 
   return (
