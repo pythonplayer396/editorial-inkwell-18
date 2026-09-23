@@ -43,11 +43,13 @@ function HomePage() {
   const lead = all.find((p) => p.is_featured) ?? all[0];
   const secondary = all.filter((p) => p.id !== lead?.id).slice(0, 3);
   const latest = all.filter((p) => p.id !== lead?.id).slice(3, 11);
-  const feature = latest[3] ?? secondary[0];
 
   return (
     <PublicLayout>
-      <Container className="py-8 md:py-12 lg:py-14">
+      <Container className="py-7 md:py-9">
+        <div className="mb-5 border-b border-border pb-3">
+          <h1 className="text-3xl font-bold sm:text-4xl">Top stories</h1>
+        </div>
         {posts.isLoading ? (
           <StoryListSkeleton count={3} />
         ) : !lead ? (
@@ -65,19 +67,18 @@ function HomePage() {
           />
         ) : (
           <>
-            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_310px] lg:gap-12">
+            <div className="grid gap-7 lg:grid-cols-[minmax(0,2fr)_minmax(260px,1fr)]">
               <div className="min-w-0">
                 <LeadStory post={lead} />
               </div>
-              <aside className="border-t border-border-strong pt-5 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
-                <div className="flex items-center justify-between border-b border-foreground pb-3">
-                  <p className="kicker text-foreground">The latest</p>
-                  <Link to="/latest" className="editorial-link text-xs text-muted-foreground">View all</Link>
+              <aside className="border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
+                <div className="flex items-center justify-between border-b-4 border-news-brand pb-2">
+                  <p className="text-xl font-bold">More top stories</p>
+                  <Link to="/latest" className="text-xs font-semibold hover:underline">View all</Link>
                 </div>
                 <div className="divide-y divide-border">
-                  {secondary.map((p, i) => (
-                    <div key={p.id} className="grid grid-cols-[28px_minmax(0,1fr)] gap-3 py-5">
-                      <span className="font-mono text-[0.7rem] text-secondary-accent">{String(i + 1).padStart(2, "0")}</span>
+                  {secondary.map((p) => (
+                    <div key={p.id} className="py-5">
                       <StoryCard post={p} size="sm" showImage={false} />
                     </div>
                   ))}
@@ -88,7 +89,8 @@ function HomePage() {
         )}
       </Container>
 
-      <Container className="grid gap-12 border-t-2 border-secondary-accent/55 py-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+      <div className="border-y border-border bg-news-surface">
+      <Container className="grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
         <section aria-labelledby="latest-heading">
           <SectionHeading
             title="Latest"
@@ -114,7 +116,7 @@ function HomePage() {
           )}
         </section>
 
-        <aside className="space-y-12 lg:border-l lg:border-border lg:pl-8">
+        <aside className="space-y-10 lg:border-l lg:border-border lg:pl-8">
           <section aria-labelledby="most-read-heading">
             <SectionHeading title="Most read" />
             {mostRead.isLoading ? (
@@ -125,14 +127,14 @@ function HomePage() {
                   <li key={p.id}>
                     <div className="py-4">
                       <div className="flex gap-3">
-                        <span className="font-mono text-xs text-secondary-accent">
-                          {String(i + 1).padStart(2, "0")}
+                        <span className="text-3xl font-bold leading-none text-news-brand">
+                          {i + 1}
                         </span>
                         <h3 className="headline text-[0.98rem] leading-snug">
                           <Link
                             to="/article/$slug"
                             params={{ slug: p.slug }}
-                            className="transition-colors hover:text-secondary-accent"
+                            className="hover:underline"
                           >
                             {p.title}
                           </Link>
@@ -163,28 +165,12 @@ function HomePage() {
           </section>
         </aside>
       </Container>
-
-      {feature ? (
-        <section className="editorial-band border-y py-14 sm:py-18">
-          <Container>
-            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-14">
-              <div className="lg:col-span-5 lg:pl-8">
-                <p className="kicker text-accent">Editor’s focus</p>
-                <h2 className="headline mt-4 text-3xl sm:text-5xl">One story worth slowing down for.</h2>
-                <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">Deep reporting, considered analysis, and the context behind the day’s most consequential developments.</p>
-              </div>
-              <div className="lg:col-span-7">
-                <StoryCard post={feature} size="lg" showExcerpt />
-              </div>
-            </div>
-          </Container>
-        </section>
-      ) : null}
+      </div>
 
       <Newsletter />
 
-      <Container className="py-16 sm:py-20">
-        <div className="space-y-14">
+      <Container className="py-12">
+        <div className="space-y-12">
           {(categories.data ?? []).map((cat) => (
             <CategoryStrip key={cat.id} slug={cat.slug} name={cat.name} />
           ))}
@@ -211,7 +197,7 @@ function CategoryStrip({ slug, name }: { slug: string; name: string }) {
           </Link>
         }
       />
-      <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {data.map((p) => (
           <StoryCard key={p.id} post={p} size="sm" />
         ))}

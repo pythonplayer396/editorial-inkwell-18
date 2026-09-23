@@ -38,9 +38,9 @@ function CategoryPage() {
 
   return (
     <PublicLayout>
-      <Container className="py-10">
-        <header className="editorial-rule border-b-2 border-secondary-accent/65 pt-5 pb-5">
-          <p className="kicker text-secondary-accent">Section</p>
+      <Container className="py-8">
+        <header className="border-b-4 border-news-brand pb-4">
+          <p className="kicker text-news-brand">Section</p>
           <h1 className="headline mt-1 text-3xl md:text-4xl">
             {category.data?.name ?? slug.replace(/-/g, " ")}
           </h1>
@@ -98,13 +98,13 @@ function CategoryPage() {
               ) : null}
             </div>
 
-            <aside className="editorial-band h-fit border-t-2 border-accent p-5 lg:p-6">
+            <aside className="h-fit border-t-4 border-news-brand bg-news-surface p-5 lg:p-6">
               <SectionHeading title="Most read in this section" />
               <ol className="divide-y divide-border">
                 {mostRead.map((p, i) => (
                   <li key={p.id} className="flex gap-3 py-4">
-                    <span className="font-mono text-xs text-accent">
-                      {String(i + 1).padStart(2, "0")}
+                    <span className="text-3xl font-bold leading-none text-news-brand">
+                      {i + 1}
                     </span>
                     <h3 className="headline text-[0.98rem] leading-snug">
                       <Link to="/article/$slug" params={{ slug: p.slug }} className="hover:text-accent">
