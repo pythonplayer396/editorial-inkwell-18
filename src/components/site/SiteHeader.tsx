@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useT } from "@/lib/i18n";
-import { ArrowUpRight, Menu, Search, X } from "lucide-react";
+import { Menu, Search, UserRound, X } from "lucide-react";
 import { useState } from "react";
 
 import { useCurrentUser } from "@/hooks/useAuth";
@@ -20,31 +20,24 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const t = useT();
 
-  const today = new Date().toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
   return (
-    <header className="relative z-40 border-b border-border-strong bg-background/95 shadow-[0_8px_30px_-28px_color-mix(in_oklab,var(--ink)_55%,transparent)] backdrop-blur-md before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-accent before:content-['']">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:px-7 md:py-7 lg:px-10">
-        <div className="hidden min-w-0 md:block">
-          <p className="text-[0.7rem] font-medium uppercase text-muted-foreground">{today}</p>
-          <p className="mt-1 text-[0.65rem] text-muted-foreground/70">Independent · Since 2026</p>
+    <header className="relative z-40 bg-background">
+      <div className="border-b border-news-dark/15 bg-news-dark text-primary-foreground">
+        <div className="mx-auto flex h-10 max-w-[1280px] items-center justify-between px-5 sm:px-7 lg:px-10">
+          <p className="text-xs font-semibold">Independent journalism from Bangladesh</p>
+          <Link to="/latest" className="hidden text-xs font-semibold hover:underline sm:block">Latest updates</Link>
         </div>
-        <div className="min-w-0 md:text-center">
-          <Link to="/" className="inline-block max-w-full" aria-label={settings?.site_name ?? "The Dispatch"}>
-            <BrandLogo className="w-[190px] sm:w-[230px] md:w-[330px]" />
+      </div>
+      <div className="bg-news-brand text-primary-foreground">
+        <div className="mx-auto flex min-h-20 max-w-[1280px] items-center justify-between gap-4 px-5 py-3 sm:px-7 lg:px-10">
+          <Link to="/" className="inline-flex bg-background px-2 py-1" aria-label={settings?.site_name ?? "The Dispatch"}>
+            <BrandLogo className="w-[185px] sm:w-[245px]" />
           </Link>
-        </div>
-        <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-1">
           <Link
             to="/search"
             aria-label="Search stories"
-            className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm text-muted-foreground hover:bg-muted hover:text-secondary-accent"
+            className="inline-flex h-10 w-10 items-center justify-center text-primary-foreground hover:bg-news-brand-strong"
           >
             <Search className="h-4 w-4" />
           </Link>
@@ -52,14 +45,14 @@ export function SiteHeader() {
             <Link
               to="/newsroom/write/$id"
               params={{ id: "new" }}
-              className="pressable hidden h-9 items-center rounded-sm bg-secondary-accent px-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-secondary-accent/90 md:inline-flex"
+              className="hidden h-10 items-center border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
             >
               Upload
             </Link>
           ) : (
             <Link
               to="/join"
-              className="pressable hidden h-9 items-center rounded-sm px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:inline-flex"
+              className="hidden h-10 items-center border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
             >
               {t("nav.join")}
             </Link>
@@ -68,17 +61,17 @@ export function SiteHeader() {
           {session ? (
             <Link
               to={isEditor ? "/admin" : "/account"}
-              className="pressable hidden h-9 items-center gap-1 rounded-sm border border-secondary-accent/35 bg-secondary-accent-soft/50 px-3 text-sm font-medium text-secondary-accent hover:border-secondary-accent hover:bg-secondary-accent-soft md:inline-flex"
+              className="hidden h-10 items-center gap-2 border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
             >
-               {isEditor ? t("brand.newsroom") : t("public.account")}<ArrowUpRight className="h-3 w-3" />
+               <UserRound className="h-4 w-4" />{isEditor ? t("brand.newsroom") : t("public.account")}
             </Link>
           ) : (
 
             <Link
               to="/auth"
-              className="pressable hidden h-9 items-center rounded-sm border border-secondary-accent/35 bg-secondary-accent-soft/35 px-3 text-sm font-medium text-secondary-accent hover:border-secondary-accent hover:bg-secondary-accent-soft md:inline-flex"
+              className="hidden h-10 items-center gap-2 border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
             >
-              {t("nav.signin")}
+              <UserRound className="h-4 w-4" />{t("nav.signin")}
             </Link>
           )}
           <button
@@ -86,19 +79,19 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm text-foreground hover:bg-muted md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center text-primary-foreground hover:bg-news-brand-strong md:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      <nav aria-label={t("public.sections")} className="hidden border-t border-border md:block">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-7 overflow-x-auto px-7 lg:px-10">
+      <nav aria-label={t("public.sections")} className="hidden border-b border-border bg-background md:block">
+        <div className="mx-auto flex max-w-[1280px] items-center overflow-x-auto px-7 lg:px-10">
           <Link
             to="/latest"
-            className="kicker relative py-3.5 text-foreground transition-colors hover:text-secondary-accent"
-            activeProps={{ className: "kicker relative py-3.5 text-secondary-accent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-secondary-accent" }}
+            className="relative border-r border-border px-4 py-3 text-sm font-bold text-foreground first:pl-0 hover:text-news-brand"
+            activeProps={{ className: "relative border-r border-border px-4 py-3 text-sm font-bold text-news-brand first:pl-0 after:absolute after:inset-x-3 after:bottom-0 after:h-1 after:bg-news-brand" }}
           >
             {t("public.latest")}
           </Link>
@@ -107,8 +100,8 @@ export function SiteHeader() {
               key={c.id}
               to="/category/$slug"
               params={{ slug: c.slug }}
-              className="kicker relative whitespace-nowrap py-3.5 text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "kicker relative whitespace-nowrap py-3.5 text-secondary-accent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-secondary-accent" }}
+              className="relative whitespace-nowrap border-r border-border px-4 py-3 text-sm font-semibold text-foreground hover:text-news-brand"
+              activeProps={{ className: "relative whitespace-nowrap border-r border-border px-4 py-3 text-sm font-bold text-news-brand after:absolute after:inset-x-3 after:bottom-0 after:h-1 after:bg-news-brand" }}
             >
               {c.name}
             </Link>
@@ -117,7 +110,7 @@ export function SiteHeader() {
       </nav>
 
       {open ? (
-        <nav aria-label={t("public.sections")} className="animate-in fade-in slide-in-from-top-2 border-t border-border bg-background px-5 py-3 duration-300 md:hidden">
+        <nav aria-label={t("public.sections")} className="border-b border-border bg-background px-5 py-3 md:hidden">
           <ul className="divide-y divide-border">
             <li>
               <Link to="/latest" onClick={() => setOpen(false)} className="block py-2.5 text-sm font-medium">

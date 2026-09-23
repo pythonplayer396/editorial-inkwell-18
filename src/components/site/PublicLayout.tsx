@@ -5,7 +5,7 @@ import { SiteHeader } from "./SiteHeader";
 
 export function PublicLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col overflow-x-clip bg-paper">
+    <div className="news-portal flex min-h-screen flex-col overflow-x-clip bg-background">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:text-sm"
@@ -13,7 +13,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main" className="editorial-page flex-1">
+      <main id="main" className="flex-1">
         {children}
       </main>
       <SiteFooter />
@@ -33,8 +33,8 @@ export function Container({
 
 export function SectionHeading({ title, href }: { title: string; href?: ReactNode }) {
   return (
-    <div className="mb-6 flex items-baseline justify-between border-b border-border-strong pb-3">
-      <h2 className="kicker flex items-center gap-3 text-foreground before:h-2 before:w-0.5 before:bg-accent before:content-['']">{title}</h2>
+    <div className="mb-5 flex items-end justify-between border-t-4 border-news-brand pt-2">
+      <h2 className="text-xl font-bold leading-none text-foreground sm:text-2xl">{title}</h2>
       {href}
     </div>
   );

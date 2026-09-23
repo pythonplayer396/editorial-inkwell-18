@@ -41,3 +41,10 @@
 - [x] Batch 1 published: 48 verified stories (Mar-Sep 2026), original wording, sources linked
 - [ ] Batch 2+: expand toward 200-300 stories (sports, culture, tech, more regional reporting)
 - [ ] Add source/timeline editing to the article editor
+
+# BBC-style public news portal
+
+- [ ] Rebuild public masthead and section navigation
+- [ ] Recompose homepage and shared story patterns for dense scanning
+- [ ] Restyle public section, article, newsletter, and footer experiences
+- [ ] Verify desktop/mobile presentation and runtime health
