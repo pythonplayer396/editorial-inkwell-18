@@ -10,7 +10,7 @@ function Kicker({ post }: { post: Post }) {
     <Link
       to="/category/$slug"
       params={{ slug: post.category.slug }}
-      className="kicker editorial-link text-secondary-accent"
+      className="kicker border-l-2 border-news-brand pl-2 text-news-brand hover:underline"
     >
       {post.category.name}
     </Link>
@@ -24,7 +24,7 @@ function Meta({ post }: { post: Post }) {
         <Link
           to="/author/$slug"
           params={{ slug: post.author.slug }}
-          className="font-medium text-foreground transition-colors hover:text-secondary-accent"
+          className="font-semibold text-foreground hover:underline"
         >
           {post.author.display_name}
         </Link>
@@ -37,24 +37,24 @@ function Meta({ post }: { post: Post }) {
 
 export function LeadStory({ post }: { post: Post }) {
   return (
-    <article className="grid items-start gap-7 lg:grid-cols-12 lg:gap-12">
+    <article className="grid items-start gap-5 lg:grid-cols-12 lg:gap-7">
       {post.cover_url ? (
         <Link to="/article/$slug" params={{ slug: post.slug }} className="group/image image-reveal block overflow-hidden lg:col-span-7">
           <img
             src={post.cover_url}
             alt={post.cover_caption ?? post.title}
-            className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover/image:scale-[1.025]"
+          className="aspect-video w-full object-cover transition-opacity group-hover/image:opacity-90"
             loading="eager"
           />
         </Link>
       ) : null}
-      <div className="editorial-enter [animation-delay:120ms] flex flex-col justify-center lg:col-span-5 lg:pt-7">
+      <div className="flex flex-col justify-center lg:col-span-5">
         <div className="flex items-center gap-3">
           {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
           <Kicker post={post} />
         </div>
-         <h2 className="headline mt-4 text-[2.35rem] leading-[1.02] sm:text-[3rem] lg:text-[4rem]">
-          <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors duration-300 hover:text-secondary-accent">
+         <h2 className="headline mt-3 text-3xl sm:text-4xl lg:text-[2.75rem]">
+          <Link to="/article/$slug" params={{ slug: post.slug }} className="hover:underline">
             {post.title}
           </Link>
         </h2>
@@ -83,7 +83,7 @@ export function StoryCard({
   className?: string;
 }) {
   const titleSize =
-    size === "lg" ? "text-2xl" : size === "sm" ? "text-[0.95rem] leading-snug" : "text-lg";
+    size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
   return (
     <article className={cn("group flex flex-col", className)}>
       {showImage && post.cover_url ? (
@@ -99,18 +99,18 @@ export function StoryCard({
             alt=""
             loading="lazy"
             decoding="async"
-            className="aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+            className="aspect-video w-full object-cover transition-opacity group-hover:opacity-90"
           />
         </Link>
       ) : null}
       <Kicker post={post} />
       <h3 className={cn("headline mt-1.5", titleSize)}>
-        <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors duration-300 hover:text-secondary-accent">
+        <Link to="/article/$slug" params={{ slug: post.slug }} className="hover:underline">
           {post.title}
         </Link>
       </h3>
       {showExcerpt && post.excerpt ? (
-        <p className="mt-2 font-serif text-[0.95rem] leading-relaxed text-muted-foreground">
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {post.excerpt}
         </p>
       ) : null}
@@ -121,7 +121,7 @@ export function StoryCard({
 
 export function StoryRow({ post, index }: { post: Post; index?: number }) {
   return (
-    <article className="group grid grid-cols-[minmax(0,1fr)_auto] items-start gap-5 py-5 transition-colors duration-300 hover:bg-muted/40 sm:px-3 sm:-mx-3">
+    <article className="group grid grid-cols-[minmax(0,1fr)_auto] items-start gap-5 py-5">
       <div className="min-w-0">
         <div className="flex items-baseline gap-2">
           {typeof index === "number" ? (
@@ -131,8 +131,8 @@ export function StoryRow({ post, index }: { post: Post; index?: number }) {
           ) : null}
           <Kicker post={post} />
         </div>
-        <h3 className="headline mt-1.5 text-[1.05rem] leading-snug">
-           <Link to="/article/$slug" params={{ slug: post.slug }} className="transition-colors group-hover:text-secondary-accent">
+        <h3 className="headline mt-1.5 text-lg">
+           <Link to="/article/$slug" params={{ slug: post.slug }} className="group-hover:underline">
             {post.title}
           </Link>
         </h3>
@@ -145,7 +145,7 @@ export function StoryRow({ post, index }: { post: Post; index?: number }) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-16 w-24 shrink-0 object-cover transition-transform duration-500 group-hover:scale-[1.025] sm:h-20 sm:w-32"
+            className="h-20 w-32 shrink-0 object-cover transition-opacity group-hover:opacity-90 sm:h-24 sm:w-40"
           />
         </Link>
       ) : null}
