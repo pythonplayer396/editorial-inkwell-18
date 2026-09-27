@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.guard_single_owner() FROM anon, authenticated, public;
