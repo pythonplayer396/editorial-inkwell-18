@@ -33,8 +33,10 @@ export function Container({
 
 export function SectionHeading({ title, href }: { title: string; href?: ReactNode }) {
   return (
-    <div className="mb-5 flex items-end justify-between border-t-4 border-news-brand pt-2">
-      <h2 className="text-xl font-bold leading-none text-foreground sm:text-2xl">{title}</h2>
+    <div className="mb-5 flex items-end justify-between border-b border-border pb-2">
+      <h2 className="border-l-[6px] border-news-brand pl-3 text-xl font-bold leading-none text-foreground sm:text-2xl">
+        {title}
+      </h2>
       {href}
     </div>
   );

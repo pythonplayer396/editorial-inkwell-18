@@ -26,7 +26,8 @@
 
   --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
   --font-sans:
-    "Fira Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    "Helvetica Neue", Helvetica, Arial, "Fira Sans", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", monospace;
 
   --color-background: var(--background);
@@ -87,7 +88,7 @@
 }
 
 :root {
-  --radius: 4px;
+  --radius: 0px;
 
   --paper: oklch(0.976 0.012 88);
   --background: oklch(1 0 0);
@@ -151,9 +152,10 @@
   --editorial-dark: oklch(0.205 0.025 235);
   --editorial-dark-foreground: oklch(0.965 0.012 88);
   --editorial-wash: oklch(0.955 0.018 205);
-  --news-brand: oklch(0.49 0.19 25);
-  --news-brand-strong: oklch(0.4 0.17 25);
-  --news-dark: oklch(0.19 0.008 255);
+  /* BBC-style news palette: signal red, near-black masthead, cool grey wash. */
+  --news-brand: oklch(0.505 0.213 27.5);
+  --news-brand-strong: oklch(0.42 0.18 27.5);
+  --news-dark: oklch(0.16 0.005 255);
   --news-surface: oklch(0.955 0.003 255);
 }
 
