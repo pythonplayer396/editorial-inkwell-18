@@ -84,6 +84,7 @@ export function SiteHeader() {
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
+        </div>
       </div>
 
       <nav aria-label={t("public.sections")} className="hidden border-b border-border bg-background md:block">
