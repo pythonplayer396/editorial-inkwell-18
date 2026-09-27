@@ -27,7 +27,7 @@ export const Route = createFileRoute("/auth/")({
         formTitle: "Sign in to The Dispatch",
         formHint: "Readers, journalists and editors all sign in here.",
         redirect: "/",
-        allowSignUp: true,
+        allowSignUp: false,
         footnote: "Reading is always free and open.",
       }}
     />
