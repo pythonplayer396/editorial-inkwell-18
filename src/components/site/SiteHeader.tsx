@@ -41,39 +41,14 @@ export function SiteHeader() {
           >
             <Search className="h-4 w-4" />
           </Link>
-          {isWriter ? (
+          {isEditor ? (
             <Link
-              to="/newsroom/write/$id"
-              params={{ id: "new" }}
-              className="hidden h-10 items-center border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
-            >
-              Upload
-            </Link>
-          ) : (
-            <Link
-              to="/join"
-              className="hidden h-10 items-center border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
-            >
-              {t("nav.join")}
-            </Link>
-          )}
-
-          {session ? (
-            <Link
-              to={isEditor ? "/admin" : "/account"}
+              to="/admin"
               className="hidden h-10 items-center gap-2 border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
             >
-               <UserRound className="h-4 w-4" />{isEditor ? t("brand.newsroom") : t("public.account")}
+              <UserRound className="h-4 w-4" />{t("brand.newsroom")}
             </Link>
-          ) : (
-
-            <Link
-              to="/auth"
-              className="hidden h-10 items-center gap-2 border-l border-primary-foreground/30 px-4 text-sm font-bold hover:bg-news-brand-strong md:inline-flex"
-            >
-              <UserRound className="h-4 w-4" />{t("nav.signin")}
-            </Link>
-          )}
+          ) : null}
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -130,15 +105,6 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                to={session ? (isEditor ? "/admin" : "/account") : "/auth"}
-                onClick={() => setOpen(false)}
-                className="block py-2.5 text-sm font-medium"
-              >
-                {session ? (isEditor ? t("brand.newsroom") : t("public.account")) : t("nav.signin")}
-              </Link>
-            </li>
           </ul>
         </nav>
       ) : null}
