@@ -20,17 +20,16 @@ export function SiteHeader() {
 
   return (
     <header className="relative z-40 bg-background">
-      <div className="border-b border-news-dark/15 bg-news-dark text-primary-foreground">
-        <div className="mx-auto flex h-10 max-w-[1280px] items-center justify-between px-5 sm:px-7 lg:px-10">
-          <p className="text-xs font-semibold">Independent journalism from Bangladesh</p>
-          <Link to="/latest" className="hidden text-xs font-semibold hover:underline sm:block">Latest updates</Link>
-        </div>
-      </div>
-      <div className="bg-news-brand text-primary-foreground">
-        <div className="mx-auto flex min-h-20 max-w-[1280px] items-center justify-between gap-4 px-5 py-3 sm:px-7 lg:px-10">
-          <Link to="/" className="inline-flex bg-background px-2 py-1" aria-label={settings?.site_name ?? "The Dispatch"}>
-            <BrandLogo className="w-[185px] sm:w-[245px]" />
-          </Link>
+      <div className="bg-news-dark text-primary-foreground">
+        <div className="mx-auto flex min-h-16 max-w-[1280px] items-center justify-between gap-4 px-5 py-2.5 sm:px-7 lg:px-10">
+          <div className="flex items-center gap-3">
+            <Link to="/" className="inline-flex bg-background px-2 py-1" aria-label={settings?.site_name ?? "The Dispatch"}>
+              <BrandLogo className="w-[185px] sm:w-[245px]" />
+            </Link>
+            <span className="hidden bg-news-brand px-2.5 py-1 text-sm font-extrabold uppercase tracking-wide sm:inline-block">
+              News
+            </span>
+          </div>
           <div className="flex items-center justify-end gap-1">
           <Link
             to="/search"
