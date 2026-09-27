@@ -48,7 +48,9 @@ function HomePage() {
     <PublicLayout>
       <Container className="py-7 md:py-9">
         <div className="mb-5 border-b border-border pb-3">
-          <h1 className="text-3xl font-bold sm:text-4xl">Top stories</h1>
+          <h1 className="border-l-8 border-news-brand pl-4 text-3xl font-bold sm:text-4xl">
+            Top stories
+          </h1>
         </div>
         {posts.isLoading ? (
           <StoryListSkeleton count={3} />
