@@ -16,16 +16,7 @@ export function FollowButton({
   const { isFollowing, toggle, busy, signedIn } = useFollows();
   const t = useT();
 
-  if (!signedIn) {
-    return (
-      <Link
-        to="/auth"
-        className="pressable inline-flex h-9 items-center gap-1.5 rounded-sm border border-border px-3 text-sm font-medium text-muted-foreground transition-colors hover:border-secondary-accent hover:text-secondary-accent"
-      >
-        <Plus className="h-3.5 w-3.5" /> {t("public.follow")} {label}
-      </Link>
-    );
-  }
+  if (!signedIn) return null;
 
   const following = isFollowing(type, id);
   return (

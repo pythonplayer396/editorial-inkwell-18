@@ -11,37 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as JoinRouteImport } from './routes/join'
 import { Route as LatestRouteImport } from './routes/latest'
-import { Route as NewsroomRouteImport } from './routes/newsroom'
+import { Route as RianRouteImport } from './routes/rian'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
-import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
-import { Route as AdminAuditRouteImport } from './routes/admin.audit'
-import { Route as AdminAuthorsRouteImport } from './routes/admin.authors'
-import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
-import { Route as AdminCommentsRouteImport } from './routes/admin.comments'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
-import { Route as AdminOversightRouteImport } from './routes/admin.oversight'
-import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminStaffRouteImport } from './routes/admin.staff'
-import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
-import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
-import { Route as AuthIndexRouteImport } from './routes/auth.index'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
-import { Route as NewsroomIndexRouteImport } from './routes/newsroom.index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
 import { Route as AdminPostsIdRouteImport } from './routes/admin.posts.$id'
-import { Route as AdminReviewIdRouteImport } from './routes/admin.review.$id'
-import { Route as NewsroomWriteIdRouteImport } from './routes/newsroom.write.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,19 +35,9 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AccountRoute = AccountRouteImport.update({
-  id: '/account',
-  path: '/account',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -73,19 +45,14 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JoinRoute = JoinRouteImport.update({
-  id: '/join',
-  path: '/join',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LatestRoute = LatestRouteImport.update({
   id: '/latest',
   path: '/latest',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NewsroomRoute = NewsroomRouteImport.update({
-  id: '/newsroom',
-  path: '/newsroom',
+const RianRoute = RianRouteImport.update({
+  id: '/rian',
+  path: '/rian',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -98,75 +65,15 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
-  id: '/applications',
-  path: '/applications',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAuthorsRoute = AdminAuthorsRouteImport.update({
-  id: '/authors',
-  path: '/authors',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCommentsRoute = AdminCommentsRouteImport.update({
-  id: '/comments',
-  path: '/comments',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminOversightRoute = AdminOversightRouteImport.update({
-  id: '/oversight',
-  path: '/oversight',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSettingsRoute = AdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminStaffRoute = AdminStaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
-  id: '/submissions',
-  path: '/submissions',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTagsRoute = AdminTagsRouteImport.update({
-  id: '/tags',
-  path: '/tags',
   getParentRoute: () => AdminRoute,
 } as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthIndexRoute = AuthIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthRoute,
 } as any)
 const AuthorSlugRoute = AuthorSlugRouteImport.update({
   id: '/author/$slug',
@@ -177,11 +84,6 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
-} as any)
-const NewsroomIndexRoute = NewsroomIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => NewsroomRoute,
 } as any)
 const TagSlugRoute = TagSlugRouteImport.update({
   id: '/tag/$slug',
@@ -198,118 +100,56 @@ const AdminPostsIdRoute = AdminPostsIdRouteImport.update({
   path: '/posts/$id',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminReviewIdRoute = AdminReviewIdRouteImport.update({
-  id: '/review/$id',
-  path: '/review/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const NewsroomWriteIdRoute = NewsroomWriteIdRouteImport.update({
-  id: '/write/$id',
-  path: '/write/$id',
-  getParentRoute: () => NewsroomRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRouteWithChildren
   '/contact': typeof ContactRoute
-  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
-  '/newsroom': typeof NewsroomRouteWithChildren
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
-  '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/authors': typeof AdminAuthorsRoute
-  '/admin/categories': typeof AdminCategoriesRoute
-  '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/oversight': typeof AdminOversightRoute
-  '/admin/settings': typeof AdminSettingsRoute
-  '/admin/staff': typeof AdminStaffRoute
-  '/admin/submissions': typeof AdminSubmissionsRoute
-  '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
-  '/auth/': typeof AuthIndexRoute
-  '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
-  '/admin/review/$id': typeof AdminReviewIdRoute
-  '/newsroom/write/$id': typeof NewsroomWriteIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/contact': typeof ContactRoute
-  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
-  '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/authors': typeof AdminAuthorsRoute
-  '/admin/categories': typeof AdminCategoriesRoute
-  '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/oversight': typeof AdminOversightRoute
-  '/admin/settings': typeof AdminSettingsRoute
-  '/admin/staff': typeof AdminStaffRoute
-  '/admin/submissions': typeof AdminSubmissionsRoute
-  '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin': typeof AdminIndexRoute
-  '/auth': typeof AuthIndexRoute
-  '/newsroom': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
-  '/admin/review/$id': typeof AdminReviewIdRoute
-  '/newsroom/write/$id': typeof NewsroomWriteIdRoute
   '/admin/posts': typeof AdminPostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRouteWithChildren
   '/contact': typeof ContactRoute
-  '/join': typeof JoinRoute
   '/latest': typeof LatestRoute
-  '/newsroom': typeof NewsroomRouteWithChildren
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
-  '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/audit': typeof AdminAuditRoute
-  '/admin/authors': typeof AdminAuthorsRoute
-  '/admin/categories': typeof AdminCategoriesRoute
-  '/admin/comments': typeof AdminCommentsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/oversight': typeof AdminOversightRoute
-  '/admin/settings': typeof AdminSettingsRoute
-  '/admin/staff': typeof AdminStaffRoute
-  '/admin/submissions': typeof AdminSubmissionsRoute
-  '/admin/tags': typeof AdminTagsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$slug': typeof AuthorSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/tag/$slug': typeof TagSlugRoute
   '/admin/': typeof AdminIndexRoute
-  '/auth/': typeof AuthIndexRoute
-  '/newsroom/': typeof NewsroomIndexRoute
   '/admin/posts/$id': typeof AdminPostsIdRoute
-  '/admin/review/$id': typeof AdminReviewIdRoute
-  '/newsroom/write/$id': typeof NewsroomWriteIdRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
 }
 export interface FileRouteTypes {
@@ -317,116 +157,61 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/account'
     | '/admin'
-    | '/auth'
     | '/contact'
-    | '/join'
     | '/latest'
-    | '/newsroom'
+    | '/rian'
     | '/search'
-    | '/admin/analytics'
-    | '/admin/applications'
-    | '/admin/audit'
-    | '/admin/authors'
-    | '/admin/categories'
-    | '/admin/comments'
     | '/admin/media'
-    | '/admin/oversight'
-    | '/admin/settings'
-    | '/admin/staff'
-    | '/admin/submissions'
-    | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin/'
-    | '/auth/'
-    | '/newsroom/'
     | '/admin/posts/$id'
-    | '/admin/review/$id'
-    | '/newsroom/write/$id'
     | '/admin/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/account'
     | '/contact'
-    | '/join'
     | '/latest'
+    | '/rian'
     | '/search'
-    | '/admin/analytics'
-    | '/admin/applications'
-    | '/admin/audit'
-    | '/admin/authors'
-    | '/admin/categories'
-    | '/admin/comments'
     | '/admin/media'
-    | '/admin/oversight'
-    | '/admin/settings'
-    | '/admin/staff'
-    | '/admin/submissions'
-    | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin'
-    | '/auth'
-    | '/newsroom'
     | '/admin/posts/$id'
-    | '/admin/review/$id'
-    | '/newsroom/write/$id'
     | '/admin/posts'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/account'
     | '/admin'
-    | '/auth'
     | '/contact'
-    | '/join'
     | '/latest'
-    | '/newsroom'
+    | '/rian'
     | '/search'
-    | '/admin/analytics'
-    | '/admin/applications'
-    | '/admin/audit'
-    | '/admin/authors'
-    | '/admin/categories'
-    | '/admin/comments'
     | '/admin/media'
-    | '/admin/oversight'
-    | '/admin/settings'
-    | '/admin/staff'
-    | '/admin/submissions'
-    | '/admin/tags'
     | '/article/$slug'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
     | '/admin/'
-    | '/auth/'
-    | '/newsroom/'
     | '/admin/posts/$id'
-    | '/admin/review/$id'
-    | '/newsroom/write/$id'
     | '/admin/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AuthRoute: typeof AuthRouteWithChildren
   ContactRoute: typeof ContactRoute
-  JoinRoute: typeof JoinRoute
   LatestRoute: typeof LatestRoute
-  NewsroomRoute: typeof NewsroomRouteWithChildren
+  RianRoute: typeof RianRoute
   SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   AuthorSlugRoute: typeof AuthorSlugRoute
@@ -450,25 +235,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/account': {
-      id: '/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin': {
       id: '/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -478,13 +249,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/join': {
-      id: '/join'
-      path: '/join'
-      fullPath: '/join'
-      preLoaderRoute: typeof JoinRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/latest': {
       id: '/latest'
       path: '/latest'
@@ -492,11 +256,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LatestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/newsroom': {
-      id: '/newsroom'
-      path: '/newsroom'
-      fullPath: '/newsroom'
-      preLoaderRoute: typeof NewsroomRouteImport
+    '/rian': {
+      id: '/rian'
+      path: '/rian'
+      fullPath: '/rian'
+      preLoaderRoute: typeof RianRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -513,88 +277,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/analytics': {
-      id: '/admin/analytics'
-      path: '/analytics'
-      fullPath: '/admin/analytics'
-      preLoaderRoute: typeof AdminAnalyticsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/applications': {
-      id: '/admin/applications'
-      path: '/applications'
-      fullPath: '/admin/applications'
-      preLoaderRoute: typeof AdminApplicationsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/audit': {
-      id: '/admin/audit'
-      path: '/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAuditRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/authors': {
-      id: '/admin/authors'
-      path: '/authors'
-      fullPath: '/admin/authors'
-      preLoaderRoute: typeof AdminAuthorsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/categories': {
-      id: '/admin/categories'
-      path: '/categories'
-      fullPath: '/admin/categories'
-      preLoaderRoute: typeof AdminCategoriesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/comments': {
-      id: '/admin/comments'
-      path: '/comments'
-      fullPath: '/admin/comments'
-      preLoaderRoute: typeof AdminCommentsRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/media': {
       id: '/admin/media'
       path: '/media'
       fullPath: '/admin/media'
       preLoaderRoute: typeof AdminMediaRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/oversight': {
-      id: '/admin/oversight'
-      path: '/oversight'
-      fullPath: '/admin/oversight'
-      preLoaderRoute: typeof AdminOversightRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/settings': {
-      id: '/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/staff': {
-      id: '/admin/staff'
-      path: '/staff'
-      fullPath: '/admin/staff'
-      preLoaderRoute: typeof AdminStaffRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/submissions': {
-      id: '/admin/submissions'
-      path: '/submissions'
-      fullPath: '/admin/submissions'
-      preLoaderRoute: typeof AdminSubmissionsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tags': {
-      id: '/admin/tags'
-      path: '/tags'
-      fullPath: '/admin/tags'
-      preLoaderRoute: typeof AdminTagsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/article/$slug': {
@@ -603,13 +290,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/article/$slug'
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/auth/': {
-      id: '/auth/'
-      path: '/'
-      fullPath: '/auth/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof AuthRoute
     }
     '/author/$slug': {
       id: '/author/$slug'
@@ -624,13 +304,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/newsroom/': {
-      id: '/newsroom/'
-      path: '/'
-      fullPath: '/newsroom/'
-      preLoaderRoute: typeof NewsroomIndexRouteImport
-      parentRoute: typeof NewsroomRoute
     }
     '/tag/$slug': {
       id: '/tag/$slug'
@@ -653,97 +326,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPostsIdRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/review/$id': {
-      id: '/admin/review/$id'
-      path: '/review/$id'
-      fullPath: '/admin/review/$id'
-      preLoaderRoute: typeof AdminReviewIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/newsroom/write/$id': {
-      id: '/newsroom/write/$id'
-      path: '/write/$id'
-      fullPath: '/newsroom/write/$id'
-      preLoaderRoute: typeof NewsroomWriteIdRouteImport
-      parentRoute: typeof NewsroomRoute
-    }
   }
 }
 
 interface AdminRouteChildren {
-  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
-  AdminApplicationsRoute: typeof AdminApplicationsRoute
-  AdminAuditRoute: typeof AdminAuditRoute
-  AdminAuthorsRoute: typeof AdminAuthorsRoute
-  AdminCategoriesRoute: typeof AdminCategoriesRoute
-  AdminCommentsRoute: typeof AdminCommentsRoute
   AdminMediaRoute: typeof AdminMediaRoute
-  AdminOversightRoute: typeof AdminOversightRoute
-  AdminSettingsRoute: typeof AdminSettingsRoute
-  AdminStaffRoute: typeof AdminStaffRoute
-  AdminSubmissionsRoute: typeof AdminSubmissionsRoute
-  AdminTagsRoute: typeof AdminTagsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminPostsIdRoute: typeof AdminPostsIdRoute
-  AdminReviewIdRoute: typeof AdminReviewIdRoute
   AdminPostsIndexRoute: typeof AdminPostsIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminAnalyticsRoute: AdminAnalyticsRoute,
-  AdminApplicationsRoute: AdminApplicationsRoute,
-  AdminAuditRoute: AdminAuditRoute,
-  AdminAuthorsRoute: AdminAuthorsRoute,
-  AdminCategoriesRoute: AdminCategoriesRoute,
-  AdminCommentsRoute: AdminCommentsRoute,
   AdminMediaRoute: AdminMediaRoute,
-  AdminOversightRoute: AdminOversightRoute,
-  AdminSettingsRoute: AdminSettingsRoute,
-  AdminStaffRoute: AdminStaffRoute,
-  AdminSubmissionsRoute: AdminSubmissionsRoute,
-  AdminTagsRoute: AdminTagsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminPostsIdRoute: AdminPostsIdRoute,
-  AdminReviewIdRoute: AdminReviewIdRoute,
   AdminPostsIndexRoute: AdminPostsIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface AuthRouteChildren {
-  AuthIndexRoute: typeof AuthIndexRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthIndexRoute: AuthIndexRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
-interface NewsroomRouteChildren {
-  NewsroomIndexRoute: typeof NewsroomIndexRoute
-  NewsroomWriteIdRoute: typeof NewsroomWriteIdRoute
-}
-
-const NewsroomRouteChildren: NewsroomRouteChildren = {
-  NewsroomIndexRoute: NewsroomIndexRoute,
-  NewsroomWriteIdRoute: NewsroomWriteIdRoute,
-}
-
-const NewsroomRouteWithChildren = NewsroomRoute._addFileChildren(
-  NewsroomRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AccountRoute: AccountRoute,
   AdminRoute: AdminRouteWithChildren,
-  AuthRoute: AuthRouteWithChildren,
   ContactRoute: ContactRoute,
-  JoinRoute: JoinRoute,
   LatestRoute: LatestRoute,
-  NewsroomRoute: NewsroomRouteWithChildren,
+  RianRoute: RianRoute,
   SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   AuthorSlugRoute: AuthorSlugRoute,
