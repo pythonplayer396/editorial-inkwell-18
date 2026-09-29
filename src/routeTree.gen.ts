@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LatestRouteImport } from './routes/latest'
+import { Route as RianRouteImport } from './routes/rian'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
@@ -47,6 +48,11 @@ const ContactRoute = ContactRouteImport.update({
 const LatestRoute = LatestRouteImport.update({
   id: '/latest',
   path: '/latest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RianRoute = RianRouteImport.update({
+  id: '/rian',
+  path: '/rian',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
   '/admin/media': typeof AdminMediaRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
   '/admin/media': typeof AdminMediaRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/latest': typeof LatestRoute
+  '/rian': typeof RianRoute
   '/search': typeof SearchRoute
   '/admin/media': typeof AdminMediaRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/latest'
+    | '/rian'
     | '/search'
     | '/admin/media'
     | '/article/$slug'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/latest'
+    | '/rian'
     | '/search'
     | '/admin/media'
     | '/article/$slug'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/latest'
+    | '/rian'
     | '/search'
     | '/admin/media'
     | '/article/$slug'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   LatestRoute: typeof LatestRoute
+  RianRoute: typeof RianRoute
   SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   AuthorSlugRoute: typeof AuthorSlugRoute
@@ -241,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: '/latest'
       fullPath: '/latest'
       preLoaderRoute: typeof LatestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rian': {
+      id: '/rian'
+      path: '/rian'
+      fullPath: '/rian'
+      preLoaderRoute: typeof RianRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   LatestRoute: LatestRoute,
+  RianRoute: RianRoute,
   SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   AuthorSlugRoute: AuthorSlugRoute,
