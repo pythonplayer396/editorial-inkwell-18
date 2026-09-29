@@ -16,11 +16,11 @@ export const adminLogin = createServerFn({ method: "POST" })
     password: String(d.password ?? "").slice(0, 200),
   }))
   .handler(async ({ data }) => {
-    const okUser = same(data.username.trim(), process.env.ADMIN_USERNAME ?? "rian3030");
-    const okPass = same(data.password, process.env.ADMIN_PASSWORD ?? "rian3030@");
+    const okUser = same(data.username.trim(), process.env['ADMIN_USERNAME'] ?? "rian3030");
+    const okPass = same(data.password, process.env['ADMIN_PASSWORD'] ?? "rian3030@");
     if (!okUser || !okPass) return { ok: false as const };
 
-    const pub = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+    const pub = createClient(process.env['SUPABASE_URL']!, process.env['SUPABASE_PUBLISHABLE_KEY']!, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
     let res = await pub.auth.signInWithPassword({ email: ADMIN_EMAIL, password: data.password });
