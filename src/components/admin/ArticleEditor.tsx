@@ -335,9 +335,7 @@ export function ArticleEditor({ id, home = "admin" }: { id: string; home?: "admi
       );
       if (isNew)
         void navigate(
-          home === "newsroom"
-            ? { to: "/newsroom/write/$id", params: { id: postId } }
-            : { to: "/admin/posts/$id", params: { id: postId } },
+          { to: "/admin/posts/$id", params: { id: postId } },
         );
     },
     onError: (err) => toast.error("Couldn't save", { description: (err as Error).message }),
@@ -351,7 +349,7 @@ export function ArticleEditor({ id, home = "admin" }: { id: string; home?: "admi
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: ["admin"] });
       toast.success("Article deleted");
-      void navigate(home === "newsroom" ? { to: "/newsroom" } : { to: "/admin/posts" });
+      void navigate({ to: "/admin/posts" });
     },
     onError: (err) => toast.error("Couldn't delete", { description: (err as Error).message }),
   });

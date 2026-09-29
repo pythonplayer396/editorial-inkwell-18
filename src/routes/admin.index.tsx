@@ -70,9 +70,7 @@ function DashboardPage() {
             {pending.length > 0 ? (
               <li>
                 {pending.length} comment{pending.length === 1 ? "" : "s"} pending —{" "}
-                <Link to="/admin/comments" className="text-foreground underline underline-offset-4">
-                  moderate now
-                </Link>
+                moderate soon
               </li>
             ) : null}
           </ul>
