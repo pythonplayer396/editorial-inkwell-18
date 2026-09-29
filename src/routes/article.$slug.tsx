@@ -424,36 +424,24 @@ function ArticlePage() {
             </div>
           ) : null}
 
-          {post.author ? (
-            <section className="mt-10 border-t border-border pt-6">
-              <p className="kicker text-muted-foreground">About the reporter</p>
-              <div className="mt-3 flex gap-4">
-                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
-                  {post.author.avatar_url ? (
-                    <img
-                      src={post.author.avatar_url}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  ) : null}
-                </div>
-                <div className="min-w-0">
-                  <Link
-                    to="/author/$slug"
-                    params={{ slug: post.author.slug }}
-                    className="font-semibold hover:text-accent"
-                  >
-                    {post.author.display_name}
-                  </Link>
-                  {post.author.bio ? (
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {post.author.bio}
-                    </p>
-                  ) : null}
-                </div>
+          <section className="mt-10 border-t border-border pt-6">
+            <p className="kicker text-muted-foreground">About</p>
+            <div className="mt-3 flex items-start gap-4">
+              <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
+                <img
+                  src="/dispatch-favicon.png?v=2"
+                  alt="The Dispatch"
+                  className="h-full w-full object-cover"
+                />
               </div>
-            </section>
-          ) : null}
+              <div className="min-w-0">
+                <p className="font-semibold">The Dispatch</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  News. Truth. Impact. Original reporting from The Dispatch newsroom.
+                </p>
+              </div>
+            </div>
+          </section>
 
           <CommentsSection postId={post.id} comments={comments.data ?? []} />
         </article>
