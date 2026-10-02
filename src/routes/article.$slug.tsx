@@ -10,7 +10,7 @@ import { Newsletter } from "@/components/site/Newsletter";
 import { Container, PublicLayout, SectionHeading } from "@/components/site/PublicLayout";
 import { StoryRow } from "@/components/site/StoryCard";
 import { EmptyState } from "@/components/ui-kit/States";
-import { formatDate, formatDateTime } from "@/lib/format";
+import { formatDateBangla, formatDateTimeBangla, toBanglaNumber } from "@/lib/format";
 import { getPublishedArticle } from "@/lib/article.functions";
 import type { Block } from "@/lib/blocks";
 import {
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/article/$slug")({
     if (!loaderData) {
       return {
         meta: [
-          { title: "Story unavailable — The Dispatch" },
+          { title: "সংবাদটি পাওয়া যায়নি — দ্য ডিসপ্যাচ" },
           { name: "robots", content: "noindex" },
         ],
       };
@@ -64,14 +64,14 @@ export const Route = createFileRoute("/article/$slug")({
     <PublicLayout>
       <Container className="py-20">
         <EmptyState
-          title="We couldn't find that story"
-          description="The link may be out of date, or the story may have been unpublished."
+          title="সংবাদটি পাওয়া যায়নি"
+          description="লিংকটি পুরোনো হতে পারে অথবা সংবাদটি প্রকাশনা থেকে সরিয়ে নেওয়া হয়েছে।"
           action={
             <Link
               to="/latest"
               className="inline-flex h-9 items-center rounded-sm bg-primary px-4 text-sm font-medium text-primary-foreground"
             >
-              Read the latest
+              সর্বশেষ সংবাদ পড়ুন
             </Link>
           }
         />
@@ -88,7 +88,7 @@ function useBookmark(postId: string) {
     busy,
     toggle: () => {
       if (!signedIn) {
-        toast.info("Sign in to save stories to your reading list");
+        toast.info("পড়ার তালিকায় সংবাদ রাখতে সাইন ইন করুন");
         return;
       }
       toggle(postId);
@@ -179,9 +179,9 @@ function ArticlePage() {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      toast.success("Link copied");
+      toast.success("লিংক কপি হয়েছে");
     } catch {
-      toast.error("Couldn't copy the link", { description: "You can copy it from the address bar." });
+      toast.error("লিংক কপি করা যায়নি", { description: "অ্যাড্রেস বার থেকে লিংকটি কপি করতে পারেন।" });
     }
   };
 
@@ -205,11 +205,11 @@ function ArticlePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Container className="py-8 sm:py-12">
-        <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
+        <nav aria-label="অবস্থান নির্দেশিকা" className="text-xs text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
                <Link to="/" className="hover:text-secondary-accent">
-                Home
+                 প্রথম পাতা
               </Link>
             </li>
             {post.category ? (
@@ -232,7 +232,7 @@ function ArticlePage() {
         <article className="mx-auto mt-8 max-w-[1120px]">
           <header className="editorial-enter editorial-rule max-w-[900px] pt-5">
             <div className="flex items-center gap-3">
-              {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
+              {post.is_breaking ? <span className="kicker text-accent">ব্রেকিং</span> : null}
               {post.category ? (
                 <Link
                   to="/category/$slug"
@@ -256,7 +256,7 @@ function ArticlePage() {
               <div className="min-w-0 text-sm">
                 {post.author ? (
                   <p>
-                    By{" "}
+                    প্রতিবেদক: {" "}
                     <Link
                       to="/author/$slug"
                       params={{ slug: post.author.slug }}
@@ -270,17 +270,17 @@ function ArticlePage() {
                   </p>
                 ) : null}
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Published {formatDate(post.published_at)} · {post.reading_minutes} min read
+                  প্রকাশিত: {formatDateBangla(post.published_at)} · পড়তে {toBanglaNumber(post.reading_minutes)} মিনিট
                 </p>
                 {updated ? (
-                  <p className="mt-0.5 text-xs text-accent">Updated {formatDateTime(updated)}</p>
+                   <p className="mt-0.5 text-xs text-accent">হালনাগাদ: {formatDateTimeBangla(updated)}</p>
                 ) : null}
               </div>
               <div className="flex items-center gap-1">
                 <button
                   type="button"
                   onClick={copyLink}
-                  aria-label="Copy link to this story"
+                  aria-label="এই সংবাদের লিংক কপি করুন"
                    className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   <Link2 className="h-4 w-4" />
@@ -288,7 +288,7 @@ function ArticlePage() {
                 <button
                   type="button"
                   onClick={share}
-                  aria-label="Share this story"
+                  aria-label="এই সংবাদ শেয়ার করুন"
                    className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   <Share2 className="h-4 w-4" />
@@ -298,7 +298,7 @@ function ArticlePage() {
                   onClick={toggle}
                   disabled={savingBookmark}
                   aria-pressed={saved}
-                  aria-label={saved ? "Remove bookmark" : "Bookmark this story"}
+                  aria-label={saved ? "বুকমার্ক সরান" : "সংবাদটি বুকমার্ক করুন"}
                    className="pressable inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground hover:border-secondary-accent hover:text-secondary-accent"
                 >
                   {saved ? (
@@ -356,11 +356,11 @@ function ArticlePage() {
 
             {(post.timeline ?? []).length > 0 ? (
               <section className="mt-12 border-t border-border-strong pt-6">
-                <h2 className="headline text-xl text-foreground">How this developed</h2>
+                 <h2 className="headline text-xl text-foreground">ঘটনাপ্রবাহ</h2>
                 <ol className="mt-4 space-y-4">
                   {(post.timeline ?? []).map((entry, i) => (
                     <li key={i} className="border-l-2 border-secondary-accent/40 pl-4">
-                      <p className="kicker text-secondary-accent">{formatDate(entry.date)}</p>
+                       <p className="kicker text-secondary-accent">{formatDateBangla(entry.date)}</p>
                       <p className="mt-1 text-sm leading-relaxed text-foreground">{entry.text}</p>
                     </li>
                   ))}
@@ -370,9 +370,9 @@ function ArticlePage() {
 
             {(post.sources ?? []).length > 0 ? (
               <section className="mt-12 border-t border-border-strong pt-6">
-                <h2 className="headline text-xl text-foreground">Sources</h2>
+                 <h2 className="headline text-xl text-foreground">তথ্যসূত্র</h2>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  This report was written from the sources below. Nothing here is copied from them.
+                   নিচের তথ্যসূত্রের ভিত্তিতে প্রতিবেদনটি লেখা হয়েছে। কোনো লেখা সরাসরি অনুলিপি করা হয়নি।
                 </p>
                 <ol className="mt-4 space-y-2">
                   {(post.sources ?? []).map((source, i) => (
@@ -394,13 +394,13 @@ function ArticlePage() {
 
             {post.correction_note ? (
               <aside className="mt-10 border-l-2 border-accent bg-accent/5 px-4 py-3">
-                <p className="kicker text-accent">Correction</p>
+                 <p className="kicker text-accent">সংশোধনী</p>
                 <p className="mt-1 text-sm leading-relaxed text-foreground">
                   {post.correction_note}
                 </p>
                 {post.correction_at ? (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Updated {formatDateTime(post.correction_at)}
+                     হালনাগাদ: {formatDateTimeBangla(post.correction_at)}
                   </p>
                 ) : null}
               </aside>
@@ -410,7 +410,7 @@ function ArticlePage() {
 
           {(tags.data ?? []).length > 0 ? (
             <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-border pt-6">
-              <span className="kicker text-muted-foreground">Topics</span>
+               <span className="kicker text-muted-foreground">বিষয়</span>
               {(tags.data ?? []).map((t) => (
                 <Link
                   key={t.id}
@@ -425,7 +425,7 @@ function ArticlePage() {
           ) : null}
 
           <section className="mt-10 border-t border-border pt-6">
-            <p className="kicker text-muted-foreground">About</p>
+             <p className="kicker text-muted-foreground">পরিচিতি</p>
             <div className="mt-3 flex items-start gap-4">
               <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
                 <img
@@ -437,7 +437,7 @@ function ArticlePage() {
               <div className="min-w-0">
                 <p className="font-semibold">The Dispatch</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  News. Truth. Impact. Original reporting from The Dispatch newsroom.
+                   সংবাদ। সত্য। প্রভাব। দ্য ডিসপ্যাচ নিউজরুমের নিজস্ব প্রতিবেদন।
                 </p>
               </div>
             </div>
@@ -464,7 +464,7 @@ function ArticlePage() {
           </section>
           {post.author ? (
             <section>
-              <SectionHeading title={`More from ${post.author.display_name}`} />
+               <SectionHeading title={`${post.author.display_name}-এর আরও সংবাদ`} />
               <div className="divide-y divide-border">
                 {(byAuthor.data ?? [])
                   .filter((p) => p.id !== post.id)
@@ -517,18 +517,18 @@ function CommentsSection({
     onSuccess: () => {
       setBody("");
       void qc.invalidateQueries({ queryKey: ["comments", postId] });
-      toast.success("Thanks — your comment is with our moderators.");
+      toast.success("ধন্যবাদ—আপনার মন্তব্যটি পর্যালোচনার জন্য পাঠানো হয়েছে।");
     },
     onError: () =>
-      toast.error("We couldn't post your comment", {
-        description: "Nothing was lost. Please try again in a moment.",
+      toast.error("আপনার মন্তব্য প্রকাশ করা যায়নি", {
+        description: "একটু পর আবার চেষ্টা করুন।",
       }),
   });
 
   return (
     <section className="mt-12 border-t border-border pt-8" aria-labelledby="comments-heading">
       <h2 id="comments-heading" className="kicker text-muted-foreground">
-        Comments ({comments.length})
+         মন্তব্য ({toBanglaNumber(comments.length)})
       </h2>
 
       <form
@@ -541,20 +541,20 @@ function CommentsSection({
         <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)]">
           <div>
             <label htmlFor="comment-name" className="sr-only">
-              Your name
+               আপনার নাম
             </label>
             <input
               id="comment-name"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
+               placeholder="আপনার নাম"
               className="h-10 w-full rounded-sm border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
             />
           </div>
           <div>
             <label htmlFor="comment-body" className="sr-only">
-              Your comment
+               আপনার মন্তব্য
             </label>
             <textarea
               id="comment-body"
@@ -562,7 +562,7 @@ function CommentsSection({
               rows={3}
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              placeholder="Add to the discussion. Comments are reviewed before they appear."
+               placeholder="আলোচনায় আপনার মতামত লিখুন। প্রকাশের আগে মন্তব্য পর্যালোচনা করা হয়।"
               className="w-full rounded-sm border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:border-ring"
             />
           </div>
@@ -572,20 +572,20 @@ function CommentsSection({
           disabled={submit.isPending}
           className="h-9 rounded-sm bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
         >
-          {submit.isPending ? "Posting…" : "Post comment"}
+           {submit.isPending ? "পাঠানো হচ্ছে…" : "মন্তব্য পাঠান"}
         </button>
       </form>
 
       {comments.length === 0 ? (
         <p className="mt-8 text-sm text-muted-foreground">
-          No comments yet. Be the first to respond to this story.
+           এখনো কোনো মন্তব্য নেই। এই সংবাদে প্রথম মতামতটি দিন।
         </p>
       ) : (
         <ul className="mt-8 divide-y divide-border">
           {comments.map((c) => (
             <li key={c.id} className="py-4">
               <p className="text-sm font-semibold">{c.author_name}</p>
-              <p className="text-xs text-muted-foreground">{formatDate(c.created_at)}</p>
+              <p className="text-xs text-muted-foreground">{formatDateBangla(c.created_at)}</p>
               <p className="mt-2 font-serif text-[1rem] leading-relaxed">{c.body}</p>
             </li>
           ))}

@@ -48,3 +48,9 @@
 - [ ] Recompose homepage and shared story patterns for dense scanning
 - [ ] Restyle public section, article, newsletter, and footer experiences
 - [ ] Verify desktop/mobile presentation and runtime health
+
+# Bangla article experience
+
+- [x] Translate all published article content and metadata into Bangla
+- [x] Translate article-page controls, labels, feedback, and supporting sections
+- [ ] Verify a published article and the article list content in the live preview

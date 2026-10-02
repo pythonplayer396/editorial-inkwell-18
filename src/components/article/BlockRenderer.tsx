@@ -125,7 +125,7 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
               <div key={key} className="my-8 aspect-video w-full">
                 <iframe
                   src={block.url}
-                  title={block.caption || "Embedded media"}
+                    title={block.caption || "সংযুক্ত মিডিয়া"}
                   className="h-full w-full border border-border"
                   allowFullScreen
                 />

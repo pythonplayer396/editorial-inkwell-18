@@ -19,6 +19,47 @@ export function formatDate(value?: string | null): string {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
+const BANGLA_DIGITS = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+
+export function toBanglaNumber(value: number | string): string {
+  return String(value).replace(/\d/g, (digit) => BANGLA_DIGITS[Number(digit)] ?? digit);
+}
+
+export function formatDateBangla(value?: string | null): string {
+  if (!value) return "";
+  return new Intl.DateTimeFormat("bn-BD", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(value));
+}
+
+export function formatDateTimeBangla(value?: string | null): string {
+  if (!value) return "";
+  return new Intl.DateTimeFormat("bn-BD", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(new Date(value));
+}
+
+export function timeAgoBangla(value?: string | null): string {
+  if (!value) return "";
+  const diff = Date.now() - new Date(value).getTime();
+  const mins = Math.round(diff / 60000);
+  if (mins < 1) return "এইমাত্র";
+  if (mins < 60) return `${toBanglaNumber(mins)} মিনিট আগে`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${toBanglaNumber(hours)} ঘণ্টা আগে`;
+  const days = Math.round(hours / 24);
+  if (days < 7) return `${toBanglaNumber(days)} দিন আগে`;
+  return formatDateBangla(value);
+}
+
 export function formatDateTime(value?: string | null): string {
   if (!value) return "";
   const d = new Date(value);

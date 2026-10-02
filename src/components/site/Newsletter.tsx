@@ -18,13 +18,13 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
     },
     onSuccess: () => {
       setEmail("");
-      toast.success("You're on the list.", {
-        description: "The morning briefing arrives at 7am, weekdays.",
+      toast.success("আপনি তালিকায় যুক্ত হয়েছেন।", {
+        description: "সাপ্তাহিক কর্মদিবসে সকাল ৭টায় সংক্ষিপ্ত সংবাদ পৌঁছাবে।",
       });
     },
     onError: () =>
-      toast.error("We couldn't sign you up", {
-        description: "Please check the address and try again — nothing was lost.",
+      toast.error("আপনাকে নিবন্ধন করা যায়নি", {
+        description: "ইমেইল ঠিকানাটি দেখে আবার চেষ্টা করুন।",
       }),
   });
 
@@ -39,12 +39,12 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
     >
       <div className="mx-auto grid max-w-[1200px] items-center gap-7 border-l-4 border-news-brand pl-5 md:grid-cols-[1.1fr_1fr] md:gap-12">
         <div>
-          <p className="kicker text-news-brand">News briefing</p>
+          <p className="kicker text-news-brand">সংবাদ সংক্ষেপ</p>
           <h2 id="newsletter-heading" className="headline mt-2 text-2xl sm:text-3xl">
-            The morning briefing
+            সকালের সংবাদ সংক্ষেপ
           </h2>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-            What happened, what it means, and what to watch — one email, weekday mornings.
+            কী ঘটেছে, এর অর্থ কী এবং সামনে কী—সাপ্তাহিক কর্মদিবসে সকালে একটি ইমেইলে।
           </p>
         </div>
         <form
@@ -55,7 +55,7 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
           }}
         >
           <label htmlFor="newsletter-email" className="sr-only">
-            Email address
+            ইমেইল ঠিকানা
           </label>
           <input
             id="newsletter-email"
@@ -71,7 +71,7 @@ export function Newsletter({ compact = false }: { compact?: boolean }) {
             disabled={subscribe.isPending}
             className="h-11 shrink-0 bg-news-brand px-6 text-sm font-bold text-primary-foreground hover:bg-news-brand-strong disabled:opacity-60"
           >
-            {subscribe.isPending ? "Signing up…" : "Subscribe"}
+            {subscribe.isPending ? "নিবন্ধন হচ্ছে…" : "সাবস্ক্রাইব করুন"}
           </button>
         </form>
       </div>
