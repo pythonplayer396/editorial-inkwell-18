@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { timeAgo } from "@/lib/format";
+import { timeAgoBangla } from "@/lib/format";
 import type { Post } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +30,7 @@ function Meta({ post }: { post: Post }) {
         </Link>
       ) : null}
       {post.author ? <span aria-hidden>·</span> : null}
-      <time dateTime={post.published_at ?? undefined}>{timeAgo(post.published_at)}</time>
+      <time dateTime={post.published_at ?? undefined}>{timeAgoBangla(post.published_at)}</time>
     </p>
   );
 }
@@ -50,7 +50,7 @@ export function LeadStory({ post }: { post: Post }) {
       ) : null}
       <div className="flex flex-col justify-center lg:col-span-5">
         <div className="flex items-center gap-3">
-          {post.is_breaking ? <span className="kicker text-accent">Breaking</span> : null}
+          {post.is_breaking ? <span className="kicker text-accent">ব্রেকিং</span> : null}
           <Kicker post={post} />
         </div>
          <h2 className="headline mt-3 text-3xl sm:text-4xl lg:text-[2.75rem]">

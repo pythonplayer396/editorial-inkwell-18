@@ -51,6 +51,6 @@
 
 # Bangla article experience
 
-- [ ] Translate all published article content and metadata into Bangla
-- [ ] Translate article-page controls, labels, feedback, and supporting sections
+- [x] Translate all published article content and metadata into Bangla
+- [x] Translate article-page controls, labels, feedback, and supporting sections
 - [ ] Verify a published article and the article list content in the live preview
